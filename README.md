@@ -1,7 +1,7 @@
 # Jet pack compose with clean architecture and MVVM
 In this project you can learn:
 
-| Plugin | Links |
+| Points | Links |
 | ------ | ------ |
 | Compose | [jet pack compose][PlDb] |
 | Clean Architecture | [clean architecture][PlGh] |

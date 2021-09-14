@@ -1,7 +1,7 @@
 package com.a.vocabulary15.domain.model
 
-sealed class GroupElementStates {
-    object Loading : GroupElementStates()
-    class InsertGroupData(val groupLong: Long) : GroupElementStates()
-    class Error(val error: Throwable) : GroupElementStates()
+sealed class GroupElementStates<out T> {
+    object Loading : GroupElementStates<Nothing>()
+    class GroupElementData<out T>(val value: T) : GroupElementStates<T>()
+    class Error(val error: Throwable) : GroupElementStates<Nothing>()
 }

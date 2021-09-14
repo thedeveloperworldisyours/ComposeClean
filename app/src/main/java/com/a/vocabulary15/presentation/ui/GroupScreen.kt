@@ -9,12 +9,12 @@ import com.a.vocabulary15.presentation.ui.composables.AddGroupButton
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
 @Composable
-fun GroupScreen(liveData: LiveData<GroupElementStates>, onClick: ()-> Unit) {
-    val groupElementStates: GroupElementStates by liveData.observeAsState(initial = GroupElementStates.Loading)
+fun GroupScreen(liveData: LiveData<GroupElementStates<Long>>, onClick: ()-> Unit) {
+    val groupElementStates: GroupElementStates<Long> by liveData.observeAsState(initial = GroupElementStates.Loading)
 
     when(groupElementStates) {
         is GroupElementStates.Loading -> AddGroupButton(onClick = onClick)
-        is GroupElementStates.InsertGroupData -> {
+        is GroupElementStates.GroupElementData -> {
             GroupElementText(text = "Group Add")
         }
         else -> GroupElementText(text = "Nothing to show")

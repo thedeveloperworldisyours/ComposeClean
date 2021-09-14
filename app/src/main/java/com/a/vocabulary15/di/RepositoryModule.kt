@@ -1,7 +1,7 @@
 package com.a.vocabulary15.di
 
 import com.a.vocabulary15.data.local.VocabularyDatabase
-import com.a.vocabulary15.data.repository.LocalDataSourceImpl
+import com.a.vocabulary15.data.repository.RepositoryImpl
 import com.a.vocabulary15.domain.Repository
 import dagger.Module
 import dagger.Provides
@@ -17,5 +17,5 @@ class RepositoryModule {
     @Provides
     fun provideRepository(
         database: VocabularyDatabase
-    ): Repository = LocalDataSourceImpl(database)
+    ): Repository = RepositoryImpl(database)
 }

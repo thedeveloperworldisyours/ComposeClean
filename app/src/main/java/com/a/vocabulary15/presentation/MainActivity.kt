@@ -5,9 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.presentation.ui.GroupScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
@@ -33,17 +30,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-/*
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    Vocabulary15Theme {
-        Greeting("Android")
-    }
-}*/

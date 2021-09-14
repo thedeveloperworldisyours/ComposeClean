@@ -14,14 +14,15 @@ import kotlinx.coroutines.launch
 class MainViewModel @ViewModelInject constructor(
     private val setGroup: SetGroup
 ) : ViewModel() {
-    private val mutableGroup = MutableLiveData<GroupElementStates>()
-    val setGroupLiveData: LiveData<GroupElementStates>
+    private val mutableGroup = MutableLiveData<GroupElementStates<Long>>()
+    val setGroupLiveData: LiveData<GroupElementStates<Long>>
         get() = mutableGroup
 
     fun insertGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates = setGroup(group)) {
             is GroupElementStates.Loading -> notifyLoadingState()
-            is GroupElementStates.InsertGroupData -> notifyGroupState(groupElementStates.groupLong)
+            is GroupElementStates.GroupElementData<Long> ->
+                notifyGroupState(groupElementStates.value)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
         }
     }
@@ -31,7 +32,7 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     private fun notifyGroupState(valueLong: Long) {
-        mutableGroup.postValue(GroupElementStates.InsertGroupData(valueLong))
+        mutableGroup.postValue(GroupElementStates.GroupElementData(valueLong))
     }
 
     private fun notifyErrorState(error: Throwable) {

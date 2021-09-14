@@ -6,11 +6,11 @@ import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
 
-class LocalDataSourceImpl constructor(
+class RepositoryImpl constructor(
     vocabularyDatabase: VocabularyDatabase
 ) : Repository {
 
     var vocabularyDao = vocabularyDatabase.vocabularyDao()
     override suspend fun setGroup(group: Group) =
-        GroupElementStates.InsertGroupData(vocabularyDao.setGroup(group.toData()))
+        GroupElementStates.GroupElementData(vocabularyDao.setGroup(group.toData()))
 }

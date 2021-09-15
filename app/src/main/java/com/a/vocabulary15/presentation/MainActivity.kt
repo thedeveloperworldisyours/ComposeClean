@@ -14,6 +14,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private var nameGroup = ""
+
     @Inject
     lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +24,8 @@ class MainActivity : ComponentActivity() {
             Vocabulary15Theme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    GroupScreen(liveData = mainViewModel.setGroupLiveData) {
-                        mainViewModel.insertGroup(Group(0, "first"))
+                    nameGroup = GroupScreen(liveData = mainViewModel.setGroupLiveData, nameGroup) {
+                        mainViewModel.insertGroup(Group(0, nameGroup))
                     }
                 }
             }

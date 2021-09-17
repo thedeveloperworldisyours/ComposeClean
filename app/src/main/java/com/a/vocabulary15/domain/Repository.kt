@@ -6,4 +6,6 @@ import com.a.vocabulary15.domain.model.GroupElementStates
 interface Repository {
 
     suspend fun setGroup(group: Group): GroupElementStates<Long>
+
+    suspend fun getGroup(): GroupElementStates<List<Group>>
 }

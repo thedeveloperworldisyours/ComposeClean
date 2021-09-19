@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
 fun AddGroupButton(onClick: () -> Unit) {
@@ -17,7 +18,7 @@ fun AddGroupButton(onClick: () -> Unit) {
             .padding(all = 16.dp)
             .fillMaxWidth()
     ) {
-        Text(text = "Add Group", color = MaterialTheme.colors.secondary)
+        Text(text = "Add Group", color = MaterialTheme.colors.secondary, style = Typography.button)
     }
 }
 

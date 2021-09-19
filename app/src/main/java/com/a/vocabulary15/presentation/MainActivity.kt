@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             Vocabulary15Theme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    nameGroup = GroupScreen(liveData = mainViewModel.setGroupLiveData, nameGroup) {
+                    nameGroup = GroupScreen(liveData = mainViewModel.setGroupLiveData) {
                         mainViewModel.insertGroup(Group(0, nameGroup))
                     }
                 }

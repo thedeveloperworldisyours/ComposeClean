@@ -6,7 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Group
-import com.a.vocabulary15.domain.model.GroupElementStates
+import com.a.vocabulary15.domain.model.GroupElementState
+import com.a.vocabulary15.domain.model.GroupElementState.*
 import com.a.vocabulary15.domain.usecases.SetGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,28 +15,27 @@ import kotlinx.coroutines.launch
 class MainViewModel @ViewModelInject constructor(
     private val setGroup: SetGroup
 ) : ViewModel() {
-    private val mutableGroup = MutableLiveData<GroupElementStates<Long>>()
-    val setGroupLiveData: LiveData<GroupElementStates<Long>>
+    private val mutableGroup = MutableLiveData<GroupElementState>()
+    val setGroupLiveData: LiveData<GroupElementState>
         get() = mutableGroup
 
     fun insertGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates = setGroup(group)) {
-            is GroupElementStates.Loading -> notifyLoadingState()
-            is GroupElementStates.GroupElementData<Long> ->
-                notifyGroupState(groupElementStates.value)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
+            is Loading -> notifyLoadingState()
+            is GroupElementData -> notifyGroupState(groupElementStates.data)
+            is Error -> notifyErrorState(groupElementStates.error)
         }
     }
 
     private fun notifyLoadingState() {
-        mutableGroup.postValue(GroupElementStates.Loading)
+        mutableGroup.postValue(Loading)
     }
 
-    private fun notifyGroupState(valueLong: Long) {
-        mutableGroup.postValue(GroupElementStates.GroupElementData(valueLong))
+    private fun notifyGroupState(groupList: List<Group>) {
+        mutableGroup.postValue(GroupElementData(groupList))
     }
 
     private fun notifyErrorState(error: Throwable) {
-        mutableGroup.postValue(GroupElementStates.Error(error))
+        mutableGroup.postValue(Error(error))
     }
 }

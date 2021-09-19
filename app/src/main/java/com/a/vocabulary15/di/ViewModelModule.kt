@@ -20,4 +20,5 @@ class ViewModelModule {
 
     @Provides
     fun provideSetGroup(repository: Repository) : SetGroup = SetGroupImpl(repository)
+
 }

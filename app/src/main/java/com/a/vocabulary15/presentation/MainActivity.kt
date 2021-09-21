@@ -5,8 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.a.vocabulary15.domain.model.Group
-import com.a.vocabulary15.presentation.ui.GroupScreen
+import com.a.vocabulary15.presentation.ui.GetGroupScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,9 +22,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             Vocabulary15Theme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
+                /*Surface(color = MaterialTheme.colors.background) {
                     nameGroup = GroupScreen(liveData = mainViewModel.setGroupLiveData) {
-                        mainViewModel.insertGroup(Group(0, nameGroup))
+                        mainViewModel.insertAndGetGroup(Group(0, nameGroup))
+                    }
+                }*/
+                Surface(color = MaterialTheme.colors.background) {
+                    mainViewModel.getGroup()
+                    GetGroupScreen(liveData = mainViewModel.getGroupLiveData) {
+
                     }
                 }
             }

@@ -1,6 +1,8 @@
 package com.a.vocabulary15.di
 
 import com.a.vocabulary15.domain.Repository
+import com.a.vocabulary15.domain.usecases.GetGroup
+import com.a.vocabulary15.domain.usecases.GetGroupImpl
 import com.a.vocabulary15.domain.usecases.SetGroup
 import com.a.vocabulary15.domain.usecases.SetGroupImpl
 import com.a.vocabulary15.presentation.MainViewModel
@@ -15,10 +17,9 @@ class ViewModelModule {
 
     @Provides
     fun provideMainViewModel(
-        setGroup: SetGroup
-    ): MainViewModel = MainViewModel(setGroup)
+        getGroup: GetGroup
+    ): MainViewModel = MainViewModel(getGroup)
 
     @Provides
-    fun provideSetGroup(repository: Repository) : SetGroup = SetGroupImpl(repository)
-
+    fun provideGetGroup(repository: Repository) : GetGroup = GetGroupImpl(repository)
 }

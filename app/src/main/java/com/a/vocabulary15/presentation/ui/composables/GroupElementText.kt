@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
-fun GroupElementText(text: String) {
+fun GroupElementText(text: String, modifier: Modifier) {
     Text(
         text = text, style = Typography.body1,
-        modifier = Modifier
+        modifier = modifier
             .padding(all = 16.dp)
             .fillMaxWidth()
     )

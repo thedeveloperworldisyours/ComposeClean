@@ -1,8 +1,11 @@
 package com.a.vocabulary15.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.a.vocabulary15.presentation.ui.GetGroupScreen
@@ -13,24 +16,21 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private var nameGroup = ""
 
+    private var responseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        mainViewModel.getGroup()
+    }
+    
     @Inject
     lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Vocabulary15Theme {
-                // A surface container using the 'background' color from the theme
-                /*Surface(color = MaterialTheme.colors.background) {
-                    nameGroup = GroupScreen(liveData = mainViewModel.setGroupLiveData) {
-                        mainViewModel.insertAndGetGroup(Group(0, nameGroup))
-                    }
-                }*/
                 Surface(color = MaterialTheme.colors.background) {
                     mainViewModel.getGroup()
                     GetGroupScreen(liveData = mainViewModel.getGroupLiveData) {
-
+                        responseLauncher.launch(Intent(this, AddGroupActivity::class.java))
                     }
                 }
             }

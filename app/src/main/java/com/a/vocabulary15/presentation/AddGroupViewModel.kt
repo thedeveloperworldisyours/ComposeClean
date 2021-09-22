@@ -7,22 +7,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.domain.usecases.GetGroup
+import com.a.vocabulary15.domain.usecases.SetGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel @ViewModelInject constructor(
-    private val getGroup: GetGroup
+class AddGroupViewModel @ViewModelInject constructor(
+    private val setGroup: SetGroup
 ) : ViewModel() {
-    private val mutableGroup = MutableLiveData<GroupElementStates>()
-    val getGroupLiveData: LiveData<GroupElementStates>
-        get() = mutableGroup
 
-    fun getGroup() = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates: GroupElementStates = getGroup.invoke()) {
+    private val mutableGroup = MutableLiveData<GroupElementStates>()
+    val setGroupLiveData: LiveData<GroupElementStates>
+        get() = mutableGroup
+    fun insertAndGetGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
+        when (val groupElementStates = setGroup(group)) {
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data -> notifyGroupState(groupElementStates.data)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
+            is Error -> {
+                val error= Throwable()
+                notifyErrorState(error)
+            }
         }
     }
 

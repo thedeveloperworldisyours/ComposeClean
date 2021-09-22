@@ -11,10 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Vocabulary15">
         <activity
+            android:name=".presentation.AddGroupActivity"
+            android:exported="true" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Vocabulary15.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

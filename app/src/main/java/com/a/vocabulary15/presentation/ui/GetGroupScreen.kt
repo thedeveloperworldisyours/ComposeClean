@@ -16,7 +16,7 @@ import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
 @Composable
-fun GetGroupScreen(liveData: LiveData<GroupElementStates>, onClick: () -> Unit) {
+fun GetGroupScreen(liveData: LiveData<GroupElementStates>, onClick: () -> Unit, itemClickable: (Int)->Unit) {
     val groupElementStates: GroupElementStates by liveData.observeAsState(initial = GroupElementStates.Loading)
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
@@ -33,7 +33,7 @@ fun GetGroupScreen(liveData: LiveData<GroupElementStates>, onClick: () -> Unit) 
         }
         is GroupElementStates.Data -> {
             Box(Modifier.fillMaxSize()) {
-                GroupListLazyColumn((groupElementStates as GroupElementStates.Data).data)
+                GroupListLazyColumn((groupElementStates as GroupElementStates.Data).data, itemClickable)
                 FloatingActionButton(
                     onClick = onClick, modifier = Modifier
                         .align(Alignment.BottomEnd)

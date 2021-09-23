@@ -16,7 +16,6 @@ fun GroupElementText(text: String, modifier: Modifier) {
         text = text, style = Typography.body1,
         modifier = modifier
             .padding(all = 16.dp)
-            .fillMaxWidth()
     )
 }
 

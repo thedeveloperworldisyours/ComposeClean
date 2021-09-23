@@ -29,9 +29,13 @@ class MainActivity : ComponentActivity() {
             Vocabulary15Theme {
                 Surface(color = MaterialTheme.colors.background) {
                     mainViewModel.getGroup()
-                    GetGroupScreen(liveData = mainViewModel.getGroupLiveData) {
+                    GetGroupScreen(liveData = mainViewModel.getGroupLiveData, {
                         responseLauncher.launch(Intent(this, AddGroupActivity::class.java))
-                    }
+                    }, {
+                        val intent=Intent(this, GetElementsActivity::class.java)
+                        intent.putExtra("idGroup", it)
+                        startActivity(intent)
+                    })
                 }
             }
         }

@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Vocabulary15">
         <activity
+            android:name=".presentation.GetElementsActivity"
+            android:exported="true" />
+        <activity
             android:name=".presentation.AddGroupActivity"
             android:exported="true" />
         <activity

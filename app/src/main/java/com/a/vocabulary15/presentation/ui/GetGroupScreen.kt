@@ -11,13 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
 @Composable
-fun GetGroupScreen(liveData: LiveData<GroupElementStates>, onClick: () -> Unit, itemClickable: (Int)->Unit) {
-    val groupElementStates: GroupElementStates by liveData.observeAsState(initial = GroupElementStates.Loading)
+fun GetGroupScreen(liveData: LiveData<GroupElementStates<List<Group>>>, onClick: () -> Unit, itemClickable: (Int)->Unit) {
+    val groupElementStates: GroupElementStates<List<Group>> by liveData.observeAsState(initial = GroupElementStates.Loading)
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
             Box(Modifier.fillMaxSize()) {

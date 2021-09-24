@@ -15,13 +15,13 @@ class AddGroupViewModel @ViewModelInject constructor(
     private val setGroup: SetGroup
 ) : ViewModel() {
 
-    private val mutableGroup = MutableLiveData<GroupElementStates>()
-    val setGroupLiveData: LiveData<GroupElementStates>
+    private val mutableGroup = MutableLiveData<GroupElementStates<Long>>()
+    val setGroupLiveData: LiveData<GroupElementStates<Long>>
         get() = mutableGroup
     fun insertAndGetGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates = setGroup(group)) {
             is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data -> notifyGroupState(groupElementStates.data)
+            is GroupElementStates.Data<Long> -> notifyGroupState(groupElementStates.data)
             is Error -> {
                 val error= Throwable()
                 notifyErrorState(error)
@@ -34,7 +34,7 @@ class AddGroupViewModel @ViewModelInject constructor(
 
     }
 
-    private fun notifyGroupState(groupList: List<Group>) {
+    private fun notifyGroupState(groupList: Long) {
         mutableGroup.postValue(GroupElementStates.Data(groupList))
     }
 

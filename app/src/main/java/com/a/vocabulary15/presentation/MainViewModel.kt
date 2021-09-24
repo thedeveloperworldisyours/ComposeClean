@@ -14,14 +14,14 @@ import kotlinx.coroutines.launch
 class MainViewModel @ViewModelInject constructor(
     private val getGroup: GetGroup
 ) : ViewModel() {
-    private val mutableGroup = MutableLiveData<GroupElementStates>()
-    val getGroupLiveData: LiveData<GroupElementStates>
+    private val mutableGroup = MutableLiveData<GroupElementStates<List<Group>>>()
+    val getGroupLiveData: LiveData<GroupElementStates<List<Group>>>
         get() = mutableGroup
 
     fun getGroup() = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates: GroupElementStates = getGroup.invoke()) {
+        when (val groupElementStates: GroupElementStates<List<Group>> = getGroup.invoke()) {
             is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data -> notifyGroupState(groupElementStates.data)
+            is GroupElementStates.Data<List<Group>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
         }
     }

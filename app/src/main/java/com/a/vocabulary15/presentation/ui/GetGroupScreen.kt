@@ -1,5 +1,9 @@
 package com.a.vocabulary15.presentation.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.FloatingActionButton
@@ -12,25 +16,26 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
+import com.a.vocabulary15.presentation.MainViewModel
 import com.a.vocabulary15.presentation.ui.composables.AddGroupButton
 import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
+@ExperimentalAnimationApi
 @Composable
 fun GetGroupScreen(
     liveData: LiveData<GroupElementStates<List<Group>>>,
-    addGroup: () -> Unit,
+    mainViewModel: MainViewModel,
     itemClickable: (Int) -> Unit
-): String {
+) {
     val groupElementStates: GroupElementStates<List<Group>> by liveData.observeAsState(initial = GroupElementStates.Loading)
-    var returnName = ""
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
             Box(Modifier.fillMaxSize()) {
                 GroupElementText(text = "Loading...", Modifier.align(Alignment.Center))
                 FloatingActionButton(
-                    onClick = addGroup, modifier = Modifier
+                    onClick = { }, modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(12.dp)
                 ) {
@@ -52,18 +57,27 @@ fun GetGroupScreen(
                 ) {}
                 if (visible) {
                     //Add Group
-                    Box(
-                        modifier = Modifier
-                            .height(178.dp)
-                            .fillMaxWidth()
-                            .background(Color.White)
-                            .align(
-                                Alignment.TopCenter
-                            )
-                    )
-                    Column(modifier = Modifier.fillMaxHeight()) {
-                        returnName = AddGroupTextField()
-                        AddGroupButton(onClick = addGroup)
+                    AnimatedVisibility(
+                        visible = visible,
+                        enter = expandHorizontally(),
+                        exit = shrinkHorizontally()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .height(178.dp)
+                                .fillMaxWidth()
+                                .background(Color.White)
+                                .align(
+                                    Alignment.TopCenter
+                                )
+                        )
+                        Column(modifier = Modifier.fillMaxHeight()) {
+                            val returnName = AddGroupTextField()
+                            AddGroupButton(onClick = {
+                                visible = false
+                                mainViewModel.insertAndGetGroup(Group(0, returnName))
+                            })
+                        }
                     }
                 }
             }
@@ -75,7 +89,7 @@ fun GetGroupScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
                 FloatingActionButton(
-                    onClick = addGroup, modifier = Modifier
+                    onClick = {}, modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(12.dp)
                 ) {
@@ -84,5 +98,4 @@ fun GetGroupScreen(
             }
         }
     }
-    return returnName
 }

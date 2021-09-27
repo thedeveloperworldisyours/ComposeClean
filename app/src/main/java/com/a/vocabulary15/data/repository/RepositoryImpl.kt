@@ -14,8 +14,10 @@ class RepositoryImpl constructor(
 
     var vocabularyDao = vocabularyDatabase.vocabularyDao()
 
-    override suspend fun setGroup(group: Group) =
+    override suspend fun setGroup(group: Group): GroupElementStates<List<Group>>{
         GroupElementStates.Data(vocabularyDao.setGroup(group.toData()))
+        return GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
+    }
 
     override suspend fun getGroup() =
         GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })

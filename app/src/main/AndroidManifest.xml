@@ -14,9 +14,6 @@
             android:name=".presentation.GetElementsActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.AddGroupActivity"
-            android:exported="true" />
-        <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name">

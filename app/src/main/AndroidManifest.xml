@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Vocabulary15">
         <activity
-            android:name=".presentation.GetElementsActivity"
+            android:name=".presentation.ElementsActivity"
+            android:theme="@style/Theme.Vocabulary15.NoActionBar"
             android:exported="true" />
         <activity
             android:name=".presentation.MainActivity"

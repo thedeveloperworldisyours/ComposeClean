@@ -10,6 +10,8 @@ interface Repository {
 
     suspend fun getGroup(): GroupElementStates<List<Group>>
 
+    suspend fun deleteGroup(idGroup: Int)
+
     suspend fun setElement(element: Element): GroupElementStates<Long>
 
 }

@@ -1,6 +1,5 @@
 package com.a.vocabulary15.presentation
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,7 @@ import com.a.vocabulary15.domain.usecases.SetGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel @ViewModelInject constructor(
+class MainViewModel constructor(
     private val getGroup: GetGroup,
     private val setGroup: SetGroup
 ) : ViewModel() {
@@ -32,16 +31,12 @@ class MainViewModel @ViewModelInject constructor(
         when (val groupElementStates = setGroup(group)) {
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data<List<Group>> -> notifyGroupState(groupElementStates.data)
-            is Error -> {
-                val error= Throwable()
-                notifyErrorState(error)
-            }
+            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
         }
     }
 
     private fun notifyLoadingStates() {
         mutableGroup.postValue(GroupElementStates.Loading)
-
     }
 
     private fun notifyGroupState(groupList: List<Group>) {

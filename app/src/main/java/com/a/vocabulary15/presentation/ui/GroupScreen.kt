@@ -1,19 +1,18 @@
 package com.a.vocabulary15.presentation.ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.MainViewModel
@@ -24,7 +23,7 @@ import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
 @ExperimentalAnimationApi
 @Composable
-fun GetGroupScreen(
+fun GroupScreen(
     liveData: LiveData<GroupElementStates<List<Group>>>,
     mainViewModel: MainViewModel,
     itemClickable: (Int) -> Unit
@@ -44,43 +43,7 @@ fun GetGroupScreen(
             }
         }
         is GroupElementStates.Data -> {
-            var visible by remember { mutableStateOf(false) }
-            Box(Modifier.fillMaxSize()) {
-                GroupListLazyColumn(
-                    (groupElementStates as GroupElementStates.Data).data,
-                    itemClickable
-                )
-                FloatingActionButton(
-                    onClick = { visible = !visible }, modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(12.dp)
-                ) {}
-                if (visible) {
-                    //Add Group
-                    AnimatedVisibility(
-                        visible = visible,
-                        enter = expandHorizontally(),
-                        exit = shrinkHorizontally()
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .height(178.dp)
-                                .fillMaxWidth()
-                                .background(Color.White)
-                                .align(
-                                    Alignment.TopCenter
-                                )
-                        )
-                        Column(modifier = Modifier.fillMaxHeight()) {
-                            val returnName = AddGroupTextField()
-                            AddGroupButton(onClick = {
-                                visible = false
-                                mainViewModel.insertAndGetGroup(Group(0, returnName))
-                            })
-                        }
-                    }
-                }
-            }
+            DataGroupScreen(groupElementStates, mainViewModel, itemClickable)
         }
         else -> {
             Box(Modifier.fillMaxSize()) {
@@ -94,6 +57,68 @@ fun GetGroupScreen(
                         .padding(12.dp)
                 ) {
 
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DataGroupScreen(
+    groupElementStates: GroupElementStates<List<Group>>,
+    mainViewModel: MainViewModel,
+    itemClickable: (Int) -> Unit
+) {
+    var visible by remember { mutableStateOf(false) }
+    Scaffold(
+        modifier = Modifier
+            .fillMaxWidth(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Groups of Elements")
+                }
+            )
+        }, floatingActionButton = {
+            FloatingActionButton(
+                onClick = { visible = !visible }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_add),
+                    contentDescription = ""
+                )
+            }
+        }
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+        ) {
+
+            GroupListLazyColumn(
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color.Gray),
+                (groupElementStates as GroupElementStates.Data).data,
+                itemClickable
+            )
+            if (visible) {
+                //Add Group
+                Box(
+                    modifier = Modifier
+                        .height(178.dp)
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .align(
+                            Alignment.TopCenter
+                        )
+                )
+                Column(modifier = Modifier.fillMaxHeight()) {
+                    val returnName = AddGroupTextField()
+                    AddGroupButton(onClick = {
+                        visible = false
+                        mainViewModel.insertAndGetGroup(Group(0, returnName))
+                    })
                 }
             }
         }

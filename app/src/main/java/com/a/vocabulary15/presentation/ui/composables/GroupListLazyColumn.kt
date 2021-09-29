@@ -15,12 +15,10 @@ import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
-fun GroupListLazyColumn(names: List<Group>, clickableItem: (Int)->Unit){
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        itemsIndexed(items = names) { id, item: Group ->
-
-            Surface(modifier = Modifier.clickable { clickableItem(id) }){
-
+fun GroupListLazyColumn(modifier: Modifier, names: List<Group>, clickableItem: (Int)->Unit){
+    LazyColumn(modifier = modifier) {
+        itemsIndexed(items = names) { _, item: Group ->
+            Surface(modifier = Modifier.clickable { clickableItem(item.id) }){
             Text(text = item.name, modifier = Modifier.fillMaxWidth().padding(5.dp), style = Typography.body1)
             Divider()
             }

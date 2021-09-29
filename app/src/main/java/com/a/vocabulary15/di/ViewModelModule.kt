@@ -1,10 +1,8 @@
 package com.a.vocabulary15.di
 
 import com.a.vocabulary15.domain.Repository
-import com.a.vocabulary15.domain.usecases.GetGroup
-import com.a.vocabulary15.domain.usecases.GetGroupImpl
-import com.a.vocabulary15.domain.usecases.SetGroup
-import com.a.vocabulary15.domain.usecases.SetGroupImpl
+import com.a.vocabulary15.domain.usecases.*
+import com.a.vocabulary15.presentation.ElementsViewModel
 import com.a.vocabulary15.presentation.MainViewModel
 import dagger.Module
 import dagger.Provides
@@ -22,8 +20,17 @@ class ViewModelModule {
     ): MainViewModel = MainViewModel(getGroup, setGroup)
 
     @Provides
-    fun provideGetGroup(repository: Repository) : GetGroup = GetGroupImpl(repository)
-    
+    fun provideGetGroup(repository: Repository): GetGroup = GetGroupImpl(repository)
+
     @Provides
-    fun provideSetGroup(repository: Repository) : SetGroup = SetGroupImpl(repository)
+    fun provideSetGroup(repository: Repository): SetGroup = SetGroupImpl(repository)
+
+    @Provides
+    fun provideElementViewModel(
+        deleteGroupWithElements: DeleteGroupWithElements
+    ): ElementsViewModel = ElementsViewModel(deleteGroupWithElements)
+
+    @Provides
+    fun provideDeleteGroupWithElements(repository: Repository): DeleteGroupWithElements =
+        DeleteGroupWithElementsImpl(repository)
 }

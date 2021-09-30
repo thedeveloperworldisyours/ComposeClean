@@ -19,6 +19,10 @@ class MainViewModel constructor(
     val getGroupLiveData: LiveData<GroupElementStates<List<Group>>>
         get() = mutableGroup
 
+    init {
+        getGroup()
+    }
+
     fun getGroup() = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates: GroupElementStates<List<Group>> = getGroup.invoke()) {
             is GroupElementStates.Loading -> notifyLoadingStates()

@@ -4,5 +4,5 @@ import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 
 interface SetElement {
-    suspend fun invoke(element: Element): GroupElementStates<Long>
+    suspend fun invoke(element: Element): GroupElementStates<List<Element>>
 }

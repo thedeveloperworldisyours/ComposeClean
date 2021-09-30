@@ -14,7 +14,7 @@ class RepositoryImpl constructor(
 
     var vocabularyDao = vocabularyDatabase.vocabularyDao()
 
-    override suspend fun setGroup(group: Group): GroupElementStates<List<Group>>{
+    override suspend fun setGroup(group: Group): GroupElementStates<List<Group>> {
         GroupElementStates.Data(vocabularyDao.setGroup(group.toData()))
         return GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
     }
@@ -27,7 +27,8 @@ class RepositoryImpl constructor(
         vocabularyDao.deleteElementsByGroupId(idGroup)
     }
 
-    override suspend fun setElement(element: Element) =
+    override suspend fun setElement(element: Element): GroupElementStates<List<Element>> {
         GroupElementStates.Data(vocabularyDao.setElement(element.toData()))
-
+        return GroupElementStates.Data(vocabularyDao.getElements().map { it.toModel() })
+    }
 }

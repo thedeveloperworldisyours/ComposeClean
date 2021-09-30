@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -63,6 +64,7 @@ fun GroupScreen(
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun DataGroupScreen(
     groupElementStates: GroupElementStates<List<Group>>,
@@ -102,7 +104,7 @@ fun DataGroupScreen(
                 (groupElementStates as GroupElementStates.Data).data,
                 itemClickable
             )
-            if (visible) {
+            AnimatedVisibility (visible) {
                 //Add Group
                 Box(
                     modifier = Modifier

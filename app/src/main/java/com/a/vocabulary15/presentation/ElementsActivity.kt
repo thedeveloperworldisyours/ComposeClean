@@ -3,6 +3,7 @@ package com.a.vocabulary15.presentation
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.a.vocabulary15.presentation.ui.ElementScreen
@@ -17,6 +18,7 @@ class ElementsActivity : AppCompatActivity() {
 
     @Inject
     lateinit var elementsViewModel: ElementsViewModel
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,7 +31,8 @@ class ElementsActivity : AppCompatActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     ElementScreen(
                         liveData = elementsViewModel.genericLiveData,
-                        idGroup
+                        idGroup,
+                        elementsViewModel
                     ) {
                         elementsViewModel.deleteGroupWithElements(idGroup.toInt())
                         this.finish()

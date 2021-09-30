@@ -23,13 +23,14 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var mainViewModel: MainViewModel
+
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Vocabulary15Theme {
                 Surface(color = MaterialTheme.colors.background) {
-                    mainViewModel.getGroup()
+
                     GroupScreen(liveData = mainViewModel.getGroupLiveData, mainViewModel){
                         val intent = Intent(this, ElementsActivity::class.java)
                         intent.putExtra("idGroup", it)

@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.domain.usecases.DeleteGroupWithElements
+import com.a.vocabulary15.domain.usecases.GetElement
 import com.a.vocabulary15.domain.usecases.SetElement
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ElementsViewModel constructor(
+    var getElement: GetElement,
     var setElement: SetElement,
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
@@ -24,6 +25,18 @@ class ElementsViewModel constructor(
 
     private val expandedListMutable = MutableStateFlow(listOf<Int>())
     val expandedList : StateFlow<List<Int>> get() = expandedListMutable
+
+    init {
+        getElement()
+    }
+
+    private fun getElement() = viewModelScope.launch(Dispatchers.IO) {
+        when (val groupElementStates = getElement.invoke()){
+            is GroupElementStates.Loading -> notifyLoadingStates()
+            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
+            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
+        }
+    }
 
     fun deleteGroupWithElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
          delete.invoke(idGroup)

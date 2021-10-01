@@ -14,4 +14,6 @@ interface Repository {
 
     suspend fun setElement(element: Element): GroupElementStates<List<Element>>
 
+    suspend fun getElement(): GroupElementStates<List<Element>>
+
 }

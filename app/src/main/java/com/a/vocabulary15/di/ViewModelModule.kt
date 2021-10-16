@@ -29,8 +29,11 @@ class ViewModelModule {
     fun provideElementViewModel(
         getElement: GetElement,
         setElement: SetElement,
+        deleteElement: DeleteElement,
         deleteGroupWithElements: DeleteGroupWithElements
-    ): ElementsViewModel = ElementsViewModel(getElement, setElement, deleteGroupWithElements)
+    ): ElementsViewModel =
+        ElementsViewModel(getElement, setElement, deleteElement, deleteGroupWithElements)
+
     @Provides
     fun provideGetElement(repository: Repository): GetElement = GetElementImpl(repository)
 
@@ -40,4 +43,7 @@ class ViewModelModule {
 
     @Provides
     fun provideSetElement(repository: Repository): SetElement = SetElementImpl(repository)
+
+    @Provides
+    fun provideDeleteElement(repository: Repository): DeleteElement = DeleteElementImpl(repository)
 }

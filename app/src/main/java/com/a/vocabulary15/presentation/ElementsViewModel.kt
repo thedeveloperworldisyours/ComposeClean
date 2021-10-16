@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
+import com.a.vocabulary15.domain.usecases.DeleteElement
 import com.a.vocabulary15.domain.usecases.DeleteGroupWithElements
 import com.a.vocabulary15.domain.usecases.GetElement
 import com.a.vocabulary15.domain.usecases.SetElement
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 class ElementsViewModel constructor(
     var getElement: GetElement,
     var setElement: SetElement,
+    var deleteElement: DeleteElement,
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
     private val mutable = MutableLiveData<GroupElementStates<*>>()
@@ -24,14 +26,14 @@ class ElementsViewModel constructor(
         get() = mutable
 
     private val expandedListMutable = MutableStateFlow(listOf<Int>())
-    val expandedList : StateFlow<List<Int>> get() = expandedListMutable
+    val expandedList: StateFlow<List<Int>> get() = expandedListMutable
 
     init {
         getElement()
     }
 
     private fun getElement() = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = getElement.invoke()){
+        when (val groupElementStates = getElement.invoke()) {
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
@@ -39,11 +41,19 @@ class ElementsViewModel constructor(
     }
 
     fun deleteGroupWithElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
-         delete.invoke(idGroup)
+        delete.invoke(idGroup)
     }
 
     fun setElement(element: Element) = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = setElement.invoke(element)){
+        when (val groupElementStates = setElement.invoke(element)) {
+            is GroupElementStates.Loading -> notifyLoadingStates()
+            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
+            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
+        }
+    }
+
+    fun deleteElement(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        when (val groupElementStates = deleteElement.invoke(id)) {
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
@@ -51,7 +61,7 @@ class ElementsViewModel constructor(
     }
 
     fun cardArrowClick(cardId: Int) {
-        expandedListMutable.value = expandedListMutable.value.toMutableList().also{ list ->
+        expandedListMutable.value = expandedListMutable.value.toMutableList().also { list ->
             if (list.contains(cardId)) {
                 list.remove(cardId)
             } else {

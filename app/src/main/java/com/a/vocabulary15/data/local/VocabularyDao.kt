@@ -11,14 +11,17 @@ interface VocabularyDao {
     @Query("SELECT * FROM ElementData")
     fun getElements(): List<ElementData>
 
-    @Query("SELECT * FROM ElementData WHERE groupId= :groupId")
+    @Query("SELECT * FROM ElementData WHERE groupId = :groupId")
     fun getElementsByCollection(groupId: Int): List<ElementData>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun setElement(elementData: ElementData): Long
 
-    @Query("DELETE FROM ElementData WHERE groupId= :groupId")
+    @Query("DELETE FROM ElementData WHERE groupId = :groupId")
     fun deleteElementsByGroupId(groupId: Int)
+
+    @Query("DELETE FROM ElementData WHERE id =:id")
+    fun deleteElement(id: Int)
 
     //Group
     @Query("SELECT * FROM GroupData")
@@ -27,6 +30,6 @@ interface VocabularyDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun setGroup(groupData: GroupData): Long
 
-    @Query("DELETE FROM GroupData WHERE id= :id")
+    @Query("DELETE FROM GroupData WHERE id = :id")
     fun deleteGroupById(id: Int)
 }

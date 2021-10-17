@@ -39,16 +39,17 @@ import com.a.vocabulary15.presentation.common.Constants.FADE_OUT_ANIMATION
 @Composable
 fun ExpandableElement(
     modifier: Modifier,
-    names: List<Element>,
+    elements: List<Element>,
     elementsViewModel: ElementsViewModel
 ) {
     val expandedItem = elementsViewModel.expandedList.collectAsState()
     LazyColumn(modifier = modifier) {
-        itemsIndexed(items = names) { _, item: Element ->
+        itemsIndexed(items = elements) { _, item: Element ->
             ExpandableCard(
                 element = item,
                 onCardArrowClick = { elementsViewModel.cardArrowClick(item.id) },
-                expanded = expandedItem.value.contains(item.id)
+                expanded = expandedItem.value.contains(item.id),
+                elementsViewModel = elementsViewModel
             )
         }
     }
@@ -60,7 +61,8 @@ fun ExpandableElement(
 fun ExpandableCard(
     element: Element,
     onCardArrowClick: () -> Unit,
-    expanded: Boolean
+    expanded: Boolean,
+    elementsViewModel: ElementsViewModel
 ) {
     val transitionState = remember {
         MutableTransitionState(expanded).apply {
@@ -138,7 +140,10 @@ fun ExpandableCard(
                         .align(Alignment.CenterEnd)
                 )
             }
-            ExpandableContent(expanded = expanded)
+            ExpandableContent(
+                element = element, expanded = expanded,
+                elementsViewModel = elementsViewModel
+            )
         }
     }
 }
@@ -164,7 +169,11 @@ fun CardArrow(
 
 @ExperimentalAnimationApi
 @Composable
-fun ExpandableContent(expanded: Boolean = true) {
+fun ExpandableContent(
+    element: Element,
+    expanded: Boolean = true,
+    elementsViewModel: ElementsViewModel
+) {
     val enterFadeIn = remember {
         fadeIn(
             animationSpec = TweenSpec(
@@ -209,7 +218,7 @@ fun ExpandableContent(expanded: Boolean = true) {
                 color = Color.Blue
             )
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { elementsViewModel.deleteElement(element.id) },
                 modifier = Modifier
                     .size(50.dp)
                     .clip(RoundedCornerShape(5.dp))

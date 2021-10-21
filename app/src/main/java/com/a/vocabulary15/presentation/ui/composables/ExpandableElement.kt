@@ -14,6 +14,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -217,18 +218,36 @@ fun ExpandableContent(
                     .padding(10.dp),
                 color = Color.Blue
             )
-            IconButton(
-                onClick = { elementsViewModel.deleteElement(element.id) },
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(RoundedCornerShape(5.dp))
-                    .background(Color.Red)
-            ) {
-                Icon(
-                    Icons.Filled.Delete,
-                    contentDescription = "Delete",
-                    tint = Color.White
-                )
+            Row {
+                IconButton(
+                    onClick = { elementsViewModel.deleteElement(element.id) },
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.Red)
+                ) {
+                    Icon(
+                        Icons.Filled.Delete,
+                        contentDescription = "Delete",
+                        tint = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.size(5.dp))
+                IconButton(
+                    onClick = {
+                        //ToDo
+                    },
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.LightGray)
+                ) {
+                    Icon(
+                        Icons.Filled.Edit,
+                        contentDescription = "Edit",
+                        tint = Color.White
+                    )
+                }
             }
         }
     }

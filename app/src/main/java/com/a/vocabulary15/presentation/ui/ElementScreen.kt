@@ -82,6 +82,9 @@ fun ElementDataScreen(
             }
         }
     ) {
+
+        val isDialogOpen = remember { mutableStateOf(false)}
+        ShowAlertDialog(isDialogOpen, deleteClick)
         Box(
             Modifier
                 .fillMaxSize()

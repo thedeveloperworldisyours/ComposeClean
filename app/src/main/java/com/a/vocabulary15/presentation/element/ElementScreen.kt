@@ -12,32 +12,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.presentation.ElementsViewModel
-import com.a.vocabulary15.presentation.ui.composables.*
+import com.a.vocabulary15.presentation.ElementsActivity
+import com.a.vocabulary15.presentation.element.DeleteAllDialog
+import com.a.vocabulary15.presentation.element.DeleteElementDialog
+import com.a.vocabulary15.presentation.ui.composables.AddGroupButton
+import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
+import com.a.vocabulary15.presentation.ui.composables.ExpandableElement
+import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
 @ExperimentalAnimationApi
 @Composable
 fun ElementScreen(
-    liveData: LiveData<GroupElementStates<*>>,
-    idGroup: String,
-    elementsViewModel: ElementsViewModel,
-    deleteClick: () -> Unit
+    activity: ElementsActivity
 ) {
-    val groupElementStates: GroupElementStates<*> by liveData.observeAsState(initial = GroupElementStates.Loading)
+    val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
+        initial = GroupElementStates.Loading
+    )
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
             ElementLoadingScreen(
-                idGroup = idGroup,
-                elementsViewModel = elementsViewModel,
-                deleteClick
+                activity
             )
         }
         is GroupElementStates.Data -> {
-            ElementDataScreen(idGroup, groupElementStates, elementsViewModel, deleteClick)
+            ElementDataScreen(activity, groupElementStates)
         }
         else -> {
         }
@@ -47,10 +48,8 @@ fun ElementScreen(
 @ExperimentalAnimationApi
 @Composable
 fun ElementDataScreen(
-    idGroup: String,
-    groupElementStates: GroupElementStates<*>,
-    elementsViewModel: ElementsViewModel,
-    deleteClick: () -> Unit
+    activity: ElementsActivity,
+    groupElementStates: GroupElementStates<*>
 ) {
 
     var visible by remember { mutableStateOf(false) }
@@ -63,7 +62,11 @@ fun ElementDataScreen(
                 title = {
                     Text(text = "Groups of Elements")
                 }, actions = {
-                    IconButton(onClick = deleteClick) {
+                    IconButton(onClick = {
+                        activity.viewModel.isDeleteAllOpen.value = true
+                        /*activity.viewModel.deleteGroupWithElements(activity.idGroup.toInt())
+                        activity.finish()*/
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_forever),
                             contentDescription = "delete"
@@ -82,9 +85,7 @@ fun ElementDataScreen(
             }
         }
     ) {
-
-        val isDialogOpen = remember { mutableStateOf(false)}
-        ShowAlertDialog(isDialogOpen, deleteClick)
+        DeleteAllDialog(activity)
         Box(
             Modifier
                 .fillMaxSize()
@@ -94,7 +95,7 @@ fun ElementDataScreen(
                     .fillMaxWidth()
                     .background(Color.Gray),
                 (groupElementStates as GroupElementStates.Data<*>).data as List<Element>,
-                elementsViewModel
+                activity
             )
 
             AnimatedVisibility(visible) {
@@ -112,10 +113,10 @@ fun ElementDataScreen(
                     val returnName = AddGroupTextField()
                     AddGroupButton(onClick = {
                         visible = false
-                        elementsViewModel.setElement(
+                        activity.viewModel.setElement(
                             Element(
                                 id = 0,
-                                groupId = idGroup.toInt(),
+                                groupId = activity.idGroup.toInt(),
                                 value = returnName,
                                 image = "",
                                 link = ""
@@ -125,15 +126,14 @@ fun ElementDataScreen(
                 }
             }
         }
+        DeleteElementDialog(activity)
     }
 }
 
 @ExperimentalAnimationApi
 @Composable
 fun ElementLoadingScreen(
-    idGroup: String,
-    elementsViewModel: ElementsViewModel,
-    deleteClick: () -> Unit
+    activity: ElementsActivity
 ) {
 
     var visible by remember { mutableStateOf(false) }
@@ -145,13 +145,6 @@ fun ElementLoadingScreen(
             TopAppBar(
                 title = {
                     Text(text = "Groups of Elements")
-                }, actions = {
-                    IconButton(onClick = deleteClick) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_delete_forever),
-                            contentDescription = "delete"
-                        )
-                    }
                 }
             )
         }, floatingActionButton = {
@@ -170,12 +163,11 @@ fun ElementLoadingScreen(
                 .fillMaxSize()
         ) {
             GroupElementText(
-                text = idGroup, modifier = Modifier
+                text = activity.idGroup, modifier = Modifier
                     .align(
                         Alignment.Center
                     )
             )
-
             AnimatedVisibility(visible) {
                 //Add Element
                 Box(
@@ -190,7 +182,8 @@ fun ElementLoadingScreen(
                 Column(modifier = Modifier.fillMaxHeight()) {
                     val returnName = AddGroupTextField()
                     AddGroupButton(onClick = {
-                        visible = false
+                        activity.viewModel.isDeleteElementOpen.value = true
+                        /*visible = false
                         elementsViewModel.setElement(
                             Element(
                                 id = 0,
@@ -199,7 +192,7 @@ fun ElementLoadingScreen(
                                 image = "",
                                 link = ""
                             )
-                        )
+                        )*/
                     })
                 }
             }

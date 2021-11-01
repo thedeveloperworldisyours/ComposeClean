@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 import com.a.vocabulary15.presentation.ui.ElementScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,7 @@ class ElementsActivity : AppCompatActivity() {
     var idGroup = ""
 
     @Inject
-    lateinit var elementsViewModel: ElementsViewModel
+    lateinit var viewModel: ElementsViewModel
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +30,7 @@ class ElementsActivity : AppCompatActivity() {
         setContent {
             Vocabulary15Theme {
                 Surface(color = MaterialTheme.colors.background) {
-                    ElementScreen(
-                        liveData = elementsViewModel.genericLiveData,
-                        idGroup,
-                        elementsViewModel
-                    ) {
-                        elementsViewModel.deleteGroupWithElements(idGroup.toInt())
-                        this.finish()
-                    }
+                    ElementScreen(this)
                 }
             }
         }

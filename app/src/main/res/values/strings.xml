@@ -3,4 +3,6 @@
     <string name="do_you_want_delete">Do you want to delete</string>
     <string name="delete">delete</string>
     <string name="close">close</string>
+    <string name="do_you_want_to_delete">Do you want to delete the element?</string>
+    <string name="edit">Edit</string>
 </resources>

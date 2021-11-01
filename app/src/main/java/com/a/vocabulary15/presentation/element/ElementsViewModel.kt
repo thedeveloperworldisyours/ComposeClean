@@ -1,5 +1,6 @@
-package com.a.vocabulary15.presentation
+package com.a.vocabulary15.presentation.element
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,8 @@ class ElementsViewModel constructor(
     val genericLiveData: LiveData<GroupElementStates<*>>
         get() = mutable
 
+    var isDeleteAllOpen = mutableStateOf(false)
+    var isDeleteElementOpen = mutableStateOf(false)
     private val expandedListMutable = MutableStateFlow(listOf<Int>())
     val expandedList: StateFlow<List<Int>> get() = expandedListMutable
 

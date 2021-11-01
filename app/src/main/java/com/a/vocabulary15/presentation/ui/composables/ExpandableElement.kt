@@ -25,12 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.ElementsViewModel
+import com.a.vocabulary15.presentation.ElementsActivity
 import com.a.vocabulary15.presentation.common.Constants.COLLAPSE_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.EXPAND_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.FADE_IN_ANIMATION
@@ -41,16 +42,16 @@ import com.a.vocabulary15.presentation.common.Constants.FADE_OUT_ANIMATION
 fun ExpandableElement(
     modifier: Modifier,
     elements: List<Element>,
-    elementsViewModel: ElementsViewModel
+    activity: ElementsActivity
 ) {
-    val expandedItem = elementsViewModel.expandedList.collectAsState()
+    val expandedItem = activity.viewModel.expandedList.collectAsState()
     LazyColumn(modifier = modifier) {
         itemsIndexed(items = elements) { _, item: Element ->
             ExpandableCard(
                 element = item,
-                onCardArrowClick = { elementsViewModel.cardArrowClick(item.id) },
+                onCardArrowClick = { activity.viewModel.cardArrowClick(item.id) },
                 expanded = expandedItem.value.contains(item.id),
-                elementsViewModel = elementsViewModel
+                activity
             )
         }
     }
@@ -63,7 +64,7 @@ fun ExpandableCard(
     element: Element,
     onCardArrowClick: () -> Unit,
     expanded: Boolean,
-    elementsViewModel: ElementsViewModel
+    activity: ElementsActivity
 ) {
     val transitionState = remember {
         MutableTransitionState(expanded).apply {
@@ -143,7 +144,7 @@ fun ExpandableCard(
             }
             ExpandableContent(
                 element = element, expanded = expanded,
-                elementsViewModel = elementsViewModel
+                activity
             )
         }
     }
@@ -173,7 +174,7 @@ fun CardArrow(
 fun ExpandableContent(
     element: Element,
     expanded: Boolean = true,
-    elementsViewModel: ElementsViewModel
+    activity: ElementsActivity
 ) {
     val enterFadeIn = remember {
         fadeIn(
@@ -220,7 +221,7 @@ fun ExpandableContent(
             )
             Row {
                 IconButton(
-                    onClick = { elementsViewModel.deleteElement(element.id) },
+                    onClick = { activity.viewModel.isDeleteElementOpen.value = true},//activity.viewModel.deleteElement(element.id) },
                     modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(5.dp))
@@ -228,7 +229,7 @@ fun ExpandableContent(
                 ) {
                     Icon(
                         Icons.Filled.Delete,
-                        contentDescription = "Delete",
+                        contentDescription = stringResource(R.string.delete),
                         tint = Color.White
                     )
                 }

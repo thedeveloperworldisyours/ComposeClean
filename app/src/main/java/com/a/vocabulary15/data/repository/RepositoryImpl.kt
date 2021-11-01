@@ -23,8 +23,8 @@ class RepositoryImpl constructor(
         GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
 
     override suspend fun deleteGroup(idGroup: Int) {
-        vocabularyDao.deleteGroupById(idGroup)
         vocabularyDao.deleteElementsByGroupId(idGroup)
+        vocabularyDao.deleteGroupById(idGroup)
     }
 
     override suspend fun setElement(element: Element): GroupElementStates<List<Element>> {
@@ -33,6 +33,7 @@ class RepositoryImpl constructor(
     }
 
     override suspend fun getElement() = GroupElementStates.Data(vocabularyDao.getElements().map { it.toModel() })
+
     override suspend fun deleteElement(id: Int): GroupElementStates<List<Element>> {
         vocabularyDao.deleteElement(id)
         return getElement()

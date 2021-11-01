@@ -2,7 +2,7 @@ package com.a.vocabulary15.di
 
 import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.usecases.*
-import com.a.vocabulary15.presentation.ElementsViewModel
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 import com.a.vocabulary15.presentation.MainViewModel
 import dagger.Module
 import dagger.Provides

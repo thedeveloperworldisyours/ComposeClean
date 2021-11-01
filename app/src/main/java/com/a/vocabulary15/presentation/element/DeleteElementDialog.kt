@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.ui.composables
+package com.a.vocabulary15.presentation.element
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,8 +7,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -17,48 +15,41 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
+import com.a.vocabulary15.presentation.ElementsActivity
 
 @Composable
-fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, delete: () -> Unit) {
-
-    if (isDialogOpen.value) {
-        Dialog(onDismissRequest = { isDialogOpen.value = false }) {
+fun DeleteElementDialog(activity: ElementsActivity) {
+    if (activity.viewModel.isDeleteElementOpen.value) {
+        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
-                    .height(450.dp)
                     .padding(5.dp),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
             ) {
                 Column(
-                    modifier = Modifier.padding(5.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(15.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Spacer(modifier = Modifier.padding(5.dp))
-
                     Text(
-                        text = stringResource(id = R.string.delete),
+                        text = stringResource(R.string.delete),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        fontSize = 19.sp
                     )
-                    Spacer(modifier = Modifier.padding(15.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(id = R.string.do_you_want_delete),
+                        text = stringResource(R.string.do_you_want_to_delete),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        fontSize = 19.sp
                     )
-                    Spacer(modifier = Modifier.padding(15.dp))
-
                     Row {
-
-
                         Button(
                             onClick = {
-                                isDialogOpen.value = false
+                                activity.viewModel.isDeleteAllOpen.value = false
                             },
                             modifier = Modifier
                                 .fillMaxWidth(0.5f)
@@ -75,7 +66,7 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, delete: () -> Unit) {
                         }
                         Button(
                             onClick = {
-                                delete()
+                                //activity.viewModel.deleteElement(element.id)
                             },
                             modifier = Modifier
                                 .fillMaxWidth(0.5f)
@@ -95,5 +86,4 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, delete: () -> Unit) {
             }
         }
     }
-
 }

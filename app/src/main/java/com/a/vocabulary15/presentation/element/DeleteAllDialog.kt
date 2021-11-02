@@ -25,7 +25,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
-                    .height(450.dp)
+                    .height(250.dp)
                     .padding(5.dp),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
@@ -58,7 +58,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                                 activity.viewModel.isDeleteAllOpen.value = false
                             },
                             modifier = Modifier
-                                .fillMaxWidth(0.5f)
+                                .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
@@ -76,7 +76,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                                 activity.finish()
                             },
                             modifier = Modifier
-                                .fillMaxWidth(0.5f)
+                                .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),

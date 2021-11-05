@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -46,21 +47,24 @@ fun DeleteElementDialog(activity: ElementsActivity) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
-                    Row {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         Button(
                             onClick = {
                                 activity.viewModel.isDeleteAllOpen.value = false
                             },
                             modifier = Modifier
-                                .fillMaxWidth(0.5f)
+                                .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(Color.Gray)
+                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
                         ) {
                             Text(
                                 text = stringResource(id = R.string.close),
-                                color = Color.White,
+                                color = Color.Gray,
                                 fontSize = 12.sp
                             )
                         }
@@ -69,15 +73,15 @@ fun DeleteElementDialog(activity: ElementsActivity) {
                                 //activity.viewModel.deleteElement(element.id)
                             },
                             modifier = Modifier
-                                .fillMaxWidth(0.5f)
+                                .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(Color.Gray)
+                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
                         ) {
                             Text(
                                 text = stringResource(id = R.string.delete),
-                                color = Color.White,
+                                color = Color.Gray,
                                 fontSize = 12.sp
                             )
                         }

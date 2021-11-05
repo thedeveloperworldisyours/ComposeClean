@@ -5,8 +5,6 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -16,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,26 +33,7 @@ import com.a.vocabulary15.presentation.common.Constants.COLLAPSE_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.EXPAND_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.FADE_IN_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.FADE_OUT_ANIMATION
-
-@ExperimentalAnimationApi
-@Composable
-fun ExpandableElement(
-    modifier: Modifier,
-    elements: List<Element>,
-    activity: ElementsActivity
-) {
-    val expandedItem = activity.viewModel.expandedList.collectAsState()
-    LazyColumn(modifier = modifier) {
-        itemsIndexed(items = elements) { _, item: Element ->
-            ExpandableCard(
-                element = item,
-                onCardArrowClick = { activity.viewModel.cardArrowClick(item.id) },
-                expanded = expandedItem.value.contains(item.id),
-                activity
-            )
-        }
-    }
-}
+import com.a.vocabulary15.presentation.element.DeleteElementDialog
 
 @ExperimentalAnimationApi
 @SuppressLint("UnusedTransitionTargetStateParameter")
@@ -204,6 +182,8 @@ fun ExpandableContent(
         enter = enterExpand + enterFadeIn,
         exit = exitCollapse + exitFadeOut
     ) {
+
+        DeleteElementDialog(activity, element)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -211,7 +191,7 @@ fun ExpandableContent(
                 .padding(8.dp)
         ) {
             Text(
-                text = "Description",
+                text = element.link,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier

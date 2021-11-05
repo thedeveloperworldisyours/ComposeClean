@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">Vocabulary15</string>
-    <string name="do_you_want_delete">Do you want to delete</string>
+    <string name="do_you_want_delete">Do you want to delete?</string>
     <string name="delete">delete</string>
+    <string name="delete_title">Delete</string>
     <string name="close">close</string>
-    <string name="do_you_want_to_delete">Do you want to delete the element?</string>
+    <string name="do_you_want_to_delete">Do you want to delete the element %1$s?</string>
     <string name="edit">Edit</string>
+    <string name="add_group">Add group</string>
+    <string name="add_element">Add element</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_link">Enter link</string>
 </resources>

@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
+import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ElementsActivity
 
 @Composable
-fun DeleteElementDialog(activity: ElementsActivity) {
+fun DeleteElementDialog(activity: ElementsActivity,
+                        element: Element) {
     if (activity.viewModel.isDeleteElementOpen.value) {
         Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
             Surface(
@@ -35,16 +37,15 @@ fun DeleteElementDialog(activity: ElementsActivity) {
                 ) {
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.delete),
+                        text = stringResource(R.string.delete_title),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.do_you_want_to_delete),
+                        text = stringResource(R.string.do_you_want_to_delete, element.value),
                         color = Color.Black,
-                        fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
                     Row(
@@ -53,7 +54,7 @@ fun DeleteElementDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteAllOpen.value = false
+                                activity.viewModel.isDeleteElementOpen.value = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -64,13 +65,12 @@ fun DeleteElementDialog(activity: ElementsActivity) {
                         ) {
                             Text(
                                 text = stringResource(id = R.string.close),
-                                color = Color.Gray,
-                                fontSize = 12.sp
+                                color = Color.Gray
                             )
                         }
                         Button(
                             onClick = {
-                                //activity.viewModel.deleteElement(element.id)
+                                activity.viewModel.deleteElement(element.id)
                             },
                             modifier = Modifier
                                 .width(90.dp)

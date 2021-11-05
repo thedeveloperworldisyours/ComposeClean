@@ -13,23 +13,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AddGroupTextField(): String {
+fun AddGroupTextField(text: String): String {
     val inputValue = remember { mutableStateOf(TextFieldValue()) }
 
     TextField(
         value = inputValue.value,
         onValueChange = { inputValue.value = it},
-        placeholder = { Text(text = "Enter name") },
+        placeholder = { Text(text = text) },
         modifier = Modifier
             .padding(all = 16.dp)
             .fillMaxWidth()
     )
 
     return inputValue.value.text
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview(){
-    AddGroupTextField()
 }

@@ -7,7 +7,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.a.vocabulary15.presentation.element.ElementsViewModel
-import com.a.vocabulary15.presentation.ui.ElementScreen
+import com.a.vocabulary15.presentation.element.ElementScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

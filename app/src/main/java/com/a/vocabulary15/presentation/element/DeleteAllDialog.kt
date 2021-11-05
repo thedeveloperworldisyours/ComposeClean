@@ -40,12 +40,13 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
-                    Spacer(modifier = Modifier.padding(15.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
                     Text(
                         text = stringResource(id = R.string.do_you_want_delete),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
+                    Spacer(modifier = Modifier.padding(5.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End

@@ -48,6 +48,7 @@ fun DeleteElementDialog(activity: ElementsActivity,
                         color = Color.Black,
                         fontSize = 19.sp
                     )
+                    Spacer(modifier = Modifier.padding(5.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End

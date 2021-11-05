@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.ui
+package com.a.vocabulary15.presentation.element
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -19,9 +19,9 @@ import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.ElementsActivity
-import com.a.vocabulary15.presentation.element.DeleteAllDialog
-import com.a.vocabulary15.presentation.element.DeleteElementDialog
-import com.a.vocabulary15.presentation.ui.composables.*
+import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
+import com.a.vocabulary15.presentation.ui.composables.ExpandableCard
+import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @ExperimentalAnimationApi
@@ -109,7 +109,7 @@ fun ElementDataScreen(
                 //Add Element
                 Box(
                     modifier = Modifier
-                        .height(178.dp)
+                        .height(248.dp)
                         .fillMaxWidth()
                         .background(Color.White)
                         .align(
@@ -186,34 +186,6 @@ fun ElementLoadingScreen(
                         Alignment.Center
                     )
             )
-            AnimatedVisibility(visible) {
-                //Add Element
-                Box(
-                    modifier = Modifier
-                        .height(178.dp)
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .align(
-                            Alignment.TopCenter
-                        )
-                )
-                Column(modifier = Modifier.fillMaxHeight()) {
-                    val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
-                    AddGroupButton(onClick = {
-                        activity.viewModel.isDeleteElementOpen.value = true
-                        /*visible = false
-                        elementsViewModel.setElement(
-                            Element(
-                                id = 0,
-                                groupId = idGroup.toInt(),
-                                value = returnName,
-                                image = "",
-                                link = ""
-                            )
-                        )*/
-                    })
-                }
-            }
         }
     }
 }

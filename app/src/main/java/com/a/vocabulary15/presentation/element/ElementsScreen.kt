@@ -52,9 +52,7 @@ fun ElementDataScreen(
     activity: ElementsActivity,
     groupElementStates: GroupElementStates<*>
 ) {
-
     var visible by remember { mutableStateOf(false) }
-
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -93,8 +91,7 @@ fun ElementDataScreen(
         ) {
             val expandedItem = activity.viewModel.expandedList.collectAsState()
             LazyColumn(modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.Gray)) {
+                .fillMaxWidth()) {
                 itemsIndexed(items = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>) { _, item: Element ->
                     ExpandableCard(
                         element = item,
@@ -104,7 +101,6 @@ fun ElementDataScreen(
                     )
                 }
             }
-
             AnimatedVisibility(visible) {
                 //Add Element
                 Box(

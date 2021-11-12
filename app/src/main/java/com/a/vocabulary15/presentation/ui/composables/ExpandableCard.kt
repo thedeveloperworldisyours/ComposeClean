@@ -1,14 +1,14 @@
 package com.a.vocabulary15.presentation.ui.composables
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material.*
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -21,11 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ElementsActivity
@@ -190,6 +192,17 @@ fun ExpandableContent(
                 .background(Color.White)
                 .padding(8.dp)
         ) {
+            Button(onClick = {
+                ContextCompat.startActivity(
+                    activity,
+                    Intent(Intent.ACTION_VIEW, Uri.parse(element.link)),
+                    null
+                )
+            },
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .fillMaxWidth()
+            ){
             Text(
                 text = element.link,
                 textAlign = TextAlign.Center,
@@ -197,8 +210,9 @@ fun ExpandableContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),
-                color = Color.Blue
+                color = colorResource(id = R.color.white)
             )
+            }
             Row {
                 IconButton(
                     onClick = { activity.viewModel.isDeleteElementOpen.value = true},//activity.viewModel.deleteElement(element.id) },

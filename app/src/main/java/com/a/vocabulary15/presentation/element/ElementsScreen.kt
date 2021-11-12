@@ -1,5 +1,7 @@
 package com.a.vocabulary15.presentation.element
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
@@ -15,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
@@ -115,6 +118,20 @@ fun ElementDataScreen(
                 Column(modifier = Modifier.fillMaxHeight()) {
                     val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
                     val returnLink = AddGroupTextField(stringResource(id = R.string.enter_link))
+                    val link = stringResource(id =R.string.word_reference)
+                    Button(onClick= {
+                        startActivity(activity, Intent(Intent.ACTION_VIEW, Uri.parse(link)), null)
+                    },
+                        modifier = Modifier
+                            .padding(all = 16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.get_element),
+                            color = MaterialTheme.colors.secondary,
+                            style = Typography.button
+                        )
+                    }
                     Button(
                         onClick = {
                             visible = false

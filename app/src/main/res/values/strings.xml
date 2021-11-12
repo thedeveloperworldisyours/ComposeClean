@@ -8,6 +8,8 @@
     <string name="edit">Edit</string>
     <string name="add_group">Add group</string>
     <string name="add_element">Add element</string>
+    <string name="get_element">Get element</string>
+    <string name="word_reference" translatable="false">https://www.wordreference.com</string>
     <string name="enter_name">Enter name</string>
     <string name="enter_link">Enter link</string>
 </resources>

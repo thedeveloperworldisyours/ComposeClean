@@ -108,7 +108,7 @@ fun ElementDataScreen(
                 //Add Element
                 Box(
                     modifier = Modifier
-                        .height(248.dp)
+                        .height(398.dp)
                         .fillMaxWidth()
                         .background(Color.White)
                         .align(
@@ -118,6 +118,7 @@ fun ElementDataScreen(
                 Column(modifier = Modifier.fillMaxHeight()) {
                     val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
                     val returnLink = AddGroupTextField(stringResource(id = R.string.enter_link))
+                    val returnImageLink = AddGroupTextField(stringResource(id = R.string.enter_image_link))
                     val link = stringResource(id =R.string.word_reference)
                     Button(onClick= {
                         startActivity(activity, Intent(Intent.ACTION_VIEW, Uri.parse(link)), null)
@@ -140,7 +141,7 @@ fun ElementDataScreen(
                                     id = 0,
                                     groupId = activity.idGroup.toInt(),
                                     value = returnName,
-                                    image = "",
+                                    image = returnImageLink,
                                     link = returnLink
                                 )
                             )

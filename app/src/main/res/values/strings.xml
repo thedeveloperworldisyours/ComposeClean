@@ -11,5 +11,6 @@
     <string name="get_element">Get element</string>
     <string name="word_reference" translatable="false">https://www.wordreference.com</string>
     <string name="enter_name">Enter name</string>
-    <string name="enter_link">Enter link</string>
+    <string name="enter_link">Enter word link</string>
+    <string name="enter_image_link">Enter image link</string>
 </resources>

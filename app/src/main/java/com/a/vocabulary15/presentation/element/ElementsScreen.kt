@@ -108,7 +108,7 @@ fun ElementDataScreen(
                 //Add Element
                 Box(
                     modifier = Modifier
-                        .height(398.dp)
+                        .height(458.dp)
                         .fillMaxWidth()
                         .background(Color.White)
                         .align(
@@ -116,8 +116,22 @@ fun ElementDataScreen(
                         )
                 )
                 Column(modifier = Modifier.fillMaxHeight()) {
+                    val linkGoogle = stringResource(id =R.string.google_reference)
                     val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
                     val returnLink = AddGroupTextField(stringResource(id = R.string.enter_link))
+                    Button(onClick= {
+                        startActivity(activity, Intent(Intent.ACTION_VIEW, Uri.parse(linkGoogle)), null)
+                    },
+                        modifier = Modifier
+                            .padding(all = 16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.search_word_link),
+                            color = MaterialTheme.colors.secondary,
+                            style = Typography.button
+                        )
+                    }
                     val returnImageLink = AddGroupTextField(stringResource(id = R.string.enter_image_link))
                     val link = stringResource(id =R.string.word_reference)
                     Button(onClick= {
@@ -128,7 +142,7 @@ fun ElementDataScreen(
                             .fillMaxWidth()
                     ) {
                         Text(
-                            text = stringResource(id = R.string.get_element),
+                            text = stringResource(id = R.string.search_image),
                             color = MaterialTheme.colors.secondary,
                             style = Typography.button
                         )

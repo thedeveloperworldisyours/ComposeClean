@@ -18,6 +18,7 @@ fun AddGroupTextField(text: String): String {
 
     TextField(
         value = inputValue.value,
+        maxLines = 1,
         onValueChange = { inputValue.value = it},
         placeholder = { Text(text = text) },
         modifier = Modifier

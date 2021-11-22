@@ -23,6 +23,9 @@ interface VocabularyDao {
     @Query("DELETE FROM ElementData WHERE id =:id")
     fun deleteElement(id: Int)
 
+    @Query("UPDATE ElementData SET value = :value, link = :link WHERE id =:id")
+    fun editElement(id: Int, value: String, link: String)
+
     //Group
     @Query("SELECT * FROM GroupData")
     fun getGroup(): List<GroupData>

@@ -18,4 +18,6 @@ interface Repository {
 
     suspend fun deleteElement(id: Int): GroupElementStates<List<Element>>
 
+    suspend fun editElement(element: Element): GroupElementStates<List<Element>>
+
 }

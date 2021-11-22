@@ -3,9 +3,11 @@
     <string name="do_you_want_delete">Do you want to delete?</string>
     <string name="delete">delete</string>
     <string name="delete_title">Delete</string>
+    <string name="add">Add</string>
     <string name="close">close</string>
     <string name="do_you_want_to_delete">Do you want to delete the element %1$s?</string>
     <string name="edit">Edit</string>
+    <string name="accept">Accept</string>
     <string name="add_group">Add group</string>
     <string name="add_element">Add element</string>
     <string name="get_element">Get element</string>

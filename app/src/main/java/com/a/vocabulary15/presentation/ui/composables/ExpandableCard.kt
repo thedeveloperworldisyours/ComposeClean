@@ -9,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -36,6 +35,7 @@ import com.a.vocabulary15.presentation.common.Constants.EXPAND_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.FADE_IN_ANIMATION
 import com.a.vocabulary15.presentation.common.Constants.FADE_OUT_ANIMATION
 import com.a.vocabulary15.presentation.element.DeleteElementDialog
+import com.a.vocabulary15.presentation.element.EditElementDialog
 
 @ExperimentalAnimationApi
 @SuppressLint("UnusedTransitionTargetStateParameter")
@@ -184,7 +184,7 @@ fun ExpandableContent(
         enter = enterExpand + enterFadeIn,
         exit = exitCollapse + exitFadeOut
     ) {
-
+        EditElementDialog(activity, element)
         DeleteElementDialog(activity, element)
         Column(
             modifier = Modifier
@@ -192,30 +192,33 @@ fun ExpandableContent(
                 .background(Color.White)
                 .padding(8.dp)
         ) {
-            Button(onClick = {
-                ContextCompat.startActivity(
-                    activity,
-                    Intent(Intent.ACTION_VIEW, Uri.parse(element.link)),
-                    null
-                )
-            },
+            Button(
+                onClick = {
+                    ContextCompat.startActivity(
+                        activity,
+                        Intent(Intent.ACTION_VIEW, Uri.parse(element.link)),
+                        null
+                    )
+                },
                 modifier = Modifier
                     .padding(all = 16.dp)
                     .fillMaxWidth()
-            ){
-            Text(
-                text = element.link,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                color = colorResource(id = R.color.white)
-            )
+            ) {
+                Text(
+                    text = element.link,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    color = colorResource(id = R.color.white)
+                )
             }
             Row {
                 IconButton(
-                    onClick = { activity.viewModel.isDeleteElementOpen.value = true},//activity.viewModel.deleteElement(element.id) },
+                    onClick = {
+                        activity.viewModel.isDeleteElementOpen.value = true
+                    },//activity.viewModel.deleteElement(element.id) },
                     modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(5.dp))
@@ -230,7 +233,7 @@ fun ExpandableContent(
                 Spacer(modifier = Modifier.size(5.dp))
                 IconButton(
                     onClick = {
-                        //ToDo
+                        activity.viewModel.isEditElementOpen.value = true
                     },
                     modifier = Modifier
                         .size(50.dp)
@@ -239,7 +242,7 @@ fun ExpandableContent(
                 ) {
                     Icon(
                         Icons.Filled.Edit,
-                        contentDescription = "Edit",
+                        contentDescription = stringResource(R.string.edit),
                         tint = Color.White
                     )
                 }

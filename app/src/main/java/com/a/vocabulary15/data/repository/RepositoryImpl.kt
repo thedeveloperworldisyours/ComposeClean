@@ -39,5 +39,10 @@ class RepositoryImpl constructor(
         return getElement()
     }
 
+    override suspend fun editElement(element: Element): GroupElementStates<List<Element>> {
+        vocabularyDao.editElement(element.id, element.value, element.link)
+        return GroupElementStates.Data(vocabularyDao.getElements().map { it.toModel() })
+    }
+
 
 }

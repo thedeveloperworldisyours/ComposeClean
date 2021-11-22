@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.domain.usecases.DeleteElement
-import com.a.vocabulary15.domain.usecases.DeleteGroupWithElements
-import com.a.vocabulary15.domain.usecases.GetElement
-import com.a.vocabulary15.domain.usecases.SetElement
+import com.a.vocabulary15.domain.usecases.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +17,7 @@ class ElementsViewModel constructor(
     var getElement: GetElement,
     var setElement: SetElement,
     var deleteElement: DeleteElement,
+    var editElement: EditElement,
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
     private val mutable = MutableLiveData<GroupElementStates<*>>()
@@ -28,6 +26,8 @@ class ElementsViewModel constructor(
 
     var isDeleteAllOpen = mutableStateOf(false)
     var isDeleteElementOpen = mutableStateOf(false)
+    var isAddElementOpen = mutableStateOf(false)
+    var isEditElementOpen = mutableStateOf(false)
     private val expandedListMutable = MutableStateFlow(listOf<Int>())
     val expandedList: StateFlow<List<Int>> get() = expandedListMutable
 
@@ -49,6 +49,14 @@ class ElementsViewModel constructor(
 
     fun setElement(element: Element) = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates = setElement.invoke(element)) {
+            is GroupElementStates.Loading -> notifyLoadingStates()
+            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
+            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
+        }
+    }
+
+    fun editElement(element: Element) = viewModelScope.launch (Dispatchers.IO){
+        when (val groupElementStates = editElement.invoke(element)) {
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)

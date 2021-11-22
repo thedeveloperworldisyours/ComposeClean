@@ -1,11 +1,9 @@
 package com.a.vocabulary15.presentation.element
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
@@ -13,19 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.ElementsActivity
-import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
 import com.a.vocabulary15.presentation.ui.composables.ExpandableCard
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
-import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @ExperimentalAnimationApi
 @Composable
@@ -55,7 +47,6 @@ fun ElementDataScreen(
     activity: ElementsActivity,
     groupElementStates: GroupElementStates<*>
 ) {
-    var visible by remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -78,7 +69,8 @@ fun ElementDataScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { visible = !visible }
+                onClick = {
+                    activity.viewModel.isAddElementOpen.value = true }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -88,6 +80,7 @@ fun ElementDataScreen(
         }
     ) {
         DeleteAllDialog(activity)
+        AddElementDialog(activity = activity)
         Box(
             Modifier
                 .fillMaxSize()
@@ -104,7 +97,7 @@ fun ElementDataScreen(
                     )
                 }
             }
-            AnimatedVisibility(visible) {
+            /*AnimatedVisibility(visible) {
                 //Add Element
                 Box(
                     modifier = Modifier
@@ -132,7 +125,7 @@ fun ElementDataScreen(
                             style = Typography.button
                         )
                     }
-                    val returnImageLink = AddGroupTextField(stringResource(id = R.string.enter_image_link))
+                    *//*val returnImageLink = AddGroupTextField(stringResource(id = R.string.enter_image_link))
                     val link = stringResource(id =R.string.word_reference)
                     Button(onClick= {
                         startActivity(activity, Intent(Intent.ACTION_VIEW, Uri.parse(link)), null)
@@ -146,7 +139,7 @@ fun ElementDataScreen(
                             color = MaterialTheme.colors.secondary,
                             style = Typography.button
                         )
-                    }
+                    }*//*
                     Button(
                         onClick = {
                             visible = false
@@ -155,7 +148,7 @@ fun ElementDataScreen(
                                     id = 0,
                                     groupId = activity.idGroup.toInt(),
                                     value = returnName,
-                                    image = returnImageLink,
+                                    image = "",//returnImageLink,
                                     link = returnLink
                                 )
                             )
@@ -171,7 +164,7 @@ fun ElementDataScreen(
                         )
                     }
                 }
-            }
+            }*/
         }
     }
 }
@@ -181,9 +174,6 @@ fun ElementDataScreen(
 fun ElementLoadingScreen(
     activity: ElementsActivity
 ) {
-
-    var visible by remember { mutableStateOf(false) }
-
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -195,7 +185,8 @@ fun ElementLoadingScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { visible = !visible }
+                onClick = {
+                }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),

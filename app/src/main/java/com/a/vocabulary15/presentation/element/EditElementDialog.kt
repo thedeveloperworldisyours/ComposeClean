@@ -115,7 +115,7 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                                         groupId = activity.idGroup.toInt(),
                                         value = inputValue.value,
                                         image = "",//returnImageLink,
-                                        link = element.link
+                                        link = inputValueLink.value
                                     )
                                 )
                             },

@@ -14,6 +14,8 @@ interface Repository {
 
     suspend fun setElement(element: Element): GroupElementStates<List<Element>>
 
+    suspend fun getElements(groupId: Int): GroupElementStates<List<Element>>
+
     suspend fun getElement(): GroupElementStates<List<Element>>
 
     suspend fun deleteElement(id: Int): GroupElementStates<List<Element>>

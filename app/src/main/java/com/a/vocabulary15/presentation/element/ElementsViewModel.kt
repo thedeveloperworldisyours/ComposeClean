@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ElementsViewModel constructor(
-    var getElement: GetElement,
+    var getElements: GetElements,
     var setElement: SetElement,
     var deleteElement: DeleteElement,
     var editElement: EditElement,
@@ -31,12 +31,8 @@ class ElementsViewModel constructor(
     private val expandedListMutable = MutableStateFlow(listOf<Int>())
     val expandedList: StateFlow<List<Int>> get() = expandedListMutable
 
-    init {
-        getElement()
-    }
-
-    private fun getElement() = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = getElement.invoke()) {
+    fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
+        when (val groupElementStates = getElements.invoke(idGroup)) {
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)

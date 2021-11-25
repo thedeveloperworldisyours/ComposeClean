@@ -26,6 +26,7 @@ class ElementsActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             idGroup = extras.getInt("idGroup").toString()
+            viewModel.getElements(idGroup.toInt())
         }
         setContent {
             Vocabulary15Theme {

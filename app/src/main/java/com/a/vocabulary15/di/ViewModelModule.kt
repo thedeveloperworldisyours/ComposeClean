@@ -27,16 +27,16 @@ class ViewModelModule {
 
     @Provides
     fun provideElementViewModel(
-        getElement: GetElement,
+        getElements: GetElements,
         setElement: SetElement,
         deleteElement: DeleteElement,
         editElement: EditElement,
         deleteGroupWithElements: DeleteGroupWithElements
     ): ElementsViewModel =
-        ElementsViewModel(getElement, setElement, deleteElement, editElement, deleteGroupWithElements)
+        ElementsViewModel(getElements, setElement, deleteElement, editElement, deleteGroupWithElements)
 
     @Provides
-    fun provideGetElement(repository: Repository): GetElement = GetElementImpl(repository)
+    fun provideGetElement(repository: Repository): GetElements = GetElementsImpl(repository)
 
     @Provides
     fun provideDeleteGroupWithElements(repository: Repository): DeleteGroupWithElements =

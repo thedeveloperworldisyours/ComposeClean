@@ -29,8 +29,10 @@ class RepositoryImpl constructor(
 
     override suspend fun setElement(element: Element): GroupElementStates<List<Element>> {
         GroupElementStates.Data(vocabularyDao.setElement(element.toData()))
-        return GroupElementStates.Data(vocabularyDao.getElements().map { it.toModel() })
+        return GroupElementStates.Data(
+            vocabularyDao.getElementsByCollection(element.groupId ?: 0).map { it.toModel() })
     }
+
     override suspend fun getElements(groupId: Int) =
         GroupElementStates.Data(vocabularyDao.getElementsByCollection(groupId).map { it.toModel() })
 

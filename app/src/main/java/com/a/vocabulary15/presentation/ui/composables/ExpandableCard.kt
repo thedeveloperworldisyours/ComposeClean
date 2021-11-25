@@ -107,6 +107,7 @@ fun ExpandableCard(
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = element.value,
+                    fontWeight = FontWeight.Bold,
                     color = Color.White,
                     textAlign = TextAlign.Start,
                     modifier = Modifier

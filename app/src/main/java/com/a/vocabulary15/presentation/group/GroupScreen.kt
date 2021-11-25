@@ -101,7 +101,7 @@ fun DataGroupScreen(
             GroupListLazyColumn(
                 Modifier
                     .fillMaxWidth()
-                    .background(Color.Gray),
+                    .background(Color.White),
                 (groupElementStates as GroupElementStates.Data).data,
                 itemClickable
             )

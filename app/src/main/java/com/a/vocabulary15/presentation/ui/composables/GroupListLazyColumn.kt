@@ -2,7 +2,6 @@ package com.a.vocabulary15.presentation.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,11 +21,12 @@ import com.a.vocabulary15.presentation.ui.theme.Typography
 fun GroupListLazyColumn(modifier: Modifier, names: List<Group>, clickableItem: (Int) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(bottom = 80.dp),
-        modifier = modifier) {
+        modifier = modifier
+    ) {
         items(items = names) { item: Group ->
             Surface(modifier = Modifier.clickable { clickableItem(item.id) }) {
                 Card(
-                    backgroundColor = Color.LightGray,
+                    backgroundColor = Color.Blue,
                     elevation = 5.dp,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -35,9 +35,10 @@ fun GroupListLazyColumn(modifier: Modifier, names: List<Group>, clickableItem: (
                     Text(
                         text = item.name,
                         fontWeight = FontWeight.Bold,
+                        color = Color.White,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(25.dp, 16.dp, 0.dp, 16.dp),
                         style = Typography.body1
                     )
                 }

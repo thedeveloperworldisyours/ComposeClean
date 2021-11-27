@@ -112,7 +112,7 @@ fun ExpandableCard(
                     textAlign = TextAlign.Start,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp)
+                        .padding(25.dp, 10.dp, 0.dp, 10.dp)
                         .align(Alignment.CenterStart)
                 )
                 CardArrow(
@@ -202,16 +202,15 @@ fun ExpandableContent(
                     )
                 },
                 modifier = Modifier
-                    .padding(all = 16.dp)
                     .fillMaxWidth()
+                    .padding(0.dp, 0.dp, 0.dp, 10.dp)
             ) {
                 Text(
                     text = element.link,
-                    textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(1.dp, 5.dp, 0.dp, 5.dp),
                     color = colorResource(id = R.color.white)
                 )
             }

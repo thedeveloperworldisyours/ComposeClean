@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -28,7 +27,7 @@ import com.a.vocabulary15.presentation.ui.theme.Typography
 fun EditElementDialog(activity: ElementsActivity, element: Element) {
     if (activity.viewModel.isEditElementOpen.value) {
         Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
-            val link = stringResource(id =R.string.word_reference)
+            val link = stringResource(id = R.string.word_reference)
             val inputValue = remember { mutableStateOf(element.value) }
             val inputValueLink = remember { mutableStateOf(element.link) }
             Surface(
@@ -53,31 +52,32 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                     TextField(
                         value = inputValue.value,
                         maxLines = 1,
-                        onValueChange = {inputValue.value = it},
+                        onValueChange = { inputValue.value = it },
                         placeholder = { Text(text = stringResource(id = R.string.enter_name)) },
                         modifier = Modifier
-                            .padding(all = 16.dp)
                             .fillMaxWidth()
+                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
                     )
                     TextField(
                         value = inputValueLink.value,
                         maxLines = 1,
-                        onValueChange = { inputValueLink.value = it},
+                        onValueChange = { inputValueLink.value = it },
                         placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
                         modifier = Modifier
-                            .padding(all = 16.dp)
                             .fillMaxWidth()
+                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
                     )
-                    Button(onClick= {
-                        ContextCompat.startActivity(
-                            activity,
-                            Intent(Intent.ACTION_VIEW, Uri.parse(link)),
-                            null
-                        )
-                    },
+                    Button(
+                        onClick = {
+                            ContextCompat.startActivity(
+                                activity,
+                                Intent(Intent.ACTION_VIEW, Uri.parse(link)),
+                                null
+                            )
+                        },
                         modifier = Modifier
-                            .padding(all = 16.dp)
                             .fillMaxWidth()
+                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
                     ) {
                         Text(
                             text = stringResource(id = R.string.search_word_link),
@@ -122,7 +122,7 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(60.dp)
-                                .padding(10.dp),
+                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
                             shape = RoundedCornerShape(5.dp),
                             colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
                         ) {

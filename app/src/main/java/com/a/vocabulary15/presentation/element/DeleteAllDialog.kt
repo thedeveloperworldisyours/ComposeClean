@@ -76,7 +76,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(60.dp)
-                                .padding(10.dp),
+                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
                             shape = RoundedCornerShape(5.dp),
                             colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
                         ) {

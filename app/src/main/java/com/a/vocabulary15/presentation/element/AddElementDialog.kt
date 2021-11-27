@@ -44,16 +44,17 @@ fun AddElementDialog(activity: ElementsActivity) {
                         fontSize = 19.sp
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
-                    val link = stringResource(id =R.string.word_reference)
+                    val link = stringResource(id = R.string.word_reference)
                     val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
                     val returnLink = AddGroupTextField(stringResource(id = R.string.enter_link))
-                    Button(onClick= {
-                        ContextCompat.startActivity(
-                            activity,
-                            Intent(Intent.ACTION_VIEW, Uri.parse(link)),
-                            null
-                        )
-                    },
+                    Button(
+                        onClick = {
+                            ContextCompat.startActivity(
+                                activity,
+                                Intent(Intent.ACTION_VIEW, Uri.parse(link)),
+                                null
+                            )
+                        },
                         modifier = Modifier
                             .padding(all = 16.dp)
                             .fillMaxWidth()
@@ -101,7 +102,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(60.dp)
-                                .padding(10.dp),
+                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
                             shape = RoundedCornerShape(5.dp),
                             colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
                         ) {

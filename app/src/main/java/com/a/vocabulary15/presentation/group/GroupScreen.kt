@@ -108,25 +108,6 @@ fun DataGroupScreen(
                 itemClickable
             )
             AddGroupDialog(activity)
-            /*AnimatedVisibility (visible) {
-                //Add Group
-                Box(
-                    modifier = Modifier
-                        .height(178.dp)
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .align(
-                            Alignment.TopCenter
-                        )
-                )
-                Column(modifier = Modifier.fillMaxHeight()) {
-                    val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
-                    AddGroupButton(onClick = {
-                        visible = false
-                        mainViewModel.insertAndGetGroup(Group(0, returnName))
-                    })
-                }
-            }*/
         }
     }
 }

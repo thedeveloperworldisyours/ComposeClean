@@ -60,7 +60,7 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                     )
                     TextField(
                         value = inputValueLink.value,
-                        maxLines = 1,
+                        maxLines = 4,
                         onValueChange = { inputValueLink.value = it },
                         placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
                         modifier = Modifier

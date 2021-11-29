@@ -32,8 +32,10 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
 
                     GroupScreen(liveData = mainViewModel.getGroupLiveData, mainViewModel){
+                        idGroup, elementName ->
                         val intent = Intent(this, ElementsActivity::class.java)
-                        intent.putExtra("idGroup", it)
+                        intent.putExtra("idGroup", idGroup)
+                        intent.putExtra("elementName", elementName)
                         responseLauncher.launch(intent)
                     }
                 }

@@ -42,7 +42,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(id = R.string.do_you_want_delete),
+                        text = stringResource(id = R.string.do_you_want_delete, activity.elementName),
                         color = Color.Black,
                         fontSize = 19.sp
                     )

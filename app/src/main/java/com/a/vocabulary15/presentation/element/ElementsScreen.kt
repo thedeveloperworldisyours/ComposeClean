@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
@@ -55,7 +58,10 @@ fun ElementDataScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Groups of Elements")
+                    Text(
+                        fontWeight = FontWeight.Bold,
+                        text = activity.elementName
+                    )
                 }, actions = {
                     IconButton(onClick = {
                         activity.viewModel.isDeleteAllOpen.value = true
@@ -72,7 +78,8 @@ fun ElementDataScreen(
         }, floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    activity.viewModel.isAddElementOpen.value = true }
+                    activity.viewModel.isAddElementOpen.value = true
+                }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -91,7 +98,8 @@ fun ElementDataScreen(
             LazyColumn(
                 contentPadding = PaddingValues(bottom = 80.dp),
                 modifier = Modifier
-                .fillMaxWidth()) {
+                    .fillMaxWidth()
+            ) {
                 itemsIndexed(items = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>) { _, item: Element ->
                     ExpandableCard(
                         element = item,

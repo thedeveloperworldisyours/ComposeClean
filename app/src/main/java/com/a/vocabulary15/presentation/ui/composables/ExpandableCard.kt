@@ -203,7 +203,7 @@ fun ExpandableContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                    .padding(0.dp, 2.dp, 0.dp, 10.dp)
             ) {
                 Text(
                     text = element.link,

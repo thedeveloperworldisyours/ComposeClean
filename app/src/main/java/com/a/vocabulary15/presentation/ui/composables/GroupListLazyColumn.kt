@@ -18,13 +18,13 @@ import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
-fun GroupListLazyColumn(modifier: Modifier, names: List<Group>, clickableItem: (Int) -> Unit) {
+fun GroupListLazyColumn(modifier: Modifier, names: List<Group>, clickableItem: (Int, String) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(bottom = 80.dp),
         modifier = modifier
     ) {
         items(items = names) { item: Group ->
-            Surface(modifier = Modifier.clickable { clickableItem(item.id) }) {
+            Surface(modifier = Modifier.clickable { clickableItem(item.id, item.name) }) {
                 Card(
                     backgroundColor = Color.Blue,
                     elevation = 5.dp,

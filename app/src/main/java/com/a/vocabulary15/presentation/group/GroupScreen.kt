@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import com.a.vocabulary15.R
@@ -28,7 +29,7 @@ import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 fun GroupScreen(
     liveData: LiveData<GroupElementStates<List<Group>>>,
     mainViewModel: MainViewModel,
-    itemClickable: (Int) -> Unit
+    itemClickable: (Int, String) -> Unit
 ) {
     val groupElementStates: GroupElementStates<List<Group>> by liveData.observeAsState(initial = GroupElementStates.Loading)
     when (groupElementStates) {
@@ -70,7 +71,7 @@ fun GroupScreen(
 fun DataGroupScreen(
     groupElementStates: GroupElementStates<List<Group>>,
     mainViewModel: MainViewModel,
-    itemClickable: (Int) -> Unit
+    itemClickable: (Int, String) -> Unit
 ) {
     var visible by remember { mutableStateOf(false) }
     Scaffold(
@@ -79,7 +80,8 @@ fun DataGroupScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Groups of Elements")
+                    Text(
+                        fontWeight = FontWeight.Bold, text = stringResource(id = R.string.app_name))
                 }
             )
         }, floatingActionButton = {

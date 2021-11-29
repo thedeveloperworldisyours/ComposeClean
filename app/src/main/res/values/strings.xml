@@ -5,8 +5,9 @@
     <string name="delete_title">Delete</string>
     <string name="add">Add</string>
     <string name="close">close</string>
-    <string name="do_you_want_to_delete">Do you want to delete the element %1$s?</string>
+    <string name="do_you_want_to_delete">Do you want to delete the %1$s element?</string>
     <string name="edit">Edit</string>
+    <string name="edit_element">Edit Element</string>
     <string name="accept">Accept</string>
     <string name="add_group">Add group</string>
     <string name="add_element">Add element</string>
@@ -14,7 +15,7 @@
     <string name="word_reference" translatable="false">https://www.wordreference.com</string>
     <string name="google_reference" translatable="false">https://www.google.com</string>
     <string name="enter_name">Enter name</string>
-    <string name="search_word_link">Search word Image</string>
+    <string name="search_word_link">Search word link</string>
     <string name="enter_link">Enter word link</string>
     <string name="search_image">Search Image Link</string>
     <string name="enter_image_link">Enter image link</string>

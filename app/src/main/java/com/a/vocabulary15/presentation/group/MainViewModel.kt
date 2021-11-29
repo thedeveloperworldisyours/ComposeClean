@@ -1,5 +1,6 @@
-package com.a.vocabulary15.presentation
+package com.a.vocabulary15.presentation.group
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,8 @@ class MainViewModel constructor(
     private val mutableGroup = MutableLiveData<GroupElementStates<List<Group>>>()
     val getGroupLiveData: LiveData<GroupElementStates<List<Group>>>
         get() = mutableGroup
+
+    var isAddGroupOpen = mutableStateOf(false)
 
     init {
         getGroup()

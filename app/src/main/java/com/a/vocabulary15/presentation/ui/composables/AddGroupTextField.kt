@@ -22,7 +22,7 @@ fun AddGroupTextField(text: String): String {
         onValueChange = { inputValue.value = it},
         placeholder = { Text(text = text) },
         modifier = Modifier
-            .padding(all = 16.dp)
+            .padding(0.dp, 16.dp)
             .fillMaxWidth()
     )
 

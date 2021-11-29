@@ -1,11 +1,14 @@
-package com.a.vocabulary15.presentation.ui
+package com.a.vocabulary15.presentation.group
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,9 +21,7 @@ import androidx.lifecycle.LiveData
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.presentation.MainViewModel
-import com.a.vocabulary15.presentation.ui.composables.AddGroupButton
-import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
+import com.a.vocabulary15.presentation.MainActivity
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
@@ -28,7 +29,7 @@ import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 @Composable
 fun GroupScreen(
     liveData: LiveData<GroupElementStates<List<Group>>>,
-    mainViewModel: MainViewModel,
+    activity: MainActivity,
     itemClickable: (Int, String) -> Unit
 ) {
     val groupElementStates: GroupElementStates<List<Group>> by liveData.observeAsState(initial = GroupElementStates.Loading)
@@ -46,7 +47,7 @@ fun GroupScreen(
             }
         }
         is GroupElementStates.Data -> {
-            DataGroupScreen(groupElementStates, mainViewModel, itemClickable)
+            DataGroupScreen(groupElementStates, activity, itemClickable)
         }
         else -> {
             Box(Modifier.fillMaxSize()) {
@@ -70,10 +71,9 @@ fun GroupScreen(
 @Composable
 fun DataGroupScreen(
     groupElementStates: GroupElementStates<List<Group>>,
-    mainViewModel: MainViewModel,
+    activity: MainActivity,
     itemClickable: (Int, String) -> Unit
 ) {
-    var visible by remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -86,7 +86,7 @@ fun DataGroupScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { visible = !visible }
+                onClick = { activity.viewModel.isAddGroupOpen.value = true }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -107,7 +107,8 @@ fun DataGroupScreen(
                 (groupElementStates as GroupElementStates.Data).data,
                 itemClickable
             )
-            AnimatedVisibility (visible) {
+            AddGroupDialog(activity)
+            /*AnimatedVisibility (visible) {
                 //Add Group
                 Box(
                     modifier = Modifier
@@ -125,7 +126,7 @@ fun DataGroupScreen(
                         mainViewModel.insertAndGetGroup(Group(0, returnName))
                     })
                 }
-            }
+            }*/
         }
     }
 }

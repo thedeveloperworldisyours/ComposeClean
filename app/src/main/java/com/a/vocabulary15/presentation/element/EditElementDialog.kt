@@ -43,7 +43,7 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                 ) {
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.add_element),
+                        text = stringResource(R.string.edit_element),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
@@ -81,8 +81,7 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                     ) {
                         Text(
                             text = stringResource(id = R.string.search_word_link),
-                            color = MaterialTheme.colors.secondary,
-                            style = Typography.button
+                            color = Color.White,
                         )
                     }
                     Spacer(modifier = Modifier.padding(5.dp))
@@ -98,12 +97,11 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                                 .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
+                            shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.close),
-                                color = Color.Gray
+                                color = Color.White
                             )
                         }
                         Button(
@@ -123,13 +121,11 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                                 .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp, 10.dp, 0.dp, 10.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
+                            shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.accept),
-                                color = Color.Gray,
-                                fontSize = 12.sp
+                                color = Color.White
                             )
                         }
                     }

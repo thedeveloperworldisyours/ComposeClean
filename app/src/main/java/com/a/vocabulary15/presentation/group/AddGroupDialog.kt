@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.group
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,12 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
-import com.a.vocabulary15.presentation.ElementsActivity
+import com.a.vocabulary15.domain.model.Group
+import com.a.vocabulary15.presentation.MainActivity
+import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
 
 @Composable
-fun DeleteAllDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isDeleteAllOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteAllOpen.value = false }) {
+fun AddGroupDialog(activity: MainActivity) {
+    if (activity.viewModel.isAddGroupOpen.value) {
+
+        Dialog(onDismissRequest = { activity.viewModel.isAddGroupOpen.value = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -33,19 +36,16 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     modifier = Modifier.padding(15.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
+
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(id = R.string.delete_title),
+                        text = stringResource(R.string.add_group),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
-                    Text(
-                        text = stringResource(id = R.string.do_you_want_delete, activity.elementName),
-                        color = Color.Black,
-                        fontSize = 19.sp
-                    )
+                    val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
                     Spacer(modifier = Modifier.padding(5.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -53,7 +53,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteAllOpen.value = false
+                                activity.viewModel.isAddGroupOpen.value = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -68,8 +68,8 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.deleteGroupWithElements(activity.idGroup.toInt())
-                                activity.finish()
+                                activity.viewModel.isAddGroupOpen.value = false
+                                activity.viewModel.insertAndGetGroup(Group(0, returnName))
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -78,7 +78,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
-                                text = stringResource(id = R.string.delete),
+                                text = stringResource(id = R.string.add),
                                 color = Color.White
                             )
                         }
@@ -87,5 +87,4 @@ fun DeleteAllDialog(activity: ElementsActivity) {
             }
         }
     }
-
 }

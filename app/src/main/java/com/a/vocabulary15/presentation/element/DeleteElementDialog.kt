@@ -63,12 +63,11 @@ fun DeleteElementDialog(
                                 .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
+                            shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.close),
-                                color = Color.Gray
+                                color = Color.White
                             )
                         }
                         Button(
@@ -79,13 +78,11 @@ fun DeleteElementDialog(
                                 .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp, 10.dp, 0.dp, 10.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
+                            shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.delete),
-                                color = Color.Gray,
-                                fontSize = 12.sp
+                                color = Color.White
                             )
                         }
                     }

@@ -56,13 +56,12 @@ fun AddElementDialog(activity: ElementsActivity) {
                             )
                         },
                         modifier = Modifier
-                            .padding(all = 16.dp)
                             .fillMaxWidth()
+                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
                     ) {
                         Text(
                             text = stringResource(id = R.string.search_word_link),
-                            color = MaterialTheme.colors.secondary,
-                            style = Typography.button
+                            color = Color.White,
                         )
                     }
                     Spacer(modifier = Modifier.padding(5.dp))
@@ -78,12 +77,11 @@ fun AddElementDialog(activity: ElementsActivity) {
                                 .width(90.dp)
                                 .height(60.dp)
                                 .padding(10.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
+                            shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.close),
-                                color = Color.Gray
+                                color = Color.White
                             )
                         }
                         Button(
@@ -102,14 +100,12 @@ fun AddElementDialog(activity: ElementsActivity) {
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(60.dp)
-                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = android.R.color.transparent))
+                                .padding(0.dp, 10.dp, 0.dp, 10.dp),
+                            shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.add),
-                                color = Color.Gray,
-                                fontSize = 12.sp
+                                color = Color.White
                             )
                         }
                     }

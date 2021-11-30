@@ -15,6 +15,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
@@ -124,7 +125,7 @@ fun ElementLoadingScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Groups of Elements")
+                    Text(text = stringResource(id = R.string.loading))
                 }
             )
         }, floatingActionButton = {

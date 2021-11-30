@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Word &amp; Link</string>
     <string name="do_you_want_delete">Do you want to delete %1$s group and its elements?</string>
+    <string name="loading">Loading&#8230;</string>
     <string name="delete">delete</string>
     <string name="delete_title">Delete</string>
     <string name="add">Add</string>

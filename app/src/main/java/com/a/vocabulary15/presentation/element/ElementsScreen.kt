@@ -96,18 +96,23 @@ fun ElementDataScreen(
                 .fillMaxSize()
         ) {
             val expandedItem = activity.viewModel.expandedList.collectAsState()
-            LazyColumn(
-                contentPadding = PaddingValues(bottom = 80.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                itemsIndexed(items = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>) { _, item: Element ->
-                    ExpandableCard(
-                        element = item,
-                        onCardArrowClick = { activity.viewModel.cardArrowClick(item.id) },
-                        expanded = expandedItem.value.contains(item.id),
-                        activity
-                    )
+            val listItems = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
+            if (listItems.isEmpty()) {
+                activity.viewModel.isAddElementOpen.value = true
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(bottom = 80.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    itemsIndexed(items = listItems) { _, item: Element ->
+                        ExpandableCard(
+                            element = item,
+                            onCardArrowClick = { activity.viewModel.cardArrowClick(item.id) },
+                            expanded = expandedItem.value.contains(item.id),
+                            activity
+                        )
+                    }
                 }
             }
         }

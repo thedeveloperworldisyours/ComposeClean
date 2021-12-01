@@ -81,7 +81,8 @@ fun DataGroupScreen(
             TopAppBar(
                 title = {
                     Text(
-                        fontWeight = FontWeight.Bold, text = stringResource(id = R.string.app_name))
+                        fontWeight = FontWeight.Bold, text = stringResource(id = R.string.app_name)
+                    )
                 }
             )
         }, floatingActionButton = {
@@ -99,15 +100,19 @@ fun DataGroupScreen(
             Modifier
                 .fillMaxSize()
         ) {
-
-            GroupListLazyColumn(
-                Modifier
-                    .fillMaxWidth()
-                    .background(Color.White),
-                (groupElementStates as GroupElementStates.Data).data,
-                itemClickable
-            )
+            val items = (groupElementStates as GroupElementStates.Data).data
             AddGroupDialog(activity)
+            if (items.isEmpty()) {
+                activity.viewModel.isAddGroupOpen.value = true
+            } else {
+                GroupListLazyColumn(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(Color.White),
+                    items,
+                    itemClickable
+                )
+            }
         }
     }
 }

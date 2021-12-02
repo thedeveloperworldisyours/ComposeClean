@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Word &amp; Link</string>
+    <string name="do_you_want_delete">¿Quieres borrar el grupo %1$s and sus palabras?</string>
+    <string name="loading">Cargando&#8230;</string>
+    <string name="delete">borrar</string>
+    <string name="delete_title">Borrar</string>
+    <string name="add">Añadir</string>
+    <string name="close">cerrar</string>
+    <string name="do_you_want_to_delete">¿Quieres borrar la palabra %1$s?</string>
+    <string name="edit">Editar</string>
+    <string name="edit_element">Editar palabra</string>
+    <string name="accept">Aceptar</string>
+    <string name="add_group">Añadir grupo</string>
+    <string name="add_element">Añadir palabra</string>
+    <string name="get_element">Obtener palabra</string>
+    <string name="enter_name">Nombre</string>
+    <string name="search_word_link">Busca el enlace de la palabra</string>
+    <string name="enter_link">Introduce el enlace de la palabra</string>
+    <string name="search_image">Busca el enlace de la imagen</string>
+    <string name="enter_image_link">Introduce el enlace de la imagen</string>
+</resources>

@@ -27,7 +27,9 @@ class ElementsViewModel constructor(
     var isDeleteAllOpen = mutableStateOf(false)
     var isDeleteElementOpen = mutableStateOf(false)
     var isAddElementOpen = mutableStateOf(false)
+    var isDetailElementOpen = mutableStateOf(false)
     var isEditElementOpen = mutableStateOf(false)
+    var item = Element(1,1,"","", "")
     private val expandedListMutable = MutableStateFlow(listOf<Int>())
     val expandedList: StateFlow<List<Int>> get() = expandedListMutable
 

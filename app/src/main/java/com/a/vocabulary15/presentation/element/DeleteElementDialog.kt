@@ -21,8 +21,7 @@ import com.a.vocabulary15.presentation.ElementsActivity
 
 @Composable
 fun DeleteElementDialog(
-    activity: ElementsActivity,
-    element: Element
+    activity: ElementsActivity
 ) {
     if (activity.viewModel.isDeleteElementOpen.value) {
         Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
@@ -46,7 +45,7 @@ fun DeleteElementDialog(
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.do_you_want_to_delete, element.value),
+                        text = stringResource(R.string.do_you_want_to_delete, activity.viewModel.item.value),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
@@ -72,7 +71,7 @@ fun DeleteElementDialog(
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.deleteElement(element.id)
+                                activity.viewModel.deleteElement(activity.viewModel.item.id)
                             },
                             modifier = Modifier
                                 .width(90.dp)

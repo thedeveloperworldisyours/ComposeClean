@@ -1,6 +1,7 @@
 package com.a.vocabulary15.presentation.element
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -89,13 +91,15 @@ fun ElementDataScreen(
             }
         }
     ) {
+        DetailDialog(activity)
         DeleteAllDialog(activity)
         AddElementDialog(activity = activity)
+        EditElementDialog(activity)
+        DeleteElementDialog(activity)
         Box(
             Modifier
                 .fillMaxSize()
         ) {
-            val expandedItem = activity.viewModel.expandedList.collectAsState()
             val listItems = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
             if (listItems.isEmpty()) {
                 activity.viewModel.isAddElementOpen.value = true
@@ -106,12 +110,17 @@ fun ElementDataScreen(
                         .fillMaxWidth()
                 ) {
                     itemsIndexed(items = listItems) { _, item: Element ->
-                        ExpandableCard(
+                        ElementList(activity, clickableItem = {
+                            activity.viewModel.item = item
+                            activity.viewModel.isDetailElementOpen.value = true })
+                        /*ElementList(
                             element = item,
-                            onCardArrowClick = { activity.viewModel.cardArrowClick(item.id) },
+                            onCardArrowClick = {
+                                thisElement = item
+                                activity.viewModel.isDetailElementOpen.value = true },
                             expanded = expandedItem.value.contains(item.id),
                             activity
-                        )
+                        )*/
                     }
                 }
             }

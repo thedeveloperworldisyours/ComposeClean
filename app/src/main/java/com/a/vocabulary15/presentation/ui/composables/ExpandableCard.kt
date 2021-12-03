@@ -3,9 +3,14 @@ package com.a.vocabulary15.presentation.ui.composables
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -26,7 +31,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ElementsActivity
@@ -70,7 +77,52 @@ fun ExpandableCard(
             durationMillis = EXPAND_ANIMATION,
             easing = FastOutSlowInEasing
         )
-    }, label = "elevation Transition") {
+    }, label = "elevation Transition") {val transitionState = remember {
+        MutableTransitionState(expanded).apply {
+            targetState = !expanded
+        }
+    }
+        val transition = updateTransition(targetState = transitionState, label = "transition")
+        val cardBgColor by transition.animateColor(
+            { tween(durationMillis = EXPAND_ANIMATION) },
+            label = "bgColorTransition"
+        ) {
+            if (expanded) Color.Blue else Color.Blue
+
+        }
+        val cardPaddingHorizontal by transition.animateDp(
+            { tween(durationMillis = EXPAND_ANIMATION) },
+            label = "paddingTransition"
+        ) {
+            20.dp
+        }
+        val cardElevation by transition.animateDp({
+            tween(
+                durationMillis = EXPAND_ANIMATION,
+                easing = FastOutSlowInEasing
+            )
+        }, label = "elevation Transition") {
+            20.dp
+        }
+        val cardRoundedCorners by transition.animateDp(
+            {
+                tween(
+                    durationMillis = EXPAND_ANIMATION,
+                    easing = FastOutSlowInEasing
+                )
+            },
+            label = "corner Transition"
+        ) {
+            15.dp
+        }
+        val arrowRotationDegree by transition.animateFloat({
+            tween(
+                durationMillis = EXPAND_ANIMATION,
+                easing = FastOutSlowInEasing
+            )
+        }, label = "corner Transition") {
+            if (expanded) 0f else 180f
+        }
         20.dp
     }
     val cardRoundedCorners by transition.animateDp(
@@ -104,7 +156,17 @@ fun ExpandableCard(
             )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.fillMaxWidth().clickable {onCardArrowClick}) {
+                /*Image(
+                    painter = rememberImagePainter(element.image),
+                    contentDescription = "hola",
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp)
+                        .padding(2.dp, 0.dp, 2.dp, 0.dp)
+                        .align(Alignment.Center)
+
+                )*/
                 Text(
                     text = element.value,
                     fontWeight = FontWeight.Bold,
@@ -115,13 +177,13 @@ fun ExpandableCard(
                         .padding(25.dp, 10.dp, 0.dp, 10.dp)
                         .align(Alignment.CenterStart)
                 )
-                CardArrow(
+                /*CardArrow(
                     degrees = arrowRotationDegree,
                     onClick = onCardArrowClick,
                     modifier = Modifier
                         .padding(12.dp)
                         .align(Alignment.CenterEnd)
-                )
+                )*/
             }
             ExpandableContent(
                 element = element, expanded = expanded,
@@ -185,15 +247,14 @@ fun ExpandableContent(
         enter = enterExpand + enterFadeIn,
         exit = exitCollapse + exitFadeOut
     ) {
-        EditElementDialog(activity, element)
-        DeleteElementDialog(activity, element)
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
                 .padding(8.dp)
         ) {
-            Button(
+            /*Button(
                 onClick = {
                     ContextCompat.startActivity(
                         activity,
@@ -213,7 +274,29 @@ fun ExpandableContent(
                         .padding(1.dp, 5.dp, 0.dp, 5.dp),
                     color = colorResource(id = R.color.white)
                 )
-            }
+            }*/
+            AndroidView(modifier = Modifier
+                .height(1590.dp)
+                .fillMaxWidth(),
+                factory = {
+                    WebView(it).apply {
+                        webViewClient = object : WebViewClient() {
+                            override fun shouldOverrideUrlLoading(
+                                view: WebView?,
+                                request: WebResourceRequest?
+                            ): Boolean {
+                                return false
+                            }
+                        }
+                    }
+                }, update = {
+                    if (element.link.contains("https://") || element.link.contains("http://")) {
+                        it.loadUrl(element.link)
+                    /*} else {
+                        it.loadUrl("https://${url.toString()}")*/
+                    }
+                }
+            )
             Row {
                 IconButton(
                     onClick = {

@@ -24,12 +24,13 @@ import com.a.vocabulary15.presentation.ElementsActivity
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
-fun EditElementDialog(activity: ElementsActivity, element: Element) {
+fun EditElementDialog(activity: ElementsActivity) {
     if (activity.viewModel.isEditElementOpen.value) {
         Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
             val link = stringResource(id = R.string.word_reference)
-            val inputValue = remember { mutableStateOf(element.value) }
-            val inputValueLink = remember { mutableStateOf(element.link) }
+            val inputValue = remember { mutableStateOf(activity.viewModel.item.value) }
+            val inputValueLink = remember { mutableStateOf(activity.viewModel.item.link) }
+            val inputValueLinkImage = remember { mutableStateOf(activity.viewModel.item.image?: "") }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -60,7 +61,7 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                     )
                     TextField(
                         value = inputValueLink.value,
-                        maxLines = 4,
+                        maxLines = 2,
                         onValueChange = { inputValueLink.value = it },
                         placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
                         modifier = Modifier
@@ -84,6 +85,15 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                             color = Color.White,
                         )
                     }
+                    TextField(
+                        value = inputValueLinkImage.value,
+                        maxLines = 2,
+                        onValueChange = { inputValueLinkImage.value = it },
+                        placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                    )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -109,10 +119,10 @@ fun EditElementDialog(activity: ElementsActivity, element: Element) {
                                 activity.viewModel.isEditElementOpen.value = false
                                 activity.viewModel.editElement(
                                     Element(
-                                        id = element.id,
+                                        id = activity.viewModel.item.id,
                                         groupId = activity.idGroup.toInt(),
                                         value = inputValue.value,
-                                        image = "",//returnImageLink,
+                                        image = inputValueLinkImage.value,
                                         link = inputValueLink.value
                                     )
                                 )

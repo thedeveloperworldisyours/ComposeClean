@@ -64,6 +64,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                             color = Color.White,
                         )
                     }
+                    val returnImageLink = AddGroupTextField(stringResource(id = R.string.enter_image_link))
                     Spacer(modifier = Modifier.padding(5.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -92,7 +93,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                                         id = 0,
                                         groupId = activity.idGroup.toInt(),
                                         value = returnName,
-                                        image = "",//returnImageLink,
+                                        image = returnImageLink,
                                         link = returnLink
                                     )
                                 )

@@ -1,28 +1,23 @@
 package com.a.vocabulary15.presentation.element
 
-import android.app.Activity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.a.vocabulary15.R
+import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ElementsActivity
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
 fun ElementList(
-    activity: ElementsActivity,
+    item: Element,
     clickableItem: () -> Unit
 ) {
     Surface(modifier = Modifier.clickable { clickableItem() }) {
@@ -34,7 +29,7 @@ fun ElementList(
                 .padding(horizontal = 20.dp, vertical = 8.dp)
         ) {
             Text(
-                text = activity.viewModel.item.value,
+                text = item.value,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier

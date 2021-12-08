@@ -1,7 +1,6 @@
 package com.a.vocabulary15.presentation.element
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,12 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +21,6 @@ import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.ElementsActivity
-import com.a.vocabulary15.presentation.ui.composables.ExpandableCard
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
 @ExperimentalAnimationApi
@@ -110,17 +106,10 @@ fun ElementDataScreen(
                         .fillMaxWidth()
                 ) {
                     itemsIndexed(items = listItems) { _, item: Element ->
-                        ElementList(activity, clickableItem = {
+                        ElementList(item, clickableItem = {
                             activity.viewModel.item = item
-                            activity.viewModel.isDetailElementOpen.value = true })
-                        /*ElementList(
-                            element = item,
-                            onCardArrowClick = {
-                                thisElement = item
-                                activity.viewModel.isDetailElementOpen.value = true },
-                            expanded = expandedItem.value.contains(item.id),
-                            activity
-                        )*/
+                            activity.viewModel.isDetailElementOpen.value = true
+                        })
                     }
                 }
             }

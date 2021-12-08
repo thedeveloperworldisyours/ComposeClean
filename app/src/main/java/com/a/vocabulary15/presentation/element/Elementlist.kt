@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.ElementsActivity
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable

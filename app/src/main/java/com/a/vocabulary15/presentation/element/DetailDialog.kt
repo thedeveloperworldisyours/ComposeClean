@@ -57,8 +57,6 @@ fun DetailDialog(activity: ElementsActivity) {
                                 )
                             ) {
                                 it.loadUrl(activity.viewModel.item.link)
-                                /*} else {
-                                    it.loadUrl("https://${url.toString()}")*/
                             }
                         }
                     )
@@ -96,6 +94,29 @@ fun DetailDialog(activity: ElementsActivity) {
                                 tint = Color.White
                             )
                         }
+                        AndroidView(modifier = Modifier.height(50.dp),
+                            factory = {
+                                WebView(it).apply {
+                                    webViewClient = object : WebViewClient() {
+                                        override fun shouldOverrideUrlLoading(
+                                            view: WebView?,
+                                            request: WebResourceRequest?
+                                        ): Boolean {
+                                            return false
+                                        }
+                                    }
+                                }
+                            }, update = {
+                                if (activity.viewModel.item.image != null) {
+                                    if (activity.viewModel.item.image!!.contains("https://") || activity.viewModel.item.image!!.contains(
+                                            "http://"
+                                        )
+                                    ) {
+                                        it.loadUrl(activity.viewModel.item.image!!)
+                                    }
+                                }
+                            }
+                        )
                     }
                 }
             }

@@ -45,6 +45,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     val link = stringResource(id = R.string.word_reference)
+                    val linkImage = stringResource(id = R.string.google_reference)
                     val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
                     val returnLink = AddGroupTextField(stringResource(id = R.string.enter_link))
                     Button(
@@ -70,6 +71,25 @@ fun AddElementDialog(activity: ElementsActivity) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
+                        Button(
+                            onClick = {
+                                ContextCompat.startActivity(
+                                    activity,
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(linkImage)),
+                                    null
+                                )
+                            },
+                            modifier = Modifier
+                                .width(60.dp)
+                                .height(60.dp)
+                                .padding(10.dp),
+                            shape = RoundedCornerShape(5.dp)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.search_image),
+                                color = Color.White
+                            )
+                        }
                         Button(
                             onClick = {
                                 activity.viewModel.isAddElementOpen.value = false

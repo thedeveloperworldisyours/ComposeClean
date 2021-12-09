@@ -5,13 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,16 +23,16 @@ import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ElementsActivity
-import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
 fun EditElementDialog(activity: ElementsActivity) {
     if (activity.viewModel.isEditElementOpen.value) {
         Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
             val link = stringResource(id = R.string.word_reference)
+            val linkImage = stringResource(id = R.string.google_reference)
             val inputValue = remember { mutableStateOf(activity.viewModel.item.value) }
             val inputValueLink = remember { mutableStateOf(activity.viewModel.item.link) }
-            val inputValueLinkImage = remember { mutableStateOf(activity.viewModel.item.image?: "") }
+            val inputValueLinkImage = remember { mutableStateOf(activity.viewModel.item.image) }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -99,6 +101,25 @@ fun EditElementDialog(activity: ElementsActivity) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
+                        Button(
+                            onClick = {
+                                ContextCompat.startActivity(
+                                    activity,
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(linkImage)),
+                                    null
+                                )
+                            },
+                            modifier = Modifier
+                                .width(60.dp)
+                                .height(60.dp)
+                                .padding(10.dp),
+                            shape = RoundedCornerShape(5.dp)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.search_image),
+                                color = Color.White
+                            )
+                        }
                         Button(
                             onClick = {
                                 activity.viewModel.isEditElementOpen.value = false

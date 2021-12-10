@@ -106,7 +106,7 @@ fun ElementDataScreen(
                         .fillMaxWidth()
                 ) {
                     itemsIndexed(items = listItems) { _, item: Element ->
-                        ElementList(item, clickableItem = {
+                        ElementListItem(item, clickableItem = {
                             activity.viewModel.item = item
                             activity.viewModel.isDetailElementOpen.value = true
                         })

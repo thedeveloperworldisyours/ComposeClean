@@ -22,7 +22,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
-import com.a.vocabulary15.presentation.ElementsActivity
 
 @Composable
 fun DetailDialog(activity: ElementsActivity) {

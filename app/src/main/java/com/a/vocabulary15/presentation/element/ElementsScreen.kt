@@ -1,6 +1,5 @@
 package com.a.vocabulary15.presentation.element
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,13 +19,12 @@ import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.presentation.ElementsActivity
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
-@ExperimentalAnimationApi
 @Composable
 fun ElementScreen(
-    activity: ElementsActivity
+    activity: ElementsActivity,
+    onClickTest: () -> Unit
 ) {
     val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
         initial = GroupElementStates.Loading
@@ -38,18 +36,18 @@ fun ElementScreen(
             )
         }
         is GroupElementStates.Data -> {
-            ElementDataScreen(activity, groupElementStates)
+            ElementDataScreen(activity, groupElementStates, onClickTest)
         }
         else -> {
         }
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun ElementDataScreen(
     activity: ElementsActivity,
-    groupElementStates: GroupElementStates<*>
+    groupElementStates: GroupElementStates<*>,
+    onClickTest: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier
@@ -63,13 +61,17 @@ fun ElementDataScreen(
                     )
                 }, actions = {
                     IconButton(onClick = {
+                        onClickTest()
+                    }) {Icon(
+                        painter = painterResource(id = R.drawable.ic_check_knowledge),
+                        contentDescription = stringResource(id = R.string.check_your_knowledge)
+                    )}
+                    IconButton(onClick = {
                         activity.viewModel.isDeleteAllOpen.value = true
-                        /*activity.viewModel.deleteGroupWithElements(activity.idGroup.toInt())
-                        activity.finish()*/
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_forever),
-                            contentDescription = "delete"
+                            contentDescription = stringResource(id = R.string.delete)
                         )
                     }
                 }
@@ -99,6 +101,13 @@ fun ElementDataScreen(
             val listItems = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
             if (listItems.isEmpty()) {
                 activity.viewModel.isAddElementOpen.value = true
+                GroupElementText(
+                    text = stringResource(id = R.string.empty_group, activity.elementName),
+                    modifier = Modifier
+                        .align(
+                            Alignment.Center
+                        )
+                )
             } else {
                 LazyColumn(
                     contentPadding = PaddingValues(bottom = 80.dp),
@@ -117,7 +126,6 @@ fun ElementDataScreen(
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun ElementLoadingScreen(
     activity: ElementsActivity

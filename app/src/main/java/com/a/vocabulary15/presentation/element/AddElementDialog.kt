@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -17,9 +16,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.ElementsActivity
 import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
-import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
 fun AddElementDialog(activity: ElementsActivity) {

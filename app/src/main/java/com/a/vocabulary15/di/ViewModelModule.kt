@@ -4,6 +4,7 @@ import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.usecases.*
 import com.a.vocabulary15.presentation.element.ElementsViewModel
 import com.a.vocabulary15.presentation.group.MainViewModel
+import com.a.vocabulary15.presentation.test.TestViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,10 @@ class ViewModelModule {
 
     @Provides
     fun provideSetGroup(repository: Repository): SetGroup = SetGroupImpl(repository)
+
+    @Provides
+    fun provideTestViewModel(
+        getElements: GetElements): TestViewModel = TestViewModel(getElements)
 
     @Provides
     fun provideElementViewModel(

@@ -22,7 +22,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.ElementsActivity
 
 @Composable
 fun EditElementDialog(activity: ElementsActivity) {

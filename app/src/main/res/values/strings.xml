@@ -20,4 +20,6 @@
     <string name="enter_link">Enter word link</string>
     <string name="search_image">Search Image Link</string>
     <string name="enter_image_link">Enter image link</string>
+    <string name="check_your_knowledge">Check your knowledge</string>
+    <string name="empty_group">Empty %1$s group</string>
 </resources>

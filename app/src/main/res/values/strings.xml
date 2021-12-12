@@ -22,4 +22,6 @@
     <string name="enter_image_link">Enter image link</string>
     <string name="check_your_knowledge">Check your knowledge</string>
     <string name="empty_group">Empty %1$s group</string>
+    <string name="get_right">Get right</string>
+    <string name="get_wrong">Get wrong</string>
 </resources>

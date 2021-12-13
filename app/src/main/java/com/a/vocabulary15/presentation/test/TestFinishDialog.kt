@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.test
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,12 +16,13 @@ import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
 
 @Composable
-fun DeleteAllDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isDeleteAllOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteAllOpen.value = false }) {
+fun TestFinishedDialog(activity: TestActivity) {
+    if (activity.viewModel.isTestFinishOpen.value) {
+
+        Dialog(onDismissRequest = { activity.viewModel.isTestFinishOpen.value = false }) {
             Surface(
                 modifier = Modifier
-                    .width(300.dp)
+                    .fillMaxWidth()
                     .padding(5.dp),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
@@ -32,14 +33,14 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                 ) {
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(id = R.string.delete_title),
+                        text = stringResource(id = R.string.test_finished),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(id = R.string.do_you_want_delete, activity.elementName),
+                        text = stringResource(id = R.string.test_finished_question),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
@@ -50,7 +51,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteAllOpen.value = false
+                                activity.finish()
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -59,14 +60,13 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
-                                text = stringResource(id = R.string.close),
+                                text = stringResource(id = R.string.test_finished_no),
                                 color = Color.White
                             )
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.deleteGroupWithElements(activity.idGroup.toInt())
-                                activity.finish()
+                                activity.viewModel.isTestFinishOpen.value = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -74,7 +74,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
-                                text = stringResource(id = R.string.delete),
+                                text = stringResource(id = R.string.accept),
                                 color = Color.White
                             )
                         }
@@ -83,5 +83,4 @@ fun DeleteAllDialog(activity: ElementsActivity) {
             }
         }
     }
-
 }

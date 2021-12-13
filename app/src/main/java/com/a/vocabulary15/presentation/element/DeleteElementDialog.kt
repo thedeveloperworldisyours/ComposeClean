@@ -45,7 +45,7 @@ fun DeleteElementDialog(
                         color = Color.Black,
                         fontSize = 19.sp
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
+                    Spacer(modifier = Modifier.padding(15.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
@@ -56,8 +56,8 @@ fun DeleteElementDialog(
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(60.dp)
-                                .padding(10.dp),
+                                .height(40.dp)
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
@@ -71,8 +71,7 @@ fun DeleteElementDialog(
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(60.dp)
-                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
+                                .height(40.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(

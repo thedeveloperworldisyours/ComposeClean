@@ -95,7 +95,7 @@ fun EditElementDialog(activity: ElementsActivity) {
                             .fillMaxWidth()
                             .padding(0.dp, 10.dp, 0.dp, 10.dp)
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
+                    Spacer(modifier = Modifier.padding(15.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
@@ -110,8 +110,8 @@ fun EditElementDialog(activity: ElementsActivity) {
                             },
                             modifier = Modifier
                                 .width(60.dp)
-                                .height(60.dp)
-                                .padding(10.dp),
+                                .height(40.dp)
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
@@ -125,8 +125,8 @@ fun EditElementDialog(activity: ElementsActivity) {
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(60.dp)
-                                .padding(10.dp),
+                                .height(40.dp)
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
@@ -149,8 +149,7 @@ fun EditElementDialog(activity: ElementsActivity) {
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(60.dp)
-                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
+                                .height(40.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(

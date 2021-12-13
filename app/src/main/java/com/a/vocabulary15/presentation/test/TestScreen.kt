@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.test
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -29,10 +30,16 @@ fun TestScreen(
             )
         }
         is GroupElementStates.Data -> {
-            if ((groupElementStates as GroupElementStates.Data<*>).data is List<*>) {
-                FirstContentScreen(activity, groupElementStates)
-            } else {
-                NextElementScreen(activity, groupElementStates)
+            when ((groupElementStates as GroupElementStates.Data<*>).data) {
+                is Int -> {
+                    NextElementScreen(activity, groupElementStates) }
+                is Boolean -> {
+                    FirstContentScreen(activity, activity.viewModel.listItems)
+                }
+                else -> {
+                    val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
+                    FirstContentScreen(activity, list)
+                }
             }
         }
         else -> {
@@ -43,9 +50,9 @@ fun TestScreen(
 @Composable
 fun FirstContentScreen(
     activity: TestActivity,
-    groupElementStates: GroupElementStates<*>
+    listItems: List<Element>
 ) {
-    val listItems = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
+
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -72,7 +79,9 @@ fun FirstContentScreen(
                 )
             }
         } else {
+            TestFinishedDialog(activity)
             val randomNumber = (listItems.indices).random()
+            activity.viewModel.setFirstRandomNumber(randomNumber)
             TestLazyColumn(activity, listItems, randomNumber, listItems[randomNumber].image)
         }
     }

@@ -40,14 +40,6 @@ fun TestListItem (item: Element, clickableItem:() -> Unit ){
                         .padding(25.dp, 16.dp, 0.dp, 16.dp),
                     style = Typography.body1
                 )
-                RadioButton(
-                    selected = false,
-                    onClick = clickableItem,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .align(Alignment.CenterEnd)
-                        .background(Color.White)
-                )
             }
         }
     }

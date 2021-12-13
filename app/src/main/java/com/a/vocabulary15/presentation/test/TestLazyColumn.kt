@@ -6,13 +6,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 
 @Composable
@@ -23,19 +26,42 @@ randomNumber: Int,
     newImage: String
 ){
     Column {
+        Card(
+            backgroundColor = Color.Blue,
+            elevation = 5.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 8.dp)
+        ) {
         Box(
             Modifier
                 .height(50.dp)
                 .fillMaxWidth()
-                .background(Color.White)
+                .background(Color.Blue)
         ) {
+            Row(Modifier
+                .align(Alignment.Center)
+                .background(Color.White)) {
             Image(
                 modifier = Modifier
-                    .size(50.dp)
-                    .align(Alignment.Center),
+                    .size(50.dp),
+                painter = painterResource(id = R.drawable.ic_arrow),
+                contentDescription = null
+            )
+            Image(
+                modifier = Modifier
+                    .size(55.dp),
                 painter = rememberImagePainter(newImage),
                 contentDescription = null
             )
+            Image(
+                modifier = Modifier
+                    .size(50.dp),
+                painter = painterResource(id = R.drawable.ic_arrow_right),
+                contentDescription = null
+            )
+            }
+        }
         }
         LazyColumn(
             contentPadding = PaddingValues(bottom = 80.dp),

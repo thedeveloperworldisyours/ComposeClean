@@ -1,7 +1,8 @@
 package com.a.vocabulary15.presentation.test
 
-import android.util.Log
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -30,17 +31,8 @@ fun TestScreen(
             )
         }
         is GroupElementStates.Data -> {
-            when ((groupElementStates as GroupElementStates.Data<*>).data) {
-                is Int -> {
-                    NextElementScreen(activity, groupElementStates) }
-                is Boolean -> {
-                    FirstContentScreen(activity, activity.viewModel.listItems)
-                }
-                else -> {
-                    val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
-                    FirstContentScreen(activity, list)
-                }
-            }
+            val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
+            FirstContentScreen(activity, list)
         }
         else -> {
         }
@@ -52,7 +44,6 @@ fun FirstContentScreen(
     activity: TestActivity,
     listItems: List<Element>
 ) {
-
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -80,31 +71,14 @@ fun FirstContentScreen(
             }
         } else {
             TestFinishedDialog(activity)
-            val randomNumber = (listItems.indices).random()
-            activity.viewModel.setFirstRandomNumber(randomNumber)
-            TestLazyColumn(activity, listItems, randomNumber, listItems[randomNumber].image)
-        }
-    }
-}
 
-@Composable
-fun NextElementScreen(
-    activity: TestActivity,
-    groupElementStates: GroupElementStates<*>
-) {
-    val randomNumber = (groupElementStates as GroupElementStates.Data<*>).data as Int
-    Scaffold(
-        modifier = Modifier
-            .fillMaxWidth(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = activity.elementName)
-                }
+            TestLazyColumn(
+                activity,
+                listItems,
+                activity.viewModel.randomNumber.value,
+                listItems[activity.viewModel.randomNumber.value].image
             )
         }
-    ) {
-        TestLazyColumn(activity, activity.viewModel.listItems, randomNumber, activity.viewModel.listItems[randomNumber].image)
     }
 }
 

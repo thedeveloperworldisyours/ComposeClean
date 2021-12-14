@@ -1,6 +1,5 @@
 package com.a.vocabulary15.presentation.test
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +22,11 @@ class TestViewModel constructor(
     var isTestFinishOpen = mutableStateOf(false)
     lateinit var listItems: List<Element>
     var elementsAsked = mutableListOf<Boolean>()
+    var right = mutableStateOf(0)
+    var rightResult = mutableStateOf(false)
+    var wrong = mutableStateOf(0)
+    var wrongResult = mutableStateOf(false)
+    var randomNumber = mutableStateOf(0)
 
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates = getElements.invoke(idGroup)) {
@@ -35,11 +39,9 @@ class TestViewModel constructor(
     private fun initTest(elementList: List<Element>) {
         listItems = elementList
         elementsAsked = MutableList(listItems.size) { false }
+        randomNumber.value = (listItems.indices).random()
+        setCompletedElement(randomNumber.value)
         notifyGroupState(listItems)
-    }
-
-    fun setFirstRandomNumber(firstRandomNumber: Int) {
-        setCompletedElement(firstRandomNumber)
     }
 
     private fun setCompletedElement(elementCompleted: Int) {
@@ -59,28 +61,22 @@ class TestViewModel constructor(
         if (isTestFinished()) {
             isTestFinishOpen.value = true
             elementsAsked = MutableList(listItems.size) { false }
-            notifyTestFinished()
         } else {
             val possibleElement = (listItems.indices).random()
             if (elementsAsked[possibleElement]) {
                 nextElement()
             } else {
+                right.value =+ 1
+                wrongResult.value = false
+                rightResult.value = true
                 setCompletedElement(possibleElement)
-                notifyRandomNumber(possibleElement)
+                randomNumber.value = possibleElement
             }
         }
     }
 
     private fun notifyLoadingStates() {
         mutable.postValue(GroupElementStates.Loading)
-    }
-
-    private fun notifyTestFinished() {
-        mutable.postValue(GroupElementStates.Data(true))
-    }
-
-    private fun notifyRandomNumber(randomNumber: Int) {
-        mutable.postValue(GroupElementStates.Data(randomNumber))
     }
 
     private fun notifyGroupState(elementList: List<Element>) {

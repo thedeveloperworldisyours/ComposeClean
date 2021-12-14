@@ -22,8 +22,8 @@
     <string name="enter_image_link">Enter image link</string>
     <string name="check_your_knowledge">Check your knowledge</string>
     <string name="empty_group">Empty %1$s group</string>
-    <string name="get_right">Get right</string>
-    <string name="get_wrong">Get wrong</string>
+    <string name="get_right">Get right:%1$s</string>
+    <string name="get_wrong">Get wrong:%1$s</string>
     <string name="test_finished">Test finished</string>
     <string name="test_finished_question">Do you want to start over?</string>
     <string name="test_finished_no">No</string>

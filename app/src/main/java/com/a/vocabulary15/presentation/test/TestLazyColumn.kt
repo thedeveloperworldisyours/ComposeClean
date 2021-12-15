@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
@@ -40,24 +40,20 @@ fun TestLazyColumn(
                     .background(Color.Blue)
             ) {
 
-
                 Row(
                     Modifier
                         .align(Alignment.Center)
                         .background(Color.White)
                 ) {
-                    if (activity.viewModel.rightResult.value) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(90.dp),
-                            text = stringResource(
-                                id = R.string.get_right,
-                                activity.viewModel.right.value
-                            ),
-                            color = Color.Black
-                        )
-                    }
+                    Text(
+                        modifier = Modifier
+                            .background(Color.Blue)
+                            .fillMaxHeight(),
+                        text =
+                        activity.viewModel.right.value.toString(),
+                        fontSize = 43.sp,
+                        color = Color.White
+                    )
                     Image(
                         modifier = Modifier
                             .size(50.dp),
@@ -76,19 +72,16 @@ fun TestLazyColumn(
                         painter = painterResource(id = R.drawable.ic_arrow_right),
                         contentDescription = null
                     )
-                    if (activity.viewModel.wrongResult.value) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(90.dp),
-                            text = stringResource(
-                                id = R.string.get_wrong,
-                                activity.viewModel.wrong
-                            ),
-                            color = Color.Black
-                        )
-                    }
+                    Text(
+                        modifier = Modifier
+                            .background(Color.Blue)
+                            .fillMaxHeight(),
+                        text = activity.viewModel.wrong.value.toString(),
+                        fontSize = 43.sp,
+                        color = Color.White
+                    )
                 }
+
             }
         }
         LazyColumn(

@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.test
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -51,8 +52,15 @@ fun TestLazyColumn(
                             .fillMaxHeight(),
                         text =
                         activity.viewModel.right.value.toString(),
-                        fontSize = 43.sp,
+                        fontSize = 35.sp,
                         color = Color.White
+                    )
+                    Image(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .background(Color.Blue),
+                        painter = painterResource(id = R.drawable.ic_green_24),
+                        contentDescription = null
                     )
                     Image(
                         modifier = Modifier
@@ -72,12 +80,20 @@ fun TestLazyColumn(
                         painter = painterResource(id = R.drawable.ic_arrow_right),
                         contentDescription = null
                     )
+
+                    Image(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .background(Color.Blue),
+                        painter = painterResource(id = R.drawable.ic_red_24),
+                        contentDescription = null
+                    )
                     Text(
                         modifier = Modifier
                             .background(Color.Blue)
                             .fillMaxHeight(),
-                        text = activity.viewModel.wrong.value.toString(),
-                        fontSize = 43.sp,
+                        text = "12",//activity.viewModel.wrong.value,
+                        fontSize = 35.sp,
                         color = Color.White
                     )
                 }
@@ -94,8 +110,9 @@ fun TestLazyColumn(
                     if ((listItems[randomNumber].id == item.id)) {
                         activity.viewModel.nextElement()
                     } else {
-                        activity.viewModel.wrongResult.value = true
+                        Log.e("Javier", "=>${activity.viewModel.wrong.value}")
                         activity.viewModel.wrong.value = +1
+                        Log.e("Javier", "-->${activity.viewModel.wrong.value}")
                     }
                 }
             }

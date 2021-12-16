@@ -21,11 +21,9 @@ class TestViewModel constructor(
 
     var isTestFinishOpen = mutableStateOf(false)
     lateinit var listItems: List<Element>
-    var elementsAsked = mutableListOf<Boolean>()
+    private var elementsAsked = mutableListOf<Boolean>()
     var right = mutableStateOf(0)
-    var rightResult = mutableStateOf(false)
     var wrong = mutableStateOf(0)
-    var wrongResult = mutableStateOf(false)
     var randomNumber = mutableStateOf(0)
 
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -67,8 +65,6 @@ class TestViewModel constructor(
                 nextElement()
             } else {
                 right.value =+ 1
-                wrongResult.value = false
-                rightResult.value = true
                 setCompletedElement(possibleElement)
                 randomNumber.value = possibleElement
             }

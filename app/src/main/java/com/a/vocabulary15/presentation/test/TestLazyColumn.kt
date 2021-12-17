@@ -92,12 +92,11 @@ fun TestLazyColumn(
                         modifier = Modifier
                             .background(Color.Blue)
                             .fillMaxHeight(),
-                        text = "12",//activity.viewModel.wrong.value,
+                        text = activity.viewModel.wrong.value.toString(),
                         fontSize = 35.sp,
                         color = Color.White
                     )
                 }
-
             }
         }
         LazyColumn(
@@ -110,9 +109,7 @@ fun TestLazyColumn(
                     if ((listItems[randomNumber].id == item.id)) {
                         activity.viewModel.nextElement()
                     } else {
-                        Log.e("Javier", "=>${activity.viewModel.wrong.value}")
-                        activity.viewModel.wrong.value = +1
-                        Log.e("Javier", "-->${activity.viewModel.wrong.value}")
+                        activity.viewModel.wrong.value = activity.viewModel.wrong.value + 1
                     }
                 }
             }

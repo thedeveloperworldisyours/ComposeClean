@@ -64,7 +64,7 @@ class TestViewModel constructor(
             if (elementsAsked[possibleElement]) {
                 nextElement()
             } else {
-                right.value =+ 1
+                right.value = right.value + 1
                 setCompletedElement(possibleElement)
                 randomNumber.value = possibleElement
             }

@@ -66,6 +66,8 @@ fun TestFinishedDialog(activity: TestActivity) {
                         }
                         Button(
                             onClick = {
+                                activity.viewModel.right.value = 0
+                                activity.viewModel.wrong.value = 0
                                 activity.viewModel.isTestFinishOpen.value = false
                             },
                             modifier = Modifier

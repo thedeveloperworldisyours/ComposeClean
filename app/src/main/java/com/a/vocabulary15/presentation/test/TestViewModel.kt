@@ -19,6 +19,14 @@ class TestViewModel constructor(
     val genericLiveData: LiveData<GroupElementStates<*>>
         get() = mutable
 
+    private val wrongMutable = MutableLiveData<Int>()
+    val wrongLiveData: LiveData<Int>
+        get() = wrongMutable
+
+    fun onWrongChange(change: Int) {
+        wrongMutable.value = change
+    }
+
     var isTestFinishOpen = mutableStateOf(false)
     lateinit var listItems: List<Element>
     private var elementsAsked = mutableListOf<Boolean>()

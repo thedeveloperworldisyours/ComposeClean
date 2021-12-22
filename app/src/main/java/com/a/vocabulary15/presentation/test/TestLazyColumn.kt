@@ -23,7 +23,8 @@ fun TestLazyColumn(
     activity: TestActivity,
     listItems: List<Element>,
     randomNumber: Int,
-    newImage: String
+    newImage: String,
+    wrong: Int
 ) {
     Column {
         Card(
@@ -112,7 +113,7 @@ fun TestLazyColumn(
                         .constrainAs(textWrong) {
                             start.linkTo(iconLeft.end)
                         },
-                    text = activity.viewModel.wrong.value.toString(),
+                    text = wrong.toString(),
                     fontSize = 35.sp,
                     color = Color.White
                 )
@@ -128,7 +129,7 @@ fun TestLazyColumn(
                     if ((listItems[randomNumber].id == item.id)) {
                         activity.viewModel.nextElement()
                     } else {
-                        activity.viewModel.wrong.value = activity.viewModel.wrong.value + 1
+                        activity.viewModel.onWrongChange(wrong + 1)
                     }
                 }
             }

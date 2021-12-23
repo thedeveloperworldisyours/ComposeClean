@@ -17,9 +17,9 @@ import com.a.vocabulary15.R
 
 @Composable
 fun TestFinishedDialog(activity: TestActivity) {
-    if (activity.viewModel.isTestFinishOpen.value) {
+    if (activity.viewModel.isTestFinishOpen) {
 
-        Dialog(onDismissRequest = { activity.viewModel.isTestFinishOpen.value = false }) {
+        Dialog(onDismissRequest = { activity.viewModel.isTestFinishOpen = false }) {
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,9 +66,9 @@ fun TestFinishedDialog(activity: TestActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.right.value = 0
-                                activity.viewModel.wrong.value = 0
-                                activity.viewModel.isTestFinishOpen.value = false
+                                activity.viewModel.onRightChange(0)
+                                activity.viewModel.onWrongChange(0)
+                                activity.viewModel.onTestFinishOpen(false)
                             },
                             modifier = Modifier
                                 .width(90.dp)

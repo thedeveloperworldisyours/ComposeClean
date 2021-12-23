@@ -2,6 +2,7 @@ package com.a.vocabulary15.presentation.test
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -12,7 +13,6 @@ import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TestActivity: AppCompatActivity() {
@@ -20,8 +20,7 @@ class TestActivity: AppCompatActivity() {
     var idGroup = ""
     var elementName = ""
 
-    @Inject
-    lateinit var viewModel: TestViewModel
+    val viewModel: TestViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +48,6 @@ fun TestScreen(
     val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
         initial = GroupElementStates.Loading
     )
-    val wrong: Int by activity.viewModel.wrongLiveData.observeAsState(0)
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
             TestLoadingScreen(
@@ -58,7 +56,7 @@ fun TestScreen(
         }
         is GroupElementStates.Data -> {
             val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
-            FirstContentScreen(activity, list, wrong)
+            FirstContentScreen(activity, list)
         }
         else -> {
         }

@@ -17,8 +17,7 @@ import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 @Composable
 fun FirstContentScreen(
     activity: TestActivity,
-    listItems: List<Element>,
-    wrong: Int
+    listItems: List<Element>
 ) {
     Scaffold(
         modifier = Modifier
@@ -50,10 +49,7 @@ fun FirstContentScreen(
 
             TestLazyColumn(
                 activity,
-                listItems,
-                activity.viewModel.randomNumber.value,
-                listItems[activity.viewModel.randomNumber.value].image,
-                wrong
+                listItems
             )
         }
     }

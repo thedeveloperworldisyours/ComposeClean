@@ -27,10 +27,6 @@ class ViewModelModule {
     fun provideSetGroup(repository: Repository): SetGroup = SetGroupImpl(repository)
 
     @Provides
-    fun provideTestViewModel(
-        getElements: GetElements): TestViewModel = TestViewModel(getElements)
-
-    @Provides
     fun provideElementViewModel(
         getElements: GetElements,
         setElement: SetElement,

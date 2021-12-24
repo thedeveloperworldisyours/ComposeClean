@@ -11,14 +11,14 @@ import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.domain.model.Element
 
 @Composable
-fun TestLazyColumn(
+fun TestMainColumn(
     activity: TestActivity,
     listItems: List<Element>
 ) {
     Column {
         ScoreCard(
             listItems[activity.viewModel.randomNumber].image,
-            activity.viewModel.right.toString(),
+            activity.viewModel.right,
             activity.viewModel.wrong)
         LazyColumn(
             contentPadding = PaddingValues(bottom = 80.dp),

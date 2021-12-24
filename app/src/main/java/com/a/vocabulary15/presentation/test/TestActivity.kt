@@ -40,25 +40,3 @@ class TestActivity: AppCompatActivity() {
         }
     }
 }
-
-@Composable
-fun TestScreen(
-    activity: TestActivity
-) {
-    val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
-        initial = GroupElementStates.Loading
-    )
-    when (groupElementStates) {
-        is GroupElementStates.Loading -> {
-            TestLoadingScreen(
-                activity
-            )
-        }
-        is GroupElementStates.Data -> {
-            val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
-            FirstContentScreen(activity, list)
-        }
-        else -> {
-        }
-    }
-}

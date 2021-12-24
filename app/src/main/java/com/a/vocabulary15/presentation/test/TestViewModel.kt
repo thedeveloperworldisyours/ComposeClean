@@ -24,15 +24,18 @@ class TestViewModel @Inject constructor(
     val genericLiveData: LiveData<GroupElementStates<*>>
         get() = mutable
 
-    lateinit var listItems: List<Element>
     private var elementsAsked = mutableListOf<Boolean>()
 
     //state
+    private var listItems by mutableStateOf(listOf<Element>())
     var right by mutableStateOf(0)
     var wrong by mutableStateOf(0)
     var randomNumber by mutableStateOf(0)
     var isTestFinishOpen by mutableStateOf(false)
     //events
+    private fun onListItemsChange(newList: List<Element>) {
+        listItems = newList
+    }
     fun onRightChange(newRight: Int) {
         right = newRight
     }
@@ -55,7 +58,7 @@ class TestViewModel @Inject constructor(
     }
 
     private fun initTest(elementList: List<Element>) {
-        listItems = elementList
+        onListItemsChange(elementList)
         elementsAsked = MutableList(listItems.size) { false }
         val number = (listItems.indices).random()
         onRandomNumber(number)

@@ -18,7 +18,7 @@ import com.a.vocabulary15.R
 @Composable
 fun ScoreCard(
     newImage: String,
-    right: String,
+    right: Int,
     wrong: Int
 ) {
     Card(
@@ -42,7 +42,7 @@ fun ScoreCard(
                     .constrainAs(textRight) {
                         end.linkTo(iconRight.start)
                     },
-                text = right,
+                text = right.toString(),
                 fontSize = 35.sp,
                 color = Color.White
             )

@@ -20,6 +20,11 @@ class TestViewModel @Inject constructor(
     var getElements: GetElements
 ) : ViewModel() {
 
+    companion object {
+        const val LIST_MODE = 0
+        const val TEXT_MODE = 1
+    }
+
     private val mutable = MutableLiveData<GroupElementStates<*>>()
     val genericLiveData: LiveData<GroupElementStates<*>>
         get() = mutable
@@ -27,18 +32,22 @@ class TestViewModel @Inject constructor(
     private var elementsAsked = mutableListOf<Boolean>()
 
     //state
-    var listItems by mutableStateOf(listOf<Element>())
+    var text by mutableStateOf("")
+    private var listItems by mutableStateOf(listOf<Element>())
     var right by mutableStateOf(0)
     var wrong by mutableStateOf(0)
     var randomNumber by mutableStateOf(-1)
     var isTestFinishOpen by mutableStateOf(false)
 
     //events
+    fun onTextChanged(newString: String) {
+        text = newString
+    }
     private fun onListItemsChange(newList: List<Element>) {
         listItems = newList
     }
 
-    fun onRightChange(newRight: Int) {
+    private fun onRightChange(newRight: Int) {
         right = newRight
     }
 
@@ -46,11 +55,11 @@ class TestViewModel @Inject constructor(
         wrong = newWrong
     }
 
-    fun onRandomNumber(newNumber: Int) {
+    private fun onRandomNumber(newNumber: Int) {
         randomNumber = newNumber
     }
 
-    fun onTestFinishOpen(open: Boolean) {
+    private fun onTestFinishOpen(open: Boolean) {
         isTestFinishOpen = open
     }
 
@@ -71,12 +80,12 @@ class TestViewModel @Inject constructor(
         notifyGroupState(listItems)
     }
 
-    fun getNumber() {
+    private fun getNumber() {
         onRandomNumber((listItems.indices).random())
         elementsAsked = MutableList(listItems.size) { false }
     }
 
-    fun setCompletedElement(elementCompleted: Int) {
+    private fun setCompletedElement(elementCompleted: Int) {
         elementsAsked[elementCompleted] = true
     }
 
@@ -103,6 +112,14 @@ class TestViewModel @Inject constructor(
                 onRandomNumber(possibleElement)
             }
         }
+    }
+
+    fun startAgain() {
+        getNumber()
+        setCompletedElement(randomNumber)
+        onRightChange(0)
+        onWrongChange(0)
+        onTestFinishOpen(false)
     }
 
     private fun notifyLoadingStates() {

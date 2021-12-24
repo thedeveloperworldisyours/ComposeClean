@@ -1,24 +1,24 @@
 package com.a.vocabulary15.presentation.test
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.domain.model.GroupElementStates
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.*
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TestActivity: AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
 
     var idGroup = ""
     var elementName = ""
+    var mode = 1
 
     val viewModel: TestViewModel by viewModels()
 
@@ -29,12 +29,27 @@ class TestActivity: AppCompatActivity() {
         if (extras != null) {
             idGroup = extras.getString("idGroup") ?: ""
             elementName = extras.getString("elementName") ?: ""
+            mode = extras.getInt("mode")
+            Log.e("Javier", "- - >$mode")
             viewModel.getElements(idGroup.toInt())
         }
         setContent {
             Vocabulary15Theme {
                 Surface(color = MaterialTheme.colors.background) {
-                    TestScreen(activity = this)
+                    val scaffoldState = rememberScaffoldState()
+                    val scope = rememberCoroutineScope()
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        modifier = Modifier.fillMaxWidth(),
+                        topBar = {
+                            TopAppBar(
+                                title = {
+                                    Text(text = elementName)
+                                }
+                            )
+                        }) {
+                        TestScreen(activity = this, scope, scaffoldState)
+                    }
                 }
             }
         }

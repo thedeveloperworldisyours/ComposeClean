@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.test
+package com.a.vocabulary15.presentation.test.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,8 +17,7 @@ import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ui.theme.Typography
 
 @Composable
-fun TestListItem (item: Element, clickableItem:() -> Unit ){
-
+fun TestListItem(item: Element, clickableItem: () -> Unit) {
     Surface(modifier = Modifier.clickable { clickableItem() }) {
         Card(
             backgroundColor = Color.Blue,

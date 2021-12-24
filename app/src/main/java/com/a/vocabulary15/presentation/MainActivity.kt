@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
                         val intent = Intent(this, ElementsActivity::class.java)
                         intent.putExtra("idGroup", idGroup)
                         intent.putExtra("elementName", elementName)
+                        intent.putExtra("mode", 1)
                         responseLauncher.launch(intent)
                     }
                 }

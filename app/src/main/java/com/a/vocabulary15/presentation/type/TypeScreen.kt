@@ -22,7 +22,7 @@ fun TypeScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MyTextField(label = "User Name",
+        /*MyTextField(label = "User Name",
             value = viewModel.text,
             onValueChange = { viewModel.onTextChanged(it) })
         Button(
@@ -30,21 +30,6 @@ fun TypeScreen(
             modifier = Modifier.align(Alignment.End)
         ) {
             Text(text = "Submit")
-        }
+        }*/
     }
-}
-
-@Composable
-fun MyTextField(
-    label: String,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    value: String,
-    onValueChange: (String) -> Unit
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(text = label) },
-        keyboardOptions = keyboardOptions
-    )
 }

@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.test
+package com.a.vocabulary15.presentation.test.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,11 +14,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
+import com.a.vocabulary15.presentation.test.TestActivity
 
 @Composable
 fun TestFinishedDialog(activity: TestActivity) {
     if (activity.viewModel.isTestFinishOpen) {
-
         Dialog(onDismissRequest = { activity.viewModel.isTestFinishOpen = false }) {
             Surface(
                 modifier = Modifier
@@ -66,11 +66,7 @@ fun TestFinishedDialog(activity: TestActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.getNumber()
-                                activity.viewModel.setCompletedElement(activity.viewModel.randomNumber)
-                                activity.viewModel.onRightChange(0)
-                                activity.viewModel.onWrongChange(0)
-                                activity.viewModel.onTestFinishOpen(false)
+                                activity.viewModel.startAgain()
                             },
                             modifier = Modifier
                                 .width(90.dp)

@@ -27,24 +27,29 @@ class TestViewModel @Inject constructor(
     private var elementsAsked = mutableListOf<Boolean>()
 
     //state
-    private var listItems by mutableStateOf(listOf<Element>())
+    var listItems by mutableStateOf(listOf<Element>())
     var right by mutableStateOf(0)
     var wrong by mutableStateOf(0)
-    var randomNumber by mutableStateOf(0)
+    var randomNumber by mutableStateOf(-1)
     var isTestFinishOpen by mutableStateOf(false)
+
     //events
     private fun onListItemsChange(newList: List<Element>) {
         listItems = newList
     }
+
     fun onRightChange(newRight: Int) {
         right = newRight
     }
-    fun onWrongChange(newWrong: Int){
+
+    fun onWrongChange(newWrong: Int) {
         wrong = newWrong
     }
-    private fun onRandomNumber(newNumber: Int) {
+
+    fun onRandomNumber(newNumber: Int) {
         randomNumber = newNumber
     }
+
     fun onTestFinishOpen(open: Boolean) {
         isTestFinishOpen = open
     }
@@ -59,14 +64,19 @@ class TestViewModel @Inject constructor(
 
     private fun initTest(elementList: List<Element>) {
         onListItemsChange(elementList)
-        elementsAsked = MutableList(listItems.size) { false }
-        val number = (listItems.indices).random()
-        onRandomNumber(number)
-        setCompletedElement(number)
+        if (randomNumber == -1) {
+            getNumber()
+        }
+        setCompletedElement(randomNumber)
         notifyGroupState(listItems)
     }
 
-    private fun setCompletedElement(elementCompleted: Int) {
+    fun getNumber() {
+        onRandomNumber((listItems.indices).random())
+        elementsAsked = MutableList(listItems.size) { false }
+    }
+
+    fun setCompletedElement(elementCompleted: Int) {
         elementsAsked[elementCompleted] = true
     }
 

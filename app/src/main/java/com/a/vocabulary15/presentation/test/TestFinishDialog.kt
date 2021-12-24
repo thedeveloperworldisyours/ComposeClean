@@ -66,6 +66,8 @@ fun TestFinishedDialog(activity: TestActivity) {
                         }
                         Button(
                             onClick = {
+                                activity.viewModel.getNumber()
+                                activity.viewModel.setCompletedElement(activity.viewModel.randomNumber)
                                 activity.viewModel.onRightChange(0)
                                 activity.viewModel.onWrongChange(0)
                                 activity.viewModel.onTestFinishOpen(false)

@@ -29,4 +29,8 @@
     <string name="test_finished_no">No</string>
     <string name="test_respond">enter word</string>
     <string name="test_submit">Submit</string>
+    <string name="test_level_list">List</string>
+    <string name="test_level_text">Text</string>
+    <string name="test_level">Mode</string>
+    <string name="test_level_choose">Choose the mode:</string>
 </resources>

@@ -22,6 +22,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
+import java.util.*
 
 @Composable
 fun EditElementDialog(activity: ElementsActivity) {
@@ -141,7 +142,7 @@ fun EditElementDialog(activity: ElementsActivity) {
                                     Element(
                                         id = activity.viewModel.item.id,
                                         groupId = activity.idGroup.toInt(),
-                                        value = inputValue.value,
+                                        value = inputValue.value.lowercase(Locale.getDefault()),
                                         image = inputValueLinkImage.value,
                                         link = inputValueLink.value
                                     )

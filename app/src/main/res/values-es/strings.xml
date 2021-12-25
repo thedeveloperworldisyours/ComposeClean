@@ -25,6 +25,10 @@
     <string name="test_finished">Examen terminado</string>
     <string name="test_finished_question">¿Quieres empezar de nuevo?</string>
     <string name="test_finished_no">No</string>
-    <string name="test_respond">Introducca la palabra</string>
+    <string name="test_respond">Introduzca la palabra</string>
     <string name="test_submit">Contestar</string>
+    <string name="test_level_list">Lista</string>
+    <string name="test_level_text">Texto</string>
+    <string name="test_level">Modo del test</string>
+    <string name="test_level_choose">Seleccione un modo:</string>
 </resources>

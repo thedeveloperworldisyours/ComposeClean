@@ -18,7 +18,6 @@ class TestActivity : AppCompatActivity() {
 
     var idGroup = ""
     var elementName = ""
-    var mode = 1
 
     val viewModel: TestViewModel by viewModels()
 
@@ -29,8 +28,6 @@ class TestActivity : AppCompatActivity() {
         if (extras != null) {
             idGroup = extras.getString("idGroup") ?: ""
             elementName = extras.getString("elementName") ?: ""
-            mode = extras.getInt("mode")
-            Log.e("Javier", "- - >$mode")
             viewModel.getElements(idGroup.toInt())
         }
         setContent {

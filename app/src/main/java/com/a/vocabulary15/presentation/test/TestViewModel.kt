@@ -32,17 +32,24 @@ class TestViewModel @Inject constructor(
     private var elementsAsked = mutableListOf<Boolean>()
 
     //state
+    var mode by mutableStateOf(-1)
     var text by mutableStateOf("")
     private var listItems by mutableStateOf(listOf<Element>())
     var right by mutableStateOf(0)
     var wrong by mutableStateOf(0)
     var randomNumber by mutableStateOf(-1)
     var isTestFinishOpen by mutableStateOf(false)
+    var isChooseLevelOpen by mutableStateOf(false)
 
     //events
+    fun onModeChange(newMode: Int) {
+        mode = newMode
+    }
+
     fun onTextChanged(newString: String) {
         text = newString
     }
+
     private fun onListItemsChange(newList: List<Element>) {
         listItems = newList
     }

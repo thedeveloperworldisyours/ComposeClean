@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
+import java.util.*
 
 @Composable
 fun AddElementDialog(activity: ElementsActivity) {
@@ -109,7 +111,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                                     Element(
                                         id = 0,
                                         groupId = activity.idGroup.toInt(),
-                                        value = returnName,
+                                        value = returnName.lowercase(Locale.getDefault()),
                                         image = returnImageLink,
                                         link = returnLink
                                     )

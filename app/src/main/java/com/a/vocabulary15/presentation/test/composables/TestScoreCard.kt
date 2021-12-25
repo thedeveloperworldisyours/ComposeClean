@@ -16,7 +16,7 @@ import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
 
 @Composable
-fun ScoreCard(
+fun TestScoreCard(
     newImage: String,
     right: Int,
     wrong: Int

@@ -61,6 +61,7 @@ fun FirstContentScreen(
             )
         }
     } else {
+        TestChooseLevelDialog(activity)
         TestFinishedDialog(activity)
         TestMainColumn(
             activity,

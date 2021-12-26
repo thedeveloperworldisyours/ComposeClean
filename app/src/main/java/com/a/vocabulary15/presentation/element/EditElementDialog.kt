@@ -5,15 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -73,10 +71,15 @@ fun EditElementDialog(activity: ElementsActivity) {
                                 )
                             },
                             modifier = Modifier
-                                .size(60.dp)
+                                .size(56.dp)
                                 .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
-                        ) {}
+                        ) {
+                            Icon(
+                                painterResource(id = R.drawable.ic_baseline_add_link_24),
+                                stringResource(id = R.string.enter_link)
+                            )
+                        }
                         TextField(
                             value = inputValueLink.value,
                             maxLines = 1,
@@ -100,10 +103,15 @@ fun EditElementDialog(activity: ElementsActivity) {
                                 )
                             },
                             modifier = Modifier
-                                .size(60.dp)
+                                .size(56.dp)
                                 .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
-                        ) {}
+                        ) {
+                            Icon(
+                                painterResource(id = R.drawable.ic_baseline_add_link_24),
+                                stringResource(id = R.string.enter_image_link)
+                            )
+                        }
                         TextField(
                             value = inputValueLinkImage.value,
                             maxLines = 1,

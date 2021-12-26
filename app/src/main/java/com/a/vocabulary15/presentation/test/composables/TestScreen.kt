@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -18,11 +17,10 @@ import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.test.TestActivity
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
-import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun TestScreen(
-    activity: TestActivity, scope: CoroutineScope, scaffoldState: ScaffoldState
+    activity: TestActivity
 ) {
     val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
         initial = GroupElementStates.Loading
@@ -35,7 +33,7 @@ fun TestScreen(
         }
         is GroupElementStates.Data -> {
             val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
-            FirstContentScreen(activity, list, scope, scaffoldState)
+            FirstContentScreen(activity, list)
         }
         else -> {
         }
@@ -45,7 +43,7 @@ fun TestScreen(
 @Composable
 fun FirstContentScreen(
     activity: TestActivity,
-    listItems: List<Element>, scope: CoroutineScope, scaffoldState: ScaffoldState
+    listItems: List<Element>
 ) {
     if (listItems.isEmpty()) {
         Box(
@@ -65,9 +63,7 @@ fun FirstContentScreen(
         TestFinishedDialog(activity)
         TestMainColumn(
             activity,
-            listItems,
-            scope,
-            scaffoldState
+            listItems
         )
     }
 }

@@ -4,26 +4,34 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.ui.composables.AddGroupTextField
 import java.util.*
 
 @Composable
 fun AddElementDialog(activity: ElementsActivity) {
     if (activity.viewModel.isAddElementOpen.value) {
         Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
+            val link = stringResource(id = R.string.word_reference)
+            val linkImage = stringResource(id = R.string.google_reference)
+            val inputValue = remember { mutableStateOf("") }
+            val inputValueLink = remember { mutableStateOf("") }
+            val inputValueLinkImage = remember { mutableStateOf("") }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -42,33 +50,45 @@ fun AddElementDialog(activity: ElementsActivity) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
-                    val link = stringResource(id = R.string.word_reference)
-                    val linkImage = stringResource(id = R.string.google_reference)
-                    val returnName = AddGroupTextField(stringResource(id = R.string.enter_name))
-                    val returnLink = AddGroupTextField(stringResource(id = R.string.enter_link))
-                    Button(
-                        onClick = {
-                            ContextCompat.startActivity(
-                                activity,
-                                Intent(Intent.ACTION_VIEW, Uri.parse(link)),
-                                null
-                            )
-                        },
+                    TextField(
+                        value = inputValue.value,
+                        maxLines = 1,
+                        onValueChange = { inputValue.value = it },
+                        placeholder = { Text(text = stringResource(id = R.string.enter_name)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 10.dp, 0.dp, 10.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.search_word_link),
-                            color = Color.White,
-                        )
-                    }
-                    val returnImageLink = AddGroupTextField(stringResource(id = R.string.enter_image_link))
-                    Spacer(modifier = Modifier.padding(5.dp))
+                    )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = {
+                                ContextCompat.startActivity(
+                                    activity,
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(link)),
+                                    null
+                                )
+                            },
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
+                            shape = RoundedCornerShape(5.dp)
+                        ) {}
+                        TextField(
+                            value = inputValueLink.value,
+                            maxLines = 1,
+                            onValueChange = { inputValueLink.value = it },
+                            placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         Button(
                             onClick = {
@@ -79,16 +99,24 @@ fun AddElementDialog(activity: ElementsActivity) {
                                 )
                             },
                             modifier = Modifier
-                                .width(60.dp)
-                                .height(60.dp)
-                                .padding(10.dp),
+                                .size(60.dp)
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.search_image),
-                                color = Color.White
-                            )
-                        }
+                        ) {}
+                        TextField(
+                            value = inputValueLinkImage.value,
+                            maxLines = 1,
+                            onValueChange = { inputValueLinkImage.value = it },
+                            placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         Button(
                             onClick = {
                                 activity.viewModel.isAddElementOpen.value = false
@@ -111,9 +139,9 @@ fun AddElementDialog(activity: ElementsActivity) {
                                     Element(
                                         id = 0,
                                         groupId = activity.idGroup.toInt(),
-                                        value = returnName.lowercase(Locale.getDefault()),
-                                        image = returnImageLink,
-                                        link = returnLink
+                                        value = inputValue.value.lowercase(Locale.getDefault()),
+                                        image = inputValueLinkImage.value,
+                                        link = inputValueLink.value
                                     )
                                 )
                             },

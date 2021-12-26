@@ -2,10 +2,11 @@
     <string name="app_name">Word &amp; Link</string>
     <string name="do_you_want_delete">¿Quieres borrar el grupo %1$s and sus palabras?</string>
     <string name="loading">Cargando&#8230;</string>
-    <string name="delete">borrar</string>
+    <string name="nothing_to_show">Nada que enseñar</string>
+    <string name="delete">Borrar</string>
     <string name="delete_title">Borrar</string>
     <string name="add">Añadir</string>
-    <string name="close">cerrar</string>
+    <string name="close">Cerrar</string>
     <string name="do_you_want_to_delete">¿Quieres borrar la palabra %1$s?</string>
     <string name="edit">Editar</string>
     <string name="edit_element">Editar palabra</string>
@@ -15,9 +16,9 @@
     <string name="get_element">Obtener palabra</string>
     <string name="enter_name">Nombre</string>
     <string name="search_word_link">Busca el enlace de la palabra</string>
-    <string name="enter_link">Introduce el enlace de la palabra</string>
+    <string name="enter_link">Enlace de la palabra</string>
     <string name="search_image">Busca el enlace de la imagen</string>
-    <string name="enter_image_link">Introduce el enlace de la imagen</string>
+    <string name="enter_image_link">Enlace de la imagen</string>
     <string name="check_your_knowledge">Comprueba tus conocimientos</string>
     <string name="empty_group">El grupo %1$s esta vacío</string>
     <string name="get_right">Acertastes</string>

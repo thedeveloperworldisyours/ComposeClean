@@ -1,13 +1,11 @@
 package com.a.vocabulary15.presentation.test
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
@@ -33,10 +31,7 @@ class TestActivity : AppCompatActivity() {
         setContent {
             Vocabulary15Theme {
                 Surface(color = MaterialTheme.colors.background) {
-                    val scaffoldState = rememberScaffoldState()
-                    val scope = rememberCoroutineScope()
                     Scaffold(
-                        scaffoldState = scaffoldState,
                         modifier = Modifier.fillMaxWidth(),
                         topBar = {
                             TopAppBar(
@@ -45,7 +40,7 @@ class TestActivity : AppCompatActivity() {
                                 }
                             )
                         }) {
-                        TestScreen(activity = this, scope, scaffoldState)
+                        TestScreen(activity = this)
                     }
                 }
             }

@@ -2,10 +2,11 @@
     <string name="app_name">Word &amp; Link</string>
     <string name="do_you_want_delete">Do you want to delete %1$s group and its words?</string>
     <string name="loading">Loading&#8230;</string>
-    <string name="delete">delete</string>
+    <string name="nothing_to_show">Nothing to show</string>
+    <string name="delete">Delete</string>
     <string name="delete_title">Delete</string>
     <string name="add">Add</string>
-    <string name="close">close</string>
+    <string name="close">Close</string>
     <string name="do_you_want_to_delete">Do you want to delete the %1$s word?</string>
     <string name="edit">Edit</string>
     <string name="edit_element">Edit word</string>
@@ -17,9 +18,9 @@
     <string name="google_reference" translatable="false">https://www.icons8.com</string>
     <string name="enter_name">Enter name</string>
     <string name="search_word_link">Search word link</string>
-    <string name="enter_link">Enter word link</string>
+    <string name="enter_link">Word link</string>
     <string name="search_image">Search Image Link</string>
-    <string name="enter_image_link">Enter image link</string>
+    <string name="enter_image_link">Image link</string>
     <string name="check_your_knowledge">Check your knowledge</string>
     <string name="empty_group">Empty %1$s group</string>
     <string name="get_right">Get right:%1$s</string>

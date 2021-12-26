@@ -51,7 +51,6 @@ fun EditElementDialog(activity: ElementsActivity) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
                     TextField(
                         value = inputValue.value,
                         maxLines = 1,
@@ -61,45 +60,36 @@ fun EditElementDialog(activity: ElementsActivity) {
                             .fillMaxWidth()
                             .padding(0.dp, 10.dp, 0.dp, 10.dp)
                     )
-                    TextField(
-                        value = inputValueLink.value,
-                        maxLines = 2,
-                        onValueChange = { inputValueLink.value = it },
-                        placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
-                    )
-                    Button(
-                        onClick = {
-                            ContextCompat.startActivity(
-                                activity,
-                                Intent(Intent.ACTION_VIEW, Uri.parse(link)),
-                                null
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.search_word_link),
-                            color = Color.White,
-                        )
-                    }
-                    TextField(
-                        value = inputValueLinkImage.value,
-                        maxLines = 2,
-                        onValueChange = { inputValueLinkImage.value = it },
-                        placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(15.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = {
+                                ContextCompat.startActivity(
+                                    activity,
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(link)),
+                                    null
+                                )
+                            },
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
+                            shape = RoundedCornerShape(5.dp)
+                        ) {}
+                        TextField(
+                            value = inputValueLink.value,
+                            maxLines = 1,
+                            onValueChange = { inputValueLink.value = it },
+                            placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         Button(
                             onClick = {
@@ -110,16 +100,25 @@ fun EditElementDialog(activity: ElementsActivity) {
                                 )
                             },
                             modifier = Modifier
-                                .width(60.dp)
-                                .height(40.dp)
+                                .size(60.dp)
                                 .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.search_image),
-                                color = Color.White
-                            )
-                        }
+                        ) {}
+                        TextField(
+                            value = inputValueLinkImage.value,
+                            maxLines = 1,
+                            onValueChange = { inputValueLinkImage.value = it },
+                            placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+
                         Button(
                             onClick = {
                                 activity.viewModel.isEditElementOpen.value = false

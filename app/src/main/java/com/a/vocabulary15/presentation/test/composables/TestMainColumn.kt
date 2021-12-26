@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,13 +14,11 @@ import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.test.TestActivity
 import com.a.vocabulary15.presentation.test.TestViewModel.Companion.LIST_MODE
 import com.a.vocabulary15.presentation.test.TestViewModel.Companion.TEXT_MODE
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun TestMainColumn(
     activity: TestActivity,
-    listItems: List<Element>, scope: CoroutineScope, scaffoldState: ScaffoldState
+    listItems: List<Element>
 ) {
     Column {
         TestScoreCard(
@@ -54,9 +51,6 @@ fun TestMainColumn(
                 Button(
                     onClick = {
                         if (listItems[activity.viewModel.randomNumber].value == activity.viewModel.text) {
-                            scope.launch {
-                                scaffoldState.snackbarHostState.showSnackbar(":)${activity.viewModel.text}")
-                            }
                             activity.viewModel.onTextChanged("")
                             activity.viewModel.nextElement()
                         } else {

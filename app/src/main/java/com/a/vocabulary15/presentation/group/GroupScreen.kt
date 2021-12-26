@@ -36,7 +36,7 @@ fun GroupScreen(
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
             Box(Modifier.fillMaxSize()) {
-                GroupElementText(text = "Loading...", Modifier.align(Alignment.Center))
+                GroupElementText(text = stringResource(id = R.string.loading), Modifier.align(Alignment.Center))
                 FloatingActionButton(
                     onClick = { }, modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -52,7 +52,7 @@ fun GroupScreen(
         else -> {
             Box(Modifier.fillMaxSize()) {
                 GroupElementText(
-                    text = "Nothing to show",
+                    text = stringResource(id = R.string.nothing_to_show),
                     modifier = Modifier.align(Alignment.Center)
                 )
                 FloatingActionButton(

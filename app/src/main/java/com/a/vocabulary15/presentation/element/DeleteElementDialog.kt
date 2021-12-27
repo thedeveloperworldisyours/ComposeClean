@@ -19,8 +19,8 @@ import com.a.vocabulary15.R
 fun DeleteElementDialog(
     activity: ElementsActivity
 ) {
-    if (activity.viewModel.isDeleteElementOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
+    if (activity.viewModel.isDeleteElementOpen) {
+        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -52,7 +52,7 @@ fun DeleteElementDialog(
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteElementOpen.value = false
+                                activity.viewModel.isDeleteElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -67,6 +67,7 @@ fun DeleteElementDialog(
                         }
                         Button(
                             onClick = {
+                                activity.viewModel.isDeleteElementOpen = false
                                 activity.viewModel.deleteElement(activity.viewModel.item.id)
                             },
                             modifier = Modifier

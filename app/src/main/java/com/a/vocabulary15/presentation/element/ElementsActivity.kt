@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.a.vocabulary15.presentation.test.TestActivity
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ElementsActivity : AppCompatActivity() {
@@ -18,8 +18,7 @@ class ElementsActivity : AppCompatActivity() {
     var idGroup = ""
     var elementName = ""
 
-    @Inject
-    lateinit var viewModel: ElementsViewModel
+    val viewModel: ElementsViewModel by viewModels()
 
     private var responseLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

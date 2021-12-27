@@ -87,7 +87,7 @@ fun DataGroupScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { activity.viewModel.isAddGroupOpen.value = true }
+                onClick = { activity.viewModel.isAddGroupOpen = true }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -103,7 +103,7 @@ fun DataGroupScreen(
             val items = (groupElementStates as GroupElementStates.Data).data
             AddGroupDialog(activity)
             if (items.isEmpty()) {
-                activity.viewModel.isAddGroupOpen.value = true
+                activity.viewModel.isAddGroupOpen = true
             } else {
                 GroupListLazyColumn(
                     Modifier

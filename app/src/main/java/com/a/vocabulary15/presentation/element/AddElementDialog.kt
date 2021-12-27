@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,13 +23,13 @@ import java.util.*
 
 @Composable
 fun AddElementDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isAddElementOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
+    if (activity.viewModel.isAddElementOpen) {
+        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen = false }) {
             val link = stringResource(id = R.string.word_reference)
             val linkImage = stringResource(id = R.string.google_reference)
-            val inputValue = remember { mutableStateOf("") }
-            val inputValueLink = remember { mutableStateOf("") }
-            val inputValueLinkImage = remember { mutableStateOf("") }
+            val inputValue = rememberSaveable { mutableStateOf("") }
+            val inputValueLink = rememberSaveable { mutableStateOf("") }
+            val inputValueLinkImage = rememberSaveable { mutableStateOf("") }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -127,7 +127,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isAddElementOpen.value = false
+                                activity.viewModel.isAddElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -142,7 +142,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.isAddElementOpen.value = false
+                                activity.viewModel.isAddElementOpen = false
                                 activity.viewModel.setElement(
                                     Element(
                                         id = 0,

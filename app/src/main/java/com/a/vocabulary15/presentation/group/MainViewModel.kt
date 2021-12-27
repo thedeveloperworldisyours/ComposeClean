@@ -1,6 +1,8 @@
 package com.a.vocabulary15.presentation.group
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +11,13 @@ import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.domain.usecases.GetGroup
 import com.a.vocabulary15.domain.usecases.SetGroup
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val getGroup: GetGroup,
     private val setGroup: SetGroup
 ) : ViewModel() {
@@ -20,7 +25,7 @@ class MainViewModel constructor(
     val getGroupLiveData: LiveData<GroupElementStates<List<Group>>>
         get() = mutableGroup
 
-    var isAddGroupOpen = mutableStateOf(false)
+    var isAddGroupOpen by mutableStateOf(false)
 
     init {
         getGroup()

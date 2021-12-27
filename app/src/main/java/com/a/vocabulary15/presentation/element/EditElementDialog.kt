@@ -8,7 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -24,13 +24,13 @@ import java.util.*
 
 @Composable
 fun EditElementDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isEditElementOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen.value = false }) {
+    if (activity.viewModel.isEditElementOpen) {
+        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen = false }) {
             val link = stringResource(id = R.string.word_reference)
             val linkImage = stringResource(id = R.string.google_reference)
-            val inputValue = remember { mutableStateOf(activity.viewModel.item.value) }
-            val inputValueLink = remember { mutableStateOf(activity.viewModel.item.link) }
-            val inputValueLinkImage = remember { mutableStateOf(activity.viewModel.item.image) }
+            val inputValue = rememberSaveable { mutableStateOf(activity.viewModel.item.value) }
+            val inputValueLink = rememberSaveable { mutableStateOf(activity.viewModel.item.link) }
+            val inputValueLinkImage = rememberSaveable { mutableStateOf(activity.viewModel.item.image) }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -129,7 +129,7 @@ fun EditElementDialog(activity: ElementsActivity) {
 
                         Button(
                             onClick = {
-                                activity.viewModel.isEditElementOpen.value = false
+                                activity.viewModel.isEditElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -144,7 +144,7 @@ fun EditElementDialog(activity: ElementsActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.isEditElementOpen.value = false
+                                activity.viewModel.isEditElementOpen = false
                                 activity.viewModel.editElement(
                                     Element(
                                         id = activity.viewModel.item.id,

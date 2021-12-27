@@ -2,9 +2,6 @@ package com.a.vocabulary15.di
 
 import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.usecases.*
-import com.a.vocabulary15.presentation.element.ElementsViewModel
-import com.a.vocabulary15.presentation.group.MainViewModel
-import com.a.vocabulary15.presentation.test.TestViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,26 +12,10 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class ViewModelModule {
 
     @Provides
-    fun provideMainViewModel(
-        getGroup: GetGroup,
-        setGroup: SetGroup
-    ): MainViewModel = MainViewModel(getGroup, setGroup)
-
-    @Provides
     fun provideGetGroup(repository: Repository): GetGroup = GetGroupImpl(repository)
 
     @Provides
     fun provideSetGroup(repository: Repository): SetGroup = SetGroupImpl(repository)
-
-    @Provides
-    fun provideElementViewModel(
-        getElements: GetElements,
-        setElement: SetElement,
-        deleteElement: DeleteElement,
-        editElement: EditElement,
-        deleteGroupWithElements: DeleteGroupWithElements
-    ): ElementsViewModel =
-        ElementsViewModel(getElements, setElement, deleteElement, editElement, deleteGroupWithElements)
 
     @Provides
     fun provideGetElement(repository: Repository): GetElements = GetElementsImpl(repository)

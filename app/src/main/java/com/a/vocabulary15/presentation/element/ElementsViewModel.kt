@@ -1,6 +1,8 @@
 package com.a.vocabulary15.presentation.element
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,30 +10,31 @@ import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.domain.usecases.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ElementsViewModel constructor(
+@HiltViewModel
+class ElementsViewModel @Inject constructor(
     var getElements: GetElements,
     var setElement: SetElement,
     var deleteElement: DeleteElement,
     var editElement: EditElement,
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
+
     private val mutable = MutableLiveData<GroupElementStates<*>>()
     val genericLiveData: LiveData<GroupElementStates<*>>
         get() = mutable
 
-    var isDeleteAllOpen = mutableStateOf(false)
-    var isDeleteElementOpen = mutableStateOf(false)
-    var isAddElementOpen = mutableStateOf(false)
-    var isDetailElementOpen = mutableStateOf(false)
-    var isEditElementOpen = mutableStateOf(false)
+    //States
+    var isDeleteAllOpen by mutableStateOf(false)
+    var isDeleteElementOpen by mutableStateOf(false)
+    var isAddElementOpen by mutableStateOf(false)
+    var isDetailElementOpen by mutableStateOf(false)
+    var isEditElementOpen by mutableStateOf(false)
     var item = Element(1,1,"","", "")
-    private val expandedListMutable = MutableStateFlow(listOf<Int>())
-    val expandedList: StateFlow<List<Int>> get() = expandedListMutable
 
     fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
         when (val groupElementStates = getElements.invoke(idGroup)) {
@@ -66,16 +69,6 @@ class ElementsViewModel constructor(
             is GroupElementStates.Loading -> notifyLoadingStates()
             is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
-        }
-    }
-
-    fun cardArrowClick(cardId: Int) {
-        expandedListMutable.value = expandedListMutable.value.toMutableList().also { list ->
-            if (list.contains(cardId)) {
-                list.remove(cardId)
-            } else {
-                list.add(cardId)
-            }
         }
     }
 

@@ -17,8 +17,8 @@ import com.a.vocabulary15.R
 
 @Composable
 fun DeleteAllDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isDeleteAllOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteAllOpen.value = false }) {
+    if (activity.viewModel.isDeleteAllOpen) {
+        Dialog(onDismissRequest = { activity.viewModel.isDeleteAllOpen = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -50,7 +50,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteAllOpen.value = false
+                                activity.viewModel.isDeleteAllOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)

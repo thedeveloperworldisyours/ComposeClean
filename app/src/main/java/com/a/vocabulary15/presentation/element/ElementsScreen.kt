@@ -10,6 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -49,6 +51,9 @@ fun ElementDataScreen(
     groupElementStates: GroupElementStates<*>,
     onClickTest: () -> Unit
 ) {
+    val inputValue = rememberSaveable { mutableStateOf("") }
+    val inputValueLink = rememberSaveable { mutableStateOf("") }
+    val inputValueLinkImage = rememberSaveable { mutableStateOf("") }
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -67,7 +72,7 @@ fun ElementDataScreen(
                         contentDescription = stringResource(id = R.string.check_your_knowledge)
                     )}
                     IconButton(onClick = {
-                        activity.viewModel.isDeleteAllOpen.value = true
+                        activity.viewModel.isDeleteAllOpen = true
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_forever),
@@ -79,7 +84,7 @@ fun ElementDataScreen(
         }, floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    activity.viewModel.isAddElementOpen.value = true
+                    activity.viewModel.isAddElementOpen = true
                 }
             ) {
                 Icon(
@@ -100,7 +105,7 @@ fun ElementDataScreen(
         ) {
             val listItems = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
             if (listItems.isEmpty()) {
-                activity.viewModel.isAddElementOpen.value = true
+                activity.viewModel.isAddElementOpen = true
                 GroupElementText(
                     text = stringResource(id = R.string.empty_group, activity.elementName),
                     modifier = Modifier
@@ -117,7 +122,7 @@ fun ElementDataScreen(
                     itemsIndexed(items = listItems) { _, item: Element ->
                         ElementListItem(item, clickableItem = {
                             activity.viewModel.item = item
-                            activity.viewModel.isDetailElementOpen.value = true
+                            activity.viewModel.isDetailElementOpen = true
                         })
                     }
                 }

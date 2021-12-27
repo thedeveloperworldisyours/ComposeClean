@@ -25,8 +25,8 @@ import com.a.vocabulary15.R
 
 @Composable
 fun DetailDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isDetailElementOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.isDetailElementOpen.value = false }) {
+    if (activity.viewModel.isDetailElementOpen) {
+        Dialog(onDismissRequest = { activity.viewModel.isDetailElementOpen = false }) {
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,8 +65,8 @@ fun DetailDialog(activity: ElementsActivity) {
                     ) {
                         IconButton(
                             onClick = {
-                                activity.viewModel.isDetailElementOpen.value = false
-                                activity.viewModel.isDeleteElementOpen.value = true
+                                activity.viewModel.isDetailElementOpen = false
+                                activity.viewModel.isDeleteElementOpen = true
                             },
                             modifier = Modifier
                                 .size(50.dp)
@@ -82,8 +82,8 @@ fun DetailDialog(activity: ElementsActivity) {
                         Spacer(modifier = Modifier.size(5.dp))
                         IconButton(
                             onClick = {
-                                activity.viewModel.isDetailElementOpen.value = false
-                                activity.viewModel.isEditElementOpen.value = true
+                                activity.viewModel.isDetailElementOpen = false
+                                activity.viewModel.isEditElementOpen = true
                             },
                             modifier = Modifier
                                 .size(50.dp)
@@ -112,7 +112,7 @@ fun DetailDialog(activity: ElementsActivity) {
                         )
                         Button(
                             onClick = {
-                                activity.viewModel.isDetailElementOpen.value = false
+                                activity.viewModel.isDetailElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)

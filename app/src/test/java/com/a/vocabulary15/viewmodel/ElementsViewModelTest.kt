@@ -67,4 +67,31 @@ class ElementsViewModelTest {
             verify(setElement).invoke(element)
         }
     }
+
+    @Test
+    fun `delete element successful` (){
+        runBlocking {
+            elementsViewModel.deleteElement(element.id)
+
+            verify(deleteElement).invoke(element.id)
+        }
+    }
+
+    @Test
+    fun `delete element and group`() {
+        runBlocking {
+            elementsViewModel.deleteGroupWithElements(element.groupId!!)
+
+            verify(deleteAll).invoke(element.groupId!!)
+        }
+    }
+
+    @Test
+    fun `edit element` () {
+        runBlocking {
+            elementsViewModel.editElement(element)
+
+            verify(editElement).invoke(element)
+        }
+    }
 }

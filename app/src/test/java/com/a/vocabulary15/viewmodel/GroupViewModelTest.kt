@@ -32,7 +32,6 @@ class GroupViewModelTest {
     @Test
     fun `get group successfully`(){
         runBlocking {
-            groupViewModel.getGroup()
 
             verify(getGroup).invoke()
         }

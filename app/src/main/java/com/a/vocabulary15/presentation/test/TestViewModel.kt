@@ -1,8 +1,7 @@
 package com.a.vocabulary15.presentation.test
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,42 +31,58 @@ class TestViewModel @Inject constructor(
     private var elementsAsked = mutableListOf<Boolean>()
 
     //state
-    var mode by mutableStateOf(-1)
-    var text by mutableStateOf("")
-    private var listItems by mutableStateOf(listOf<Element>())
-    var right by mutableStateOf(0)
-    var wrong by mutableStateOf(0)
-    var randomNumber by mutableStateOf(-1)
-    var isTestFinishOpen by mutableStateOf(false)
-    var isChooseLevelOpen by mutableStateOf(false)
+    private val _mode = mutableStateOf(-1)
+    val mode: State<Int> = _mode
+
+    private val _text = mutableStateOf("")
+    val text: State<String> = _text
+
+    private var _listItems = mutableStateOf(listOf<Element>())
+    private val listItems: State<List<Element>> = _listItems
+
+    private val _right = mutableStateOf(0)
+    val right: State<Int> = _right
+
+    private val _wrong = mutableStateOf(0)
+    val wrong: State<Int> = _wrong
+
+    private val _randomNumber = mutableStateOf(-1)
+    val randomNumber:State<Int>  = _randomNumber
+
+    private val _isTestFinishOpen = mutableStateOf(false)
+    val isTestFinishOpen: State<Boolean> = _isTestFinishOpen
+
+    private val _isChooseLevelOpen = mutableStateOf(false)
+    val isChooseLevelOpen: State<Boolean> = _isChooseLevelOpen
 
     //events
-    fun onModeChange(newMode: Int) {
-        mode = newMode
-    }
-
-    fun onTextChanged(newString: String) {
-        text = newString
-    }
-
-    private fun onListItemsChange(newList: List<Element>) {
-        listItems = newList
-    }
-
-    private fun onRightChange(newRight: Int) {
-        right = newRight
-    }
-
-    fun onWrongChange(newWrong: Int) {
-        wrong = newWrong
-    }
-
-    private fun onRandomNumber(newNumber: Int) {
-        randomNumber = newNumber
-    }
-
-    private fun onTestFinishOpen(open: Boolean) {
-        isTestFinishOpen = open
+    fun onEvent(event: TestEvent) {
+        when(event) {
+            is TestEvent.ChangeMode -> {
+                _mode.value = event.mode
+            }
+            is TestEvent.ChangeText -> {
+                _text.value = event.text
+            }
+            is TestEvent.UpdateListItems -> {
+                _listItems.value = event.newList
+            }
+            is TestEvent.ChangeRight -> {
+                _right.value = event.newValue
+            }
+            is TestEvent.ChangeWrong -> {
+                _wrong.value = event.newWrongValue
+            }
+            is TestEvent.ChangeRandomNumber -> {
+                _randomNumber.value = event.newNumber
+            }
+            is TestEvent.TestFinish -> {
+                _isTestFinishOpen.value = event.newBoolean
+            }
+            is TestEvent.OpenChooseMode -> {
+                _isChooseLevelOpen.value = event.open
+            }
+        }
     }
 
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -79,17 +94,17 @@ class TestViewModel @Inject constructor(
     }
 
     private fun initTest(elementList: List<Element>) {
-        onListItemsChange(elementList)
-        if (randomNumber == -1) {
+        onEvent(TestEvent.UpdateListItems(elementList))
+        if (randomNumber.value == -1) {
             getNumber()
         }
-        setCompletedElement(randomNumber)
-        notifyGroupState(listItems)
+        setCompletedElement(randomNumber.value)
+        notifyGroupState(listItems.value)
     }
 
     private fun getNumber() {
-        onRandomNumber((listItems.indices).random())
-        elementsAsked = MutableList(listItems.size) { false }
+        onEvent(TestEvent.ChangeRandomNumber(listItems.value.indices.random()))
+        elementsAsked = MutableList(listItems.value.size) { false }
     }
 
     private fun setCompletedElement(elementCompleted: Int) {
@@ -107,26 +122,26 @@ class TestViewModel @Inject constructor(
 
     fun nextElement() {
         if (isTestFinished()) {
-            onTestFinishOpen(true)
-            elementsAsked = MutableList(listItems.size) { false }
+            onEvent(TestEvent.TestFinish(true))
+            elementsAsked = MutableList(listItems.value.size) { false }
         } else {
-            val possibleElement = (listItems.indices).random()
+            val possibleElement = (listItems.value.indices).random()
             if (elementsAsked[possibleElement]) {
                 nextElement()
             } else {
-                onRightChange(right + 1)
+                onEvent(TestEvent.ChangeRight(right.value + 1))
                 setCompletedElement(possibleElement)
-                onRandomNumber(possibleElement)
+                onEvent(TestEvent.ChangeRandomNumber(possibleElement))
             }
         }
     }
 
     fun startAgain() {
         getNumber()
-        setCompletedElement(randomNumber)
-        onRightChange(0)
-        onWrongChange(0)
-        onTestFinishOpen(false)
+        setCompletedElement(randomNumber.value)
+        onEvent(TestEvent.ChangeRight(0))
+        onEvent(TestEvent.ChangeRight(0))
+        onEvent(TestEvent.TestFinish(false))
     }
 
     private fun notifyLoadingStates() {

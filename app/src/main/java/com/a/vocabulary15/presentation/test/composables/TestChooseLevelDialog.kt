@@ -15,12 +15,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.test.TestActivity
+import com.a.vocabulary15.presentation.test.TestEvent
 import com.a.vocabulary15.presentation.test.TestViewModel
 
 @Composable
 fun TestChooseLevelDialog(activity: TestActivity) {
-    if (activity.viewModel.isChooseLevelOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isChooseLevelOpen = false }) {
+    if (activity.viewModel.isChooseLevelOpen.value) {
+        Dialog(onDismissRequest = { activity.viewModel.onEvent(TestEvent.OpenChooseMode(false)) }) {
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -52,8 +53,8 @@ fun TestChooseLevelDialog(activity: TestActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.onModeChange(TestViewModel.LIST_MODE)
-                                activity.viewModel.isChooseLevelOpen = false
+                                activity.viewModel.onEvent(TestEvent.ChangeMode(TestViewModel.LIST_MODE))
+                                activity.viewModel.onEvent(TestEvent.OpenChooseMode(false))
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -68,8 +69,8 @@ fun TestChooseLevelDialog(activity: TestActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.onModeChange(TestViewModel.TEXT_MODE)
-                                activity.viewModel.isChooseLevelOpen = false
+                                activity.viewModel.onEvent(TestEvent.ChangeMode(TestViewModel.TEXT_MODE))
+                                activity.viewModel.onEvent(TestEvent.OpenChooseMode(false))
                             },
                             modifier = Modifier
                                 .width(90.dp)

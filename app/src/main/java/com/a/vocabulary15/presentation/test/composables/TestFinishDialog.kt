@@ -15,11 +15,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.test.TestActivity
+import com.a.vocabulary15.presentation.test.TestEvent
 
 @Composable
 fun TestFinishedDialog(activity: TestActivity) {
-    if (activity.viewModel.isTestFinishOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isTestFinishOpen = false }) {
+    if (activity.viewModel.isTestFinishOpen.value) {
+        Dialog(onDismissRequest = { activity.viewModel.onEvent(TestEvent.TestFinish(false)) }) {
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()

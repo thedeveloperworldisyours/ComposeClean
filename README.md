@@ -3,11 +3,11 @@ In this project you can learn:
 
 | Points | Links |
 | ------ | ------ |
-| Compose | [jet pack compose][PlDb] |
-| Clean Architecture | [clean architecture][PlGh] |
-| Hilt | [hilt][hilt] |
-| Room | [room][room] |
-| MVVM | [mvvm][mvvm] |
+| Compose | [Jet pack compose][PlDb] |
+| Clean Architecture | [Clean architecture][PlGh] |
+| Hilt | [Hilt][hilt] |
+| Room | [Room][room] |
+| MVVM | [MVVM][mvvm] |
 
 
 ## License

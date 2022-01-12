@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface VocabularyDao {
@@ -29,6 +30,9 @@ interface VocabularyDao {
     //Group
     @Query("SELECT * FROM GroupData")
     fun getGroup(): List<GroupData>
+
+    @Query("SELECT * FROM GroupData")
+    fun getGroups(): Flow<List<GroupData>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun setGroup(groupData: GroupData): Long

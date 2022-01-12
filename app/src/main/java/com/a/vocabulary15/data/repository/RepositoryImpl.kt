@@ -1,5 +1,6 @@
 package com.a.vocabulary15.data.repository
 
+import com.a.vocabulary15.data.local.GroupData
 import com.a.vocabulary15.data.local.VocabularyDatabase
 import com.a.vocabulary15.data.toData
 import com.a.vocabulary15.data.toModel
@@ -7,6 +8,8 @@ import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RepositoryImpl constructor(
     vocabularyDatabase: VocabularyDatabase
@@ -21,6 +24,10 @@ class RepositoryImpl constructor(
 
     override suspend fun getGroup() =
         GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
+
+    override suspend fun getGroups(): Flow<List<Group>> {
+        return vocabularyDao.getGroups().map { list -> list.map { it.toModel() } }
+    }
 
     override suspend fun deleteGroup(idGroup: Int) {
         vocabularyDao.deleteElementsByGroupId(idGroup)

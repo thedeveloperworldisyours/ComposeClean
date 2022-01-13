@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.group
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,20 +11,29 @@ import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.domain.usecases.GetGroup
+import com.a.vocabulary15.domain.usecases.GetGroups
 import com.a.vocabulary15.domain.usecases.SetGroup
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getGroup: GetGroup,
-    private val setGroup: SetGroup
+    private val setGroup: SetGroup,
+    private val getGroups: GetGroups
 ) : ViewModel() {
     private val mutableGroup = MutableLiveData<GroupElementStates<List<Group>>>()
     val getGroupLiveData: LiveData<GroupElementStates<List<Group>>>
         get() = mutableGroup
+
+    private val _state = mutableStateOf(GroupState())
+    val state: State<GroupState> = _state
+    private var getGroupsJob: Job? = null
 
     var isAddGroupOpen by mutableStateOf(false)
 
@@ -45,6 +55,15 @@ class MainViewModel @Inject constructor(
             is GroupElementStates.Data<List<Group>> -> notifyGroupState(groupElementStates.data)
             is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
         }
+    }
+
+    private suspend fun getGroups() {
+        getGroupsJob?.cancel()
+        getGroupsJob = getGroups.invoke().onEach {
+            groups -> state.value.copy(
+            groups = groups
+            )
+        }.launchIn(viewModelScope)
     }
 
     private fun notifyLoadingStates() {

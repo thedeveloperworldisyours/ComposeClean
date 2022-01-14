@@ -18,12 +18,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Group
-import com.a.vocabulary15.presentation.MainActivity
 
 @Composable
-fun AddGroupDialog(activity: MainActivity) {
-    if (activity.viewModel.isAddGroupOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isAddGroupOpen = false }) {
+fun AddGroupDialog(viewModel: MainViewModel) {
+    if (viewModel.isAddGroupOpen) {
+        Dialog(onDismissRequest = { viewModel.isAddGroupOpen = false }) {
             val inputValue = rememberSaveable { mutableStateOf("") }
             Surface(
                 modifier = Modifier
@@ -61,7 +60,7 @@ fun AddGroupDialog(activity: MainActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isAddGroupOpen = false
+                                viewModel.isAddGroupOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -76,8 +75,8 @@ fun AddGroupDialog(activity: MainActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.isAddGroupOpen = false
-                                activity.viewModel.insertAndGetGroup(Group(0, inputValue.value))
+                                viewModel.isAddGroupOpen = false
+                                viewModel.insertAndGetGroup(Group(0, inputValue.value))
                             },
                             modifier = Modifier
                                 .width(90.dp)

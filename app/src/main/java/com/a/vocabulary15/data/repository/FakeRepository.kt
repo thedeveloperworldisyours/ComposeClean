@@ -4,8 +4,10 @@ import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class FakeRepository: Repository {
+class FakeRepository : Repository {
 
     private val groups = mutableListOf<Group>()
     private val elements = mutableListOf<Element>()
@@ -17,6 +19,10 @@ class FakeRepository: Repository {
 
     override suspend fun getGroup(): GroupElementStates<List<Group>> {
         return GroupElementStates.Data(groups)
+    }
+
+    override fun getGroups(): Flow<List<Group>> {
+        return flow { emit(groups) }
     }
 
     override suspend fun deleteGroup(idGroup: Int) {

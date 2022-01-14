@@ -12,6 +12,9 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class ViewModelModule {
 
     @Provides
+    fun provideGetGroups(repository: Repository): GetGroups = GetGroupsImpl(repository)
+
+    @Provides
     fun provideGetGroup(repository: Repository): GetGroup = GetGroupImpl(repository)
 
     @Provides

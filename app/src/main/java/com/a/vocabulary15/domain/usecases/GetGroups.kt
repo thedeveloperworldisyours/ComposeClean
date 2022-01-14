@@ -4,5 +4,5 @@ import com.a.vocabulary15.domain.model.Group
 import kotlinx.coroutines.flow.Flow
 
 interface GetGroups {
-    suspend operator fun invoke(): Flow<List<Group>>
+    operator fun invoke(): Flow<List<Group>>
 }

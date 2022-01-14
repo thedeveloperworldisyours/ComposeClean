@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(
     var isAddGroupOpen by mutableStateOf(false)
 
     init {
-        getGroup()
+        getGroups()
     }
 
     fun getGroup() = viewModelScope.launch(Dispatchers.IO) {
@@ -57,7 +57,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getGroups() {
+    private fun getGroups() {
         getGroupsJob?.cancel()
         getGroupsJob = getGroups.invoke().onEach {
             groups -> state.value.copy(

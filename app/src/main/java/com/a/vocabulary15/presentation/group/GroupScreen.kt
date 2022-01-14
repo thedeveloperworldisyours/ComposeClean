@@ -18,21 +18,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.presentation.MainActivity
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
 @ExperimentalAnimationApi
 @Composable
 fun GroupScreen(
-    liveData: LiveData<GroupElementStates<List<Group>>>,
-    activity: MainActivity,
+    viewModel: MainViewModel = hiltViewModel(),
     itemClickable: (Int, String) -> Unit
 ) {
-    val groupElementStates: GroupElementStates<List<Group>> by liveData.observeAsState(initial = GroupElementStates.Loading)
+
+    val state = viewModel.state.value
+    /*val groupElementStates: GroupElementStates<List<Group>> by liveData.observeAsState(initial = GroupElementStates.Loading)
     when (groupElementStates) {
         is GroupElementStates.Loading -> {
             Box(Modifier.fillMaxSize()) {
@@ -46,9 +47,9 @@ fun GroupScreen(
                 }
             }
         }
-        is GroupElementStates.Data -> {
-            DataGroupScreen(groupElementStates, activity, itemClickable)
-        }
+        is GroupElementStates.Data -> {*/
+            DataGroupScreen(state.groups, viewModel, itemClickable)
+        /*}
         else -> {
             Box(Modifier.fillMaxSize()) {
                 GroupElementText(
@@ -64,14 +65,14 @@ fun GroupScreen(
                 }
             }
         }
-    }
+    }*/
 }
 
 @ExperimentalAnimationApi
 @Composable
 fun DataGroupScreen(
-    groupElementStates: GroupElementStates<List<Group>>,
-    activity: MainActivity,
+    groups: List<Group>,
+    viewModel: MainViewModel,
     itemClickable: (Int, String) -> Unit
 ) {
     Scaffold(
@@ -87,7 +88,7 @@ fun DataGroupScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { activity.viewModel.isAddGroupOpen = true }
+                onClick = { viewModel.isAddGroupOpen = true }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -100,16 +101,15 @@ fun DataGroupScreen(
             Modifier
                 .fillMaxSize()
         ) {
-            val items = (groupElementStates as GroupElementStates.Data).data
-            AddGroupDialog(activity)
-            if (items.isEmpty()) {
-                activity.viewModel.isAddGroupOpen = true
+            AddGroupDialog(viewModel)
+            if (groups.isEmpty()) {
+                viewModel.isAddGroupOpen = true
             } else {
                 GroupListLazyColumn(
                     Modifier
                         .fillMaxWidth()
                         .background(Color.White),
-                    items,
+                    groups,
                     itemClickable
                 )
             }

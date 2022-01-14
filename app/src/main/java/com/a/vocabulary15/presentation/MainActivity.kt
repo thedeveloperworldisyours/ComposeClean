@@ -21,10 +21,10 @@ class MainActivity : ComponentActivity() {
 
     private var responseLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            viewModel.getGroup()
+            //viewModel.getGroup()
         }
 
-    val viewModel: MainViewModel by viewModels()
+    //val viewModel: MainViewModel by viewModels()
 
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             Vocabulary15Theme {
                 Surface(color = MaterialTheme.colors.background) {
 
-                    GroupScreen(liveData = viewModel.getGroupLiveData, this){
+                    GroupScreen {
                         idGroup, elementName ->
                         val intent = Intent(this, ElementsActivity::class.java)
                         intent.putExtra("idGroup", idGroup)

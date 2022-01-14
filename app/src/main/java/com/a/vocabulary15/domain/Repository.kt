@@ -11,7 +11,7 @@ interface Repository {
 
     suspend fun getGroup(): GroupElementStates<List<Group>>
 
-    suspend fun getGroups(): Flow<List<Group>>
+    fun getGroups(): Flow<List<Group>>
 
     suspend fun deleteGroup(idGroup: Int)
 

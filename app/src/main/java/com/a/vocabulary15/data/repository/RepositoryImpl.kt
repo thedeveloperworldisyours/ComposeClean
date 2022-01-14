@@ -25,7 +25,7 @@ class RepositoryImpl constructor(
     override suspend fun getGroup() =
         GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
 
-    override suspend fun getGroups(): Flow<List<Group>> {
+    override fun getGroups(): Flow<List<Group>> {
         return vocabularyDao.getGroups().map { list -> list.map { it.toModel() } }
     }
 

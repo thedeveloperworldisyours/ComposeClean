@@ -5,24 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Group
-import com.a.vocabulary15.domain.model.GroupElementStates
-import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
 @ExperimentalAnimationApi

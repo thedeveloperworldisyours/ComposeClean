@@ -59,10 +59,8 @@ class MainViewModel @Inject constructor(
 
     private fun getGroups() {
         getGroupsJob?.cancel()
-        getGroupsJob = getGroups.invoke().onEach {
-            groups -> state.value.copy(
-            groups = groups
-            )
+        getGroupsJob = getGroups.invoke().onEach { groups ->
+            _state.value = state.value.copy(groups = groups)
         }.launchIn(viewModelScope)
     }
 

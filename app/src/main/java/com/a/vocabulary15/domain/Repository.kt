@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
-    suspend fun setGroup(group: Group): GroupElementStates<List<Group>>
-
-    suspend fun getGroup(): GroupElementStates<List<Group>>
+    suspend fun setGroup(group: Group)
 
     fun getGroups(): Flow<List<Group>>
 

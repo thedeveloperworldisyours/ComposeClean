@@ -19,13 +19,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private var responseLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            //viewModel.getGroup()
-        }
-
-    //val viewModel: MainViewModel by viewModels()
-
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         intent.putExtra("idGroup", idGroup)
                         intent.putExtra("elementName", elementName)
                         intent.putExtra("mode", 1)
-                        responseLauncher.launch(intent)
+                        startActivity(intent)
                     }
                 }
             }

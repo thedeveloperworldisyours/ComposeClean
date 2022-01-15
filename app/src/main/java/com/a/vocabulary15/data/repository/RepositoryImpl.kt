@@ -1,6 +1,5 @@
 package com.a.vocabulary15.data.repository
 
-import com.a.vocabulary15.data.local.GroupData
 import com.a.vocabulary15.data.local.VocabularyDatabase
 import com.a.vocabulary15.data.toData
 import com.a.vocabulary15.data.toModel
@@ -17,13 +16,9 @@ class RepositoryImpl constructor(
 
     var vocabularyDao = vocabularyDatabase.vocabularyDao()
 
-    override suspend fun setGroup(group: Group): GroupElementStates<List<Group>> {
+    override suspend fun setGroup(group: Group) {
         GroupElementStates.Data(vocabularyDao.setGroup(group.toData()))
-        return GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
     }
-
-    override suspend fun getGroup() =
-        GroupElementStates.Data(vocabularyDao.getGroup().map { it.toModel() })
 
     override fun getGroups(): Flow<List<Group>> {
         return vocabularyDao.getGroups().map { list -> list.map { it.toModel() } }

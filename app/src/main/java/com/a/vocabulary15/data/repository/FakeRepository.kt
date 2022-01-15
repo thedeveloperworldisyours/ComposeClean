@@ -12,13 +12,8 @@ class FakeRepository : Repository {
     private val groups = mutableListOf<Group>()
     private val elements = mutableListOf<Element>()
 
-    override suspend fun setGroup(group: Group): GroupElementStates<List<Group>> {
+    override suspend fun setGroup(group: Group) {
         groups.add(group)
-        return GroupElementStates.Data(groups)
-    }
-
-    override suspend fun getGroup(): GroupElementStates<List<Group>> {
-        return GroupElementStates.Data(groups)
     }
 
     override fun getGroups(): Flow<List<Group>> {

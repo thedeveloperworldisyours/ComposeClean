@@ -16,9 +16,6 @@ class ViewModelModule {
     fun provideGetGroups(repository: Repository): GetGroups = GetGroupsImpl(repository)
 
     @Provides
-    fun provideGetGroup(repository: Repository): GetGroup = GetGroupImpl(repository)
-
-    @Provides
     fun provideSetGroup(repository: Repository): SetGroup = SetGroupImpl(repository)
 
     @Provides

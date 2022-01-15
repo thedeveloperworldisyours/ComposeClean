@@ -20,10 +20,6 @@ class ElementsActivity : AppCompatActivity() {
 
     val viewModel: ElementsViewModel by viewModels()
 
-    private var responseLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +36,7 @@ class ElementsActivity : AppCompatActivity() {
                         val intent = Intent(this, TestActivity::class.java)
                         intent.putExtra("idGroup", idGroup)
                         intent.putExtra("elementName", elementName)
-                        responseLauncher.launch(intent)
+                        startActivity(intent)
                     }
                 }
             }

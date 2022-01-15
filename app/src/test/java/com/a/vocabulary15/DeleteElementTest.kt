@@ -6,7 +6,6 @@ import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.usecases.*
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -2,7 +2,6 @@ package com.a.vocabulary15.domain
 
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.Group
-import com.a.vocabulary15.domain.model.GroupElementStates
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {
@@ -13,14 +12,12 @@ interface Repository {
 
     suspend fun deleteGroup(idGroup: Int)
 
-    suspend fun setElement(element: Element): GroupElementStates<List<Element>>
+    suspend fun setElement(element: Element)
 
-    suspend fun getElements(groupId: Int): GroupElementStates<List<Element>>
+    suspend fun getElements(groupId: Int): Flow<List<Element>>
 
-    suspend fun getElement(): GroupElementStates<List<Element>>
+    suspend fun deleteElement(id: Int)
 
-    suspend fun deleteElement(id: Int): GroupElementStates<List<Element>>
-
-    suspend fun editElement(element: Element): GroupElementStates<List<Element>>
+    suspend fun editElement(element: Element)
 
 }

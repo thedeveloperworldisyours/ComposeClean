@@ -1,17 +1,18 @@
 package com.a.vocabulary15.presentation.element
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.domain.usecases.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,9 +25,9 @@ class ElementsViewModel @Inject constructor(
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
 
-    private val mutable = MutableLiveData<GroupElementStates<*>>()
-    val genericLiveData: LiveData<GroupElementStates<*>>
-        get() = mutable
+    private val _state = mutableStateOf(ElementState())
+    val state: State<ElementState> = _state
+    private var getElementsJob: Job? = null
 
     //States
     var isDeleteAllOpen by mutableStateOf(false)
@@ -37,11 +38,10 @@ class ElementsViewModel @Inject constructor(
     var item = Element(1,1,"","", "")
 
     fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = getElements.invoke(idGroup)) {
-            is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
-        }
+        getElementsJob?.cancel()
+        getElementsJob = getElements.invoke(idGroup).onEach { elements ->
+            _state.value = state.value.copy(elements = elements)
+        }.launchIn(viewModelScope)
     }
 
     fun deleteGroupWithElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -49,38 +49,15 @@ class ElementsViewModel @Inject constructor(
     }
 
     fun setElement(element: Element) = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = setElement.invoke(element)) {
-            is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
-        }
+        setElement.invoke(element)
     }
 
     fun editElement(element: Element) = viewModelScope.launch (Dispatchers.IO){
-        when (val groupElementStates = editElement.invoke(element)) {
-            is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
-        }
+        editElement.invoke(element)
     }
 
     fun deleteElement(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = deleteElement.invoke(id)) {
-            is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data<List<Element>> -> notifyGroupState(groupElementStates.data)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
-        }
+        deleteElement.invoke(id)
     }
 
-    private fun notifyLoadingStates() {
-        mutable.postValue(GroupElementStates.Loading)
-    }
-
-    private fun notifyGroupState(elementList: List<Element>) {
-        mutable.postValue(GroupElementStates.Data(elementList))
-    }
-
-    private fun notifyErrorState(error: Throwable) {
-        mutable.postValue(GroupElementStates.Error(error))
-    }
 }

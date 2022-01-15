@@ -2,15 +2,15 @@ package com.a.vocabulary15.presentation.test
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.domain.usecases.GetElements
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,9 +24,10 @@ class TestViewModel @Inject constructor(
         const val TEXT_MODE = 1
     }
 
-    private val mutable = MutableLiveData<GroupElementStates<*>>()
-    val genericLiveData: LiveData<GroupElementStates<*>>
-        get() = mutable
+
+    private val _state = mutableStateOf(TestState())
+    val state: State<TestState> = _state
+    private var getElementsJob: Job? = null
 
     private var elementsAsked = mutableListOf<Boolean>()
 
@@ -86,11 +87,11 @@ class TestViewModel @Inject constructor(
     }
 
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
-        when (val groupElementStates = getElements.invoke(idGroup)) {
-            is GroupElementStates.Loading -> notifyLoadingStates()
-            is GroupElementStates.Data<List<Element>> -> initTest(groupElementStates.data)
-            is GroupElementStates.Error -> notifyErrorState(groupElementStates.error)
-        }
+        getElementsJob?.cancel()
+        getElementsJob = getElements.invoke(idGroup).onEach { elements ->
+            initTest(elements)
+            _state.value = state.value.copy(elements = elements)
+        }.launchIn(viewModelScope)
     }
 
     private fun initTest(elementList: List<Element>) {
@@ -99,7 +100,6 @@ class TestViewModel @Inject constructor(
             getNumber()
         }
         setCompletedElement(randomNumber.value)
-        notifyGroupState(listItems.value)
     }
 
     private fun getNumber() {
@@ -142,17 +142,5 @@ class TestViewModel @Inject constructor(
         onEvent(TestEvent.ChangeRight(0))
         onEvent(TestEvent.ChangeRight(0))
         onEvent(TestEvent.TestFinish(false))
-    }
-
-    private fun notifyLoadingStates() {
-        mutable.postValue(GroupElementStates.Loading)
-    }
-
-    private fun notifyGroupState(elementList: List<Element>) {
-        mutable.postValue(GroupElementStates.Data(elementList))
-    }
-
-    private fun notifyErrorState(error: Throwable) {
-        mutable.postValue(GroupElementStates.Error(error))
     }
 }

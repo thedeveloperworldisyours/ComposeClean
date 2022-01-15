@@ -7,14 +7,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.test.TestActivity
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
@@ -22,30 +20,8 @@ import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 fun TestScreen(
     activity: TestActivity
 ) {
-    val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
-        initial = GroupElementStates.Loading
-    )
-    when (groupElementStates) {
-        is GroupElementStates.Loading -> {
-            TestLoadingScreen(
-                activity
-            )
-        }
-        is GroupElementStates.Data -> {
-            val list = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
-            FirstContentScreen(activity, list)
-        }
-        else -> {
-        }
-    }
-}
-
-@Composable
-fun FirstContentScreen(
-    activity: TestActivity,
-    listItems: List<Element>
-) {
-    if (listItems.isEmpty()) {
+    val state = activity.viewModel.state.value
+    if (state.elements.isEmpty()) {
         Box(
             Modifier
                 .fillMaxSize()
@@ -63,11 +39,12 @@ fun FirstContentScreen(
         TestFinishedDialog(activity)
         TestMainColumn(
             activity,
-            listItems
+            state.elements
         )
     }
 }
 
+/*
 @Composable
 fun TestLoadingScreen(activity: TestActivity) {
     Scaffold(
@@ -93,4 +70,4 @@ fun TestLoadingScreen(activity: TestActivity) {
             )
         }
     }
-}
+}*/

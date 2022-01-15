@@ -8,10 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.domain.model.GroupElementStates
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
 @Composable
@@ -28,32 +23,7 @@ fun ElementScreen(
     activity: ElementsActivity,
     onClickTest: () -> Unit
 ) {
-    val groupElementStates: GroupElementStates<*> by activity.viewModel.genericLiveData.observeAsState(
-        initial = GroupElementStates.Loading
-    )
-    when (groupElementStates) {
-        is GroupElementStates.Loading -> {
-            ElementLoadingScreen(
-                activity
-            )
-        }
-        is GroupElementStates.Data -> {
-            ElementDataScreen(activity, groupElementStates, onClickTest)
-        }
-        else -> {
-        }
-    }
-}
-
-@Composable
-fun ElementDataScreen(
-    activity: ElementsActivity,
-    groupElementStates: GroupElementStates<*>,
-    onClickTest: () -> Unit
-) {
-    val inputValue = rememberSaveable { mutableStateOf("") }
-    val inputValueLink = rememberSaveable { mutableStateOf("") }
-    val inputValueLinkImage = rememberSaveable { mutableStateOf("") }
+    val state = activity.viewModel.state.value
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -103,7 +73,7 @@ fun ElementDataScreen(
             Modifier
                 .fillMaxSize()
         ) {
-            val listItems = (groupElementStates as GroupElementStates.Data<*>).data as List<Element>
+            val listItems = state.elements
             if (listItems.isEmpty()) {
                 activity.viewModel.isAddElementOpen = true
                 GroupElementText(
@@ -131,6 +101,7 @@ fun ElementDataScreen(
     }
 }
 
+/*
 @Composable
 fun ElementLoadingScreen(
     activity: ElementsActivity
@@ -168,4 +139,4 @@ fun ElementLoadingScreen(
             )
         }
     }
-}
+}*/

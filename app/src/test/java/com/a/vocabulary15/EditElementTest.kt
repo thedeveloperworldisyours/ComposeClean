@@ -20,7 +20,7 @@ class EditElementTest {
 
     private lateinit var editElement: EditElement
 
-    val element = Element(1, 2, "image","value","link")
+    private val element = Element(1, 2, "image","value","link")
 
     @Before
     fun setup() {

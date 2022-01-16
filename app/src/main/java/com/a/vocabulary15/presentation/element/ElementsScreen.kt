@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -16,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 
 @Composable
 fun ElementScreen(
@@ -74,7 +72,7 @@ fun ElementScreen(
                 .fillMaxSize()
         ) {
             val listItems = state.elements
-            if (listItems.isEmpty()) {
+            /*if (listItems.isEmpty()) {
                 activity.viewModel.isAddElementOpen = true
                 GroupElementText(
                     text = stringResource(id = R.string.empty_group, activity.elementName),
@@ -83,7 +81,7 @@ fun ElementScreen(
                             Alignment.Center
                         )
                 )
-            } else {
+            } else {*/
                 LazyColumn(
                     contentPadding = PaddingValues(bottom = 80.dp),
                     modifier = Modifier
@@ -96,7 +94,7 @@ fun ElementScreen(
                         })
                     }
                 }
-            }
+            //}
         }
     }
 }

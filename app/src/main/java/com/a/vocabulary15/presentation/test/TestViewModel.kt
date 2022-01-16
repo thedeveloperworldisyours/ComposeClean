@@ -24,7 +24,6 @@ class TestViewModel @Inject constructor(
         const val TEXT_MODE = 1
     }
 
-
     private val _state = mutableStateOf(TestState())
     val state: State<TestState> = _state
     private var getElementsJob: Job? = null
@@ -140,7 +139,7 @@ class TestViewModel @Inject constructor(
         getNumber()
         setCompletedElement(randomNumber.value)
         onEvent(TestEvent.ChangeRight(0))
-        onEvent(TestEvent.ChangeRight(0))
+        onEvent(TestEvent.ChangeWrong(0))
         onEvent(TestEvent.TestFinish(false))
     }
 }

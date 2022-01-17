@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -22,7 +23,7 @@ fun GroupScreen(
     viewModel: MainViewModel = hiltViewModel(),
     itemClickable: (Int, String) -> Unit
 ) {
-    val state = viewModel.state.value
+    val groups = viewModel.groups.collectAsState(initial =  emptyList())
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -54,7 +55,7 @@ fun GroupScreen(
                 Modifier
                     .fillMaxWidth()
                     .background(Color.White),
-                state.groups,
+                groups.value,
                 itemClickable
             )
         }

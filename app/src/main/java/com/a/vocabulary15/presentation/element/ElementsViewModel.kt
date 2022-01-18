@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.usecases.*
+import com.a.vocabulary15.presentation.common.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,8 +28,9 @@ class ElementsViewModel @Inject constructor(
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(ElementState())
-    val state: State<ElementState> = _state
+    val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Success(1))
+    val viewState = viewStateMutable.asStateFlow()
+
     private var getElementsJob: Job? = null
 
     //States
@@ -38,9 +42,10 @@ class ElementsViewModel @Inject constructor(
     var item = Element(1,1,"","", "")
 
     fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
+        notifyLoading()
         getElementsJob?.cancel()
         getElementsJob = getElements.invoke(idGroup).onEach { elements ->
-            _state.value = state.value.copy(elements = elements)
+            notifyPostState(elements)
         }.launchIn(viewModelScope)
     }
 
@@ -60,4 +65,15 @@ class ElementsViewModel @Inject constructor(
         deleteElement.invoke(id)
     }
 
+    private fun notifyLoading() {
+        viewStateMutable.value = ViewState.Loading
+    }
+
+    private fun notifyPostState(list: List<Element>) {
+        viewStateMutable.value = ViewState.Success(list)
+    }
+
+    private fun notifyErrorState(reason: String) {
+        viewStateMutable.value = ViewState.Error(reason)
+    }
 }

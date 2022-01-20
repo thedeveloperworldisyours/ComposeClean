@@ -8,6 +8,7 @@ In this project you can learn:
 | Hilt | [Hilt][hilt] |
 | Room | [Room][room] |
 | MVVM | [MVVM][mvvm] |
+| Flow | [Flow][mvvm] |
 
 
 ## License

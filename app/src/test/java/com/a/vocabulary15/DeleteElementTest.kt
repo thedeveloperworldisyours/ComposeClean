@@ -11,6 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import com.google.common.truth.Truth.assertThat
 
 @RunWith(MockitoJUnitRunner::class)
 class DeleteElementTest {
@@ -60,8 +61,8 @@ class DeleteElementTest {
         }
     }
 
-    /*@Test
-    fun `delete fake`()= runBlocking {
+    @Test
+    fun `delete element with successfully with fake repository`()= runBlocking {
         val thisElement = Element(
             1,
             1,
@@ -72,6 +73,6 @@ class DeleteElementTest {
         val oldElements = getFakeElement.invoke(1)
         val newElements = deleteElement.invoke(1)
 
-
-    }*/
+        assertThat(newElements).isNotEqualTo(oldElements)
+    }
 }

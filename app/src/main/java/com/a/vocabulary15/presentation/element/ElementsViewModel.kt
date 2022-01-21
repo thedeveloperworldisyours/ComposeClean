@@ -27,7 +27,7 @@ class ElementsViewModel @Inject constructor(
     var delete: DeleteGroupWithElements
 ) : ViewModel() {
 
-    val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Success(1))
+    private val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Success(1))
     val viewState = viewStateMutable.asStateFlow()
 
     private var getElementsJob: Job? = null

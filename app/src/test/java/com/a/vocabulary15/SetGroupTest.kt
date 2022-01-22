@@ -3,10 +3,13 @@ package com.a.vocabulary15
 import com.a.vocabulary15.data.repository.FakeRepository
 import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.model.Group
-import com.a.vocabulary15.domain.usecases.*
+import com.a.vocabulary15.domain.usecases.GetGroups
+import com.a.vocabulary15.domain.usecases.GetGroupsImpl
+import com.a.vocabulary15.domain.usecases.SetGroup
+import com.a.vocabulary15.domain.usecases.SetGroupImpl
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.verify
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -31,7 +34,7 @@ class SetGroupTest {
     private var group = Group(1, "name")
 
     @Before
-    fun setup(){
+    fun setup() {
         setGroup = SetGroupImpl(repository)
         fakeRepository = FakeRepository()
         getFakeGroup = GetGroupsImpl(fakeRepository)
@@ -50,9 +53,11 @@ class SetGroupTest {
     @Test
     fun `set group with successfully with fake repository`() = runBlocking {
 
-        val oldElements = getFakeGroup.invoke()
-        val newElements = setFakeGroup.invoke(group)
+        val oldElements = getFakeGroup.invoke().first()
+        val oldNumber = oldElements.size
+        setFakeGroup.invoke(group)
+        val newElements = getFakeGroup.invoke().first()
 
-        assertThat(newElements).isNotEqualTo(oldElements)
+        assertThat(newElements.size).isNotEqualTo(oldNumber)
     }
 }

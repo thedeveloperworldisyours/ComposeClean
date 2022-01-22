@@ -31,7 +31,7 @@ class SetElementTest {
 
     private lateinit var getFakeElement: GetElements
 
-    val element= Element(1, 2, "image","value","link")
+    private val element = Element(1, 2, "image", "value", "link")
 
     @Before
     fun setup() {
@@ -56,7 +56,8 @@ class SetElementTest {
             1,
             "image",
             "value",
-            "link")
+            "link"
+        )
         setFakeElement.invoke(thisElement)
 
         val oldElements = getFakeElement.invoke(1)

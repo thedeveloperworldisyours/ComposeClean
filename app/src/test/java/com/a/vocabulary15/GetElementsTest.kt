@@ -2,8 +2,12 @@ package com.a.vocabulary15
 
 import com.a.vocabulary15.data.repository.FakeRepository
 import com.a.vocabulary15.domain.Repository
+import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.usecases.GetElements
 import com.a.vocabulary15.domain.usecases.GetElementsImpl
+import com.a.vocabulary15.domain.usecases.SetElement
+import com.a.vocabulary15.domain.usecases.SetElementImpl
+import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -11,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import kotlinx.coroutines.flow.first
 
 @RunWith(MockitoJUnitRunner::class)
 class GetElementsTest {
@@ -21,14 +26,30 @@ class GetElementsTest {
     private lateinit var fakeRepository: FakeRepository
 
     private lateinit var getElements: GetElements
+
     private lateinit var getFakeElements : GetElements
 
-    private var idGroup = 2
+    private lateinit var setFakeElement: SetElement
+
+    private var idGroup = 1
+
     @Before
     fun setup(){
+        getElements = GetElementsImpl(repository)
         fakeRepository = FakeRepository()
         getFakeElements = GetElementsImpl(fakeRepository)
-        getElements = GetElementsImpl(repository)
+        setFakeElement = SetElementImpl(fakeRepository)
+
+        val thisElement = Element(
+            1,
+            idGroup,
+            "image",
+            "value",
+            "link"
+        )
+        runBlocking {
+            fakeRepository.setElement(thisElement)
+        }
     }
 
     @Test
@@ -40,10 +61,10 @@ class GetElementsTest {
         }
     }
 
-    /*@Test
+    @Test
     fun `get element`() = runBlocking {
-        val elements = getFakeElements.invoke(1)
+        val elements = getFakeElements.invoke(idGroup).first()
 
-        assert(elements)
-    }*/
+        Truth.assertThat(elements).isNotEqualTo(0)
+    }
 }

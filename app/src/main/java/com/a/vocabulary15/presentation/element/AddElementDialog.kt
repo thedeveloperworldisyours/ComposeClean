@@ -19,12 +19,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
+import com.a.vocabulary15.presentation.MainActivity
 import java.util.*
 
 @Composable
-fun AddElementDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isAddElementOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen = false }) {
+fun AddElementDialog(
+    activity: MainActivity,
+    viewModel: ElementsViewModel) {
+    if (viewModel.isAddElementOpen) {
+        Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
             val link = stringResource(id = R.string.word_reference)
             val linkImage = stringResource(id = R.string.google_reference)
             val inputValue = rememberSaveable { mutableStateOf("") }
@@ -127,7 +130,7 @@ fun AddElementDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isAddElementOpen = false
+                                viewModel.isAddElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -142,11 +145,11 @@ fun AddElementDialog(activity: ElementsActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.isAddElementOpen = false
-                                activity.viewModel.setElement(
+                                viewModel.isAddElementOpen = false
+                                viewModel.setElement(
                                     Element(
                                         id = 0,
-                                        groupId = activity.idGroup.toInt(),
+                                        groupId = viewModel.idGroup.toInt(),
                                         value = inputValue.value.lowercase(Locale.getDefault()),
                                         image = inputValueLinkImage.value,
                                         link = inputValueLink.value

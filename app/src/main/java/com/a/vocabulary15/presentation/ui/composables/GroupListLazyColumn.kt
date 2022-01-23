@@ -14,17 +14,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.presentation.ui.theme.Typography
+import com.a.vocabulary15.presentation.util.Screen
 
 @Composable
-fun GroupListLazyColumn(modifier: Modifier, names: List<Group>, clickableItem: (Int, String) -> Unit) {
+fun GroupListLazyColumn(
+    modifier: Modifier,
+    names: List<Group>,
+    navController: NavController
+) {
     LazyColumn(
         contentPadding = PaddingValues(bottom = 80.dp),
         modifier = modifier
     ) {
         items(items = names) { item: Group ->
-            Surface(modifier = Modifier.clickable { clickableItem(item.id, item.name) }) {
+            Surface(modifier = Modifier.clickable { navController.navigate(Screen.ElementScreen.route +
+            "?idGroup=${item.id}&elementName=${item.name}") }) {
                 Card(
                     backgroundColor = Color.Blue,
                     elevation = 5.dp,

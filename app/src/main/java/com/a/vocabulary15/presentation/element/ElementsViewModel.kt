@@ -3,6 +3,7 @@ package com.a.vocabulary15.presentation.element
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
@@ -24,21 +25,38 @@ class ElementsViewModel @Inject constructor(
     var setElement: SetElement,
     var deleteElement: DeleteElement,
     var editElement: EditElement,
-    var delete: DeleteGroupWithElements
+    var delete: DeleteGroupWithElements,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Success(1))
+    private val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Loading)
     val viewState = viewStateMutable.asStateFlow()
 
     private var getElementsJob: Job? = null
 
     //States
+    var idGroup by mutableStateOf(-1)
+    var elementName by mutableStateOf("")
     var isDeleteAllOpen by mutableStateOf(false)
     var isDeleteElementOpen by mutableStateOf(false)
     var isAddElementOpen by mutableStateOf(false)
     var isDetailElementOpen by mutableStateOf(false)
     var isEditElementOpen by mutableStateOf(false)
     var item = Element(1,1,"","", "")
+
+    init {
+        savedStateHandle.get<Int>("idGroup")?.let { currentID ->
+            if (currentID != -1) {
+                idGroup = currentID
+                getElements(currentID)
+            }
+        }
+        savedStateHandle.get<String>("elementName")?.let { name ->
+            if (name != "") {
+                elementName = name
+            }
+        }
+    }
 
     fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
         notifyLoading()

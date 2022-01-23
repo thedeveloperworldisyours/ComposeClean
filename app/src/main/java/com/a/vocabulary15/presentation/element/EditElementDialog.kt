@@ -20,17 +20,20 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
+import com.a.vocabulary15.presentation.MainActivity
 import java.util.*
 
 @Composable
-fun EditElementDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isEditElementOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen = false }) {
+fun EditElementDialog(
+    activity: MainActivity,
+    viewModel: ElementsViewModel) {
+    if (viewModel.isEditElementOpen) {
+        Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
             val link = stringResource(id = R.string.word_reference)
             val linkImage = stringResource(id = R.string.google_reference)
-            val inputValue = rememberSaveable { mutableStateOf(activity.viewModel.item.value) }
-            val inputValueLink = rememberSaveable { mutableStateOf(activity.viewModel.item.link) }
-            val inputValueLinkImage = rememberSaveable { mutableStateOf(activity.viewModel.item.image) }
+            val inputValue = rememberSaveable { mutableStateOf(viewModel.item.value) }
+            val inputValueLink = rememberSaveable { mutableStateOf(viewModel.item.link) }
+            val inputValueLinkImage = rememberSaveable { mutableStateOf(viewModel.item.image) }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -129,7 +132,7 @@ fun EditElementDialog(activity: ElementsActivity) {
 
                         Button(
                             onClick = {
-                                activity.viewModel.isEditElementOpen = false
+                                viewModel.isEditElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -144,11 +147,11 @@ fun EditElementDialog(activity: ElementsActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.isEditElementOpen = false
-                                activity.viewModel.editElement(
+                                viewModel.isEditElementOpen = false
+                                viewModel.editElement(
                                     Element(
-                                        id = activity.viewModel.item.id,
-                                        groupId = activity.idGroup.toInt(),
+                                        id = viewModel.item.id,
+                                        groupId = viewModel.idGroup.toInt(),
                                         value = inputValue.value.lowercase(Locale.getDefault()),
                                         image = inputValueLinkImage.value,
                                         link = inputValueLink.value

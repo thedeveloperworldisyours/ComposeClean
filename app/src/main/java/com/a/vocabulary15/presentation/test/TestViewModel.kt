@@ -1,7 +1,10 @@
 package com.a.vocabulary15.presentation.test
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
@@ -16,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
-    var getElements: GetElements
+    var getElements: GetElements,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     companion object {
@@ -31,6 +35,8 @@ class TestViewModel @Inject constructor(
     private var elementsAsked = mutableListOf<Boolean>()
 
     //state
+    var idGroup by mutableStateOf(-1)
+    var elementName by mutableStateOf("")
     private val _mode = mutableStateOf(-1)
     val mode: State<Int> = _mode
 
@@ -54,6 +60,20 @@ class TestViewModel @Inject constructor(
 
     private val _isChooseLevelOpen = mutableStateOf(false)
     val isChooseLevelOpen: State<Boolean> = _isChooseLevelOpen
+
+    init {
+        savedStateHandle.get<Int>("idGroup")?.let { currentID ->
+            if (currentID != -1) {
+                idGroup = currentID
+                getElements(currentID)
+            }
+        }
+        savedStateHandle.get<String>("elementName")?.let { name ->
+            if (name != "") {
+                elementName = name
+            }
+        }
+    }
 
     //events
     fun onEvent(event: TestEvent) {

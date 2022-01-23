@@ -13,12 +13,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.a.vocabulary15.R
 
 @Composable
-fun DeleteAllDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isDeleteAllOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteAllOpen = false }) {
+fun DeleteAllDialog(
+    navController: NavController,
+    viewModel: ElementsViewModel
+) {
+    if (viewModel.isDeleteAllOpen) {
+        Dialog(onDismissRequest = { viewModel.isDeleteAllOpen = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -39,7 +43,10 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(id = R.string.do_you_want_delete, activity.elementName),
+                        text = stringResource(
+                            id = R.string.do_you_want_delete,
+                            viewModel.elementName
+                        ),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
@@ -50,7 +57,7 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteAllOpen = false
+                                viewModel.isDeleteAllOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -65,8 +72,8 @@ fun DeleteAllDialog(activity: ElementsActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.deleteGroupWithElements(activity.idGroup.toInt())
-                                activity.finish()
+                                viewModel.deleteGroupWithElements(viewModel.idGroup)
+                                navController.navigateUp()
                             },
                             modifier = Modifier
                                 .width(90.dp)

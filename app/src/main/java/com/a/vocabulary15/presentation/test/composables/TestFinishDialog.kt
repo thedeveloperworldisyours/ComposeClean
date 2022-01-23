@@ -13,14 +13,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.a.vocabulary15.R
-import com.a.vocabulary15.presentation.test.TestActivity
 import com.a.vocabulary15.presentation.test.TestEvent
+import com.a.vocabulary15.presentation.test.TestViewModel
 
 @Composable
-fun TestFinishedDialog(activity: TestActivity) {
-    if (activity.viewModel.isTestFinishOpen.value) {
-        Dialog(onDismissRequest = { activity.viewModel.onEvent(TestEvent.TestFinish(false)) }) {
+fun TestFinishedDialog(
+    navController: NavController,
+    viewModel: TestViewModel
+) {
+    if (viewModel.isTestFinishOpen.value) {
+        Dialog(onDismissRequest = { viewModel.onEvent(TestEvent.TestFinish(false)) }) {
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -52,7 +56,7 @@ fun TestFinishedDialog(activity: TestActivity) {
                     ) {
                         Button(
                             onClick = {
-                                activity.finish()
+                                navController.navigateUp()
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -67,7 +71,7 @@ fun TestFinishedDialog(activity: TestActivity) {
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.startAgain()
+                                viewModel.startAgain()
                             },
                             modifier = Modifier
                                 .width(90.dp)

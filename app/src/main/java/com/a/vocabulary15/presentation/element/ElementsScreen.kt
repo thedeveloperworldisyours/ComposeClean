@@ -15,28 +15,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
+import com.a.vocabulary15.presentation.MainActivity
 import com.a.vocabulary15.presentation.common.ViewState
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
+import com.a.vocabulary15.presentation.util.Screen
 
 @Composable
 fun ElementScreen(
-    activity: ElementsActivity,
-    onClickTest: () -> Unit
+    activity: MainActivity,
+    navController: NavController,
+    viewModel: ElementsViewModel = hiltViewModel()
 ) {
-    val state = activity.viewModel.viewState.collectAsState(initial = ViewState.Loading)
+    val state = viewModel.viewState.collectAsState(initial = ViewState.Loading)
     when (state.value) {
         is ViewState.Loading -> {
             ElementLoadingScreen(
-                activity
+                viewModel
             )
         }
         is ViewState.Success<*> -> {
             ElementDataScreen(
                 activity,
+                viewModel,
                 (state.value as ViewState.Success<*>).value as List<Element>,
-                onClickTest
+                navController
             )
         }
         else -> {
@@ -46,9 +52,10 @@ fun ElementScreen(
 
 @Composable
 fun ElementDataScreen(
-    activity: ElementsActivity,
+    activity: MainActivity,
+    viewModel: ElementsViewModel,
     elements: List<Element>,
-    onClickTest: () -> Unit
+    navController: NavController
 ) {
     Scaffold(
         modifier = Modifier
@@ -58,11 +65,13 @@ fun ElementDataScreen(
                 title = {
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = activity.elementName
+                        text = viewModel.elementName
                     )
                 }, actions = {
                     IconButton(onClick = {
-                        onClickTest()
+                        navController.navigate(
+                            Screen.TestScreen.route +
+                                "?idGroup=${viewModel.idGroup}&elementName=${viewModel.elementName}")
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_check_knowledge),
@@ -70,7 +79,7 @@ fun ElementDataScreen(
                         )
                     }
                     IconButton(onClick = {
-                        activity.viewModel.isDeleteAllOpen = true
+                        viewModel.isDeleteAllOpen = true
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_forever),
@@ -82,7 +91,7 @@ fun ElementDataScreen(
         }, floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    activity.viewModel.isAddElementOpen = true
+                    viewModel.isAddElementOpen = true
                 }
             ) {
                 Icon(
@@ -92,19 +101,19 @@ fun ElementDataScreen(
             }
         }
     ) {
-        DetailDialog(activity)
-        DeleteAllDialog(activity)
-        AddElementDialog(activity = activity)
-        EditElementDialog(activity)
-        DeleteElementDialog(activity)
+        DetailDialog(viewModel)
+        DeleteAllDialog(navController, viewModel)
+        AddElementDialog(activity, viewModel)
+        EditElementDialog(activity, viewModel)
+        DeleteElementDialog(viewModel)
         Box(
             Modifier
                 .fillMaxSize()
         ) {
             if (elements.isEmpty()) {
-                activity.viewModel.isAddElementOpen = true
+                viewModel.isAddElementOpen = true
                 GroupElementText(
-                    text = stringResource(id = R.string.empty_group, activity.elementName),
+                    text = stringResource(id = R.string.empty_group, viewModel.elementName),
                     modifier = Modifier
                         .align(
                             Alignment.Center
@@ -118,8 +127,8 @@ fun ElementDataScreen(
                 ) {
                     itemsIndexed(items = elements) { _, item: Element ->
                         ElementListItem(item, clickableItem = {
-                            activity.viewModel.item = item
-                            activity.viewModel.isDetailElementOpen = true
+                            viewModel.item = item
+                            viewModel.isDetailElementOpen = true
                         })
                     }
                 }
@@ -130,7 +139,7 @@ fun ElementDataScreen(
 
 @Composable
 fun ElementLoadingScreen(
-    activity: ElementsActivity
+    viewModel: ElementsViewModel
 ) {
     Scaffold(
         modifier = Modifier
@@ -158,7 +167,7 @@ fun ElementLoadingScreen(
                 .fillMaxSize()
         ) {
             GroupElementText(
-                text = activity.idGroup, modifier = Modifier
+                text = viewModel.idGroup.toString(), modifier = Modifier
                     .align(
                         Alignment.Center
                     )

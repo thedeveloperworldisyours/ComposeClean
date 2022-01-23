@@ -14,14 +14,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
 
 @ExperimentalAnimationApi
 @Composable
 fun GroupScreen(
-    viewModel: MainViewModel = hiltViewModel(),
-    itemClickable: (Int, String) -> Unit
+    navController: NavController,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val groups = viewModel.groups.collectAsState(initial =  emptyList())
     Scaffold(
@@ -56,7 +57,7 @@ fun GroupScreen(
                     .fillMaxWidth()
                     .background(Color.White),
                 groups.value,
-                itemClickable
+                navController,
             )
         }
     }

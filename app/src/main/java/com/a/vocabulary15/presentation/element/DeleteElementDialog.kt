@@ -17,10 +17,10 @@ import com.a.vocabulary15.R
 
 @Composable
 fun DeleteElementDialog(
-    activity: ElementsActivity
+    viewModel: ElementsViewModel
 ) {
-    if (activity.viewModel.isDeleteElementOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isDeleteElementOpen = false }) {
+    if (viewModel.isDeleteElementOpen) {
+        Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -41,7 +41,7 @@ fun DeleteElementDialog(
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.do_you_want_to_delete, activity.viewModel.item.value),
+                        text = stringResource(R.string.do_you_want_to_delete, viewModel.item.value),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
@@ -52,7 +52,7 @@ fun DeleteElementDialog(
                     ) {
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteElementOpen = false
+                                viewModel.isDeleteElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -67,8 +67,8 @@ fun DeleteElementDialog(
                         }
                         Button(
                             onClick = {
-                                activity.viewModel.isDeleteElementOpen = false
-                                activity.viewModel.deleteElement(activity.viewModel.item.id)
+                                viewModel.isDeleteElementOpen = false
+                                viewModel.deleteElement(viewModel.item.id)
                             },
                             modifier = Modifier
                                 .width(90.dp)

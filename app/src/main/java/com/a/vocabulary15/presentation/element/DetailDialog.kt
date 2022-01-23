@@ -24,9 +24,9 @@ import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
 
 @Composable
-fun DetailDialog(activity: ElementsActivity) {
-    if (activity.viewModel.isDetailElementOpen) {
-        Dialog(onDismissRequest = { activity.viewModel.isDetailElementOpen = false }) {
+fun DetailDialog(viewModel: ElementsViewModel) {
+    if (viewModel.isDetailElementOpen) {
+        Dialog(onDismissRequest = { viewModel.isDetailElementOpen = false }) {
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
@@ -48,11 +48,11 @@ fun DetailDialog(activity: ElementsActivity) {
                                 }
                             }
                         }, update = {
-                            if (activity.viewModel.item.link.contains("https://") || activity.viewModel.item.link.contains(
+                            if (viewModel.item.link.contains("https://") || viewModel.item.link.contains(
                                     "http://"
                                 )
                             ) {
-                                it.loadUrl(activity.viewModel.item.link)
+                                it.loadUrl(viewModel.item.link)
                             }
                         }
                     )
@@ -65,8 +65,8 @@ fun DetailDialog(activity: ElementsActivity) {
                     ) {
                         IconButton(
                             onClick = {
-                                activity.viewModel.isDetailElementOpen = false
-                                activity.viewModel.isDeleteElementOpen = true
+                                viewModel.isDetailElementOpen = false
+                                viewModel.isDeleteElementOpen = true
                             },
                             modifier = Modifier
                                 .size(50.dp)
@@ -82,8 +82,8 @@ fun DetailDialog(activity: ElementsActivity) {
                         Spacer(modifier = Modifier.size(5.dp))
                         IconButton(
                             onClick = {
-                                activity.viewModel.isDetailElementOpen = false
-                                activity.viewModel.isEditElementOpen = true
+                                viewModel.isDetailElementOpen = false
+                                viewModel.isEditElementOpen = true
                             },
                             modifier = Modifier
                                 .size(50.dp)
@@ -103,7 +103,7 @@ fun DetailDialog(activity: ElementsActivity) {
                         Image(
                             modifier = Modifier
                                 .size(50.dp),
-                            painter = rememberImagePainter(activity.viewModel.item.image),
+                            painter = rememberImagePainter(viewModel.item.image),
                             contentDescription = null
                         )
                         Spacer(
@@ -112,7 +112,7 @@ fun DetailDialog(activity: ElementsActivity) {
                         )
                         Button(
                             onClick = {
-                                activity.viewModel.isDetailElementOpen = false
+                                viewModel.isDetailElementOpen = false
                             },
                             modifier = Modifier
                                 .width(90.dp)

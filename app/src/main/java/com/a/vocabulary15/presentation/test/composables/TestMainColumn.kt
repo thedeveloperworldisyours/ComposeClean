@@ -11,23 +11,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.test.TestActivity
 import com.a.vocabulary15.presentation.test.TestEvent
+import com.a.vocabulary15.presentation.test.TestViewModel
 import com.a.vocabulary15.presentation.test.TestViewModel.Companion.LIST_MODE
 import com.a.vocabulary15.presentation.test.TestViewModel.Companion.TEXT_MODE
 
 @Composable
 fun TestMainColumn(
-    activity: TestActivity,
+    viewModel: TestViewModel,
     listItems: List<Element>
 ) {
     Column {
         TestScoreCard(
-            listItems[activity.viewModel.randomNumber.value].image,
-            activity.viewModel.right.value,
-            activity.viewModel.wrong.value
+            listItems[viewModel.randomNumber.value].image,
+            viewModel.right.value,
+            viewModel.wrong.value
         )
-        when (activity.viewModel.mode.value) {
+        when (viewModel.mode.value) {
             LIST_MODE -> {
                 LazyColumn(
                     contentPadding = PaddingValues(bottom = 80.dp),
@@ -36,12 +36,12 @@ fun TestMainColumn(
                 ) {
                     itemsIndexed(items = listItems) { _, item: Element ->
                         TestListItem(item) {
-                            if ((listItems[activity.viewModel.randomNumber.value].id == item.id)) {
-                                activity.viewModel.nextElement()
+                            if ((listItems[viewModel.randomNumber.value].id == item.id)) {
+                                viewModel.nextElement()
                             } else {
-                                activity.viewModel.onEvent(
+                                viewModel.onEvent(
                                     TestEvent.ChangeWrong(
-                                        activity.viewModel.wrong.value + 1
+                                        viewModel.wrong.value + 1
                                     )
                                 )
                             }
@@ -51,19 +51,19 @@ fun TestMainColumn(
             }
             TEXT_MODE -> {
                 TestRespondsTextField(label = stringResource(id = R.string.test_respond),
-                    value = activity.viewModel.text.value,
-                    onValueChange = { activity.viewModel.onEvent(TestEvent.ChangeText(it)) })
+                    value = viewModel.text.value,
+                    onValueChange = { viewModel.onEvent(TestEvent.ChangeText(it)) })
                 Button(
                     onClick = {
-                        if (listItems[activity.viewModel.randomNumber.value].value ==
-                            activity.viewModel.text.value
+                        if (listItems[viewModel.randomNumber.value].value ==
+                            viewModel.text.value
                         ) {
-                            activity.viewModel.onEvent(TestEvent.ChangeText(""))
-                            activity.viewModel.nextElement()
+                            viewModel.onEvent(TestEvent.ChangeText(""))
+                            viewModel.nextElement()
                         } else {
-                            activity.viewModel.onEvent(
+                            viewModel.onEvent(
                                 TestEvent.ChangeWrong(
-                                    activity.viewModel.wrong.value + 1))
+                                    viewModel.wrong.value + 1))
                         }
                     },
                     modifier = Modifier
@@ -75,7 +75,7 @@ fun TestMainColumn(
                 }
             }
             else -> {
-                activity.viewModel.onEvent(TestEvent.OpenChooseMode(true))
+                viewModel.onEvent(TestEvent.OpenChooseMode(true))
             }
         }
     }

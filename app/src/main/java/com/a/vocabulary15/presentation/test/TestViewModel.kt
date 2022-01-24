@@ -9,9 +9,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.usecases.GetElements
+import com.a.vocabulary15.presentation.common.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -28,8 +31,8 @@ class TestViewModel @Inject constructor(
         const val TEXT_MODE = 1
     }
 
-    private val _state = mutableStateOf(TestState())
-    val state: State<TestState> = _state
+    private val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Loading)
+    val viewState = viewStateMutable.asStateFlow()
     private var getElementsJob: Job? = null
 
     private var elementsAsked = mutableListOf<Boolean>()
@@ -106,10 +109,11 @@ class TestViewModel @Inject constructor(
     }
 
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
+        notifyLoading()
         getElementsJob?.cancel()
         getElementsJob = getElements.invoke(idGroup).onEach { elements ->
             initTest(elements)
-            _state.value = state.value.copy(elements = elements)
+            notifyPostState(elements)
         }.launchIn(viewModelScope)
     }
 
@@ -161,5 +165,13 @@ class TestViewModel @Inject constructor(
         onEvent(TestEvent.ChangeRight(0))
         onEvent(TestEvent.ChangeWrong(0))
         onEvent(TestEvent.TestFinish(false))
+    }
+
+    private fun notifyLoading() {
+        viewStateMutable.value = ViewState.Loading
+    }
+
+    private fun notifyPostState(list: List<Element>) {
+        viewStateMutable.value = ViewState.Success(list)
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -17,6 +18,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
+import com.a.vocabulary15.util.TestTags.GROUP_LIST
+import com.a.vocabulary15.util.TestTags.NEW_GROUP
 
 @ExperimentalAnimationApi
 @Composable
@@ -42,7 +45,7 @@ fun GroupScreen(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
-                    contentDescription = ""
+                    contentDescription = NEW_GROUP
                 )
             }
         }
@@ -55,7 +58,8 @@ fun GroupScreen(
             GroupListLazyColumn(
                 Modifier
                     .fillMaxWidth()
-                    .background(Color.White),
+                    .background(Color.White)
+                    .testTag(GROUP_LIST),
                 groups.value,
                 navController,
             )

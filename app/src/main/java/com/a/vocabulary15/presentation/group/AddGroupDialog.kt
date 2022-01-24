@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Group
+import com.a.vocabulary15.util.TestTags
+import com.a.vocabulary15.util.TestTags.NEW_GROUP_DIALOG
 
 @Composable
 fun AddGroupDialog(viewModel: MainViewModel) {
@@ -27,7 +30,7 @@ fun AddGroupDialog(viewModel: MainViewModel) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
-                    .padding(5.dp),
+                    .padding(5.dp).testTag(NEW_GROUP_DIALOG),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
             ) {
@@ -52,6 +55,7 @@ fun AddGroupDialog(viewModel: MainViewModel) {
                         modifier = Modifier
                             .padding(0.dp, 16.dp)
                             .fillMaxWidth()
+                            .testTag(TestTags.NAME_TEXT_FIELD)
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Row(
@@ -81,7 +85,8 @@ fun AddGroupDialog(viewModel: MainViewModel) {
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(60.dp)
-                                .padding(10.dp, 10.dp, 0.dp, 10.dp),
+                                .padding(10.dp, 10.dp, 0.dp, 10.dp)
+                                .testTag(TestTags.SAVE_GROUP),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(

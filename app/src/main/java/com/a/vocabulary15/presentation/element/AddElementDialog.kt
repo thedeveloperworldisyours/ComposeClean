@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.element
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -19,12 +21,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.MainActivity
+import com.a.vocabulary15.util.TestTags
 import java.util.*
 
 @Composable
 fun AddElementDialog(
-    activity: MainActivity,
+    context: Context,
     viewModel: ElementsViewModel) {
     if (viewModel.isAddElementOpen) {
         Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
@@ -36,7 +38,8 @@ fun AddElementDialog(
             Surface(
                 modifier = Modifier
                     .width(300.dp)
-                    .padding(5.dp),
+                    .padding(5.dp)
+                    .testTag(TestTags.NEW_ELEMENT_DIALOG),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
             ) {
@@ -59,6 +62,7 @@ fun AddElementDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                            .testTag(TestTags.NEW_NAME_ELEMENT_TEXT_FIELD)
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -67,7 +71,7 @@ fun AddElementDialog(
                         Button(
                             onClick = {
                                 ContextCompat.startActivity(
-                                    activity,
+                                    context,
                                     Intent(Intent.ACTION_VIEW, Uri.parse(link)),
                                     null
                                 )
@@ -90,6 +94,7 @@ fun AddElementDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                                .testTag(TestTags.NEW_LINK_ELEMENT_TEXT_FIELD)
                         )
                     }
                     Row(
@@ -99,7 +104,7 @@ fun AddElementDialog(
                         Button(
                             onClick = {
                                 ContextCompat.startActivity(
-                                    activity,
+                                    context,
                                     Intent(Intent.ACTION_VIEW, Uri.parse(linkImage)),
                                     null
                                 )
@@ -122,6 +127,7 @@ fun AddElementDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                                .testTag(TestTags.NEW_IMAGE_ELEMENT_TEXT_FIELD)
                         )
                     }
                     Row(
@@ -149,7 +155,7 @@ fun AddElementDialog(
                                 viewModel.setElement(
                                     Element(
                                         id = 0,
-                                        groupId = viewModel.idGroup.toInt(),
+                                        groupId = viewModel.idGroup,
                                         value = inputValue.value.lowercase(Locale.getDefault()),
                                         image = inputValueLinkImage.value,
                                         link = inputValueLink.value
@@ -159,7 +165,8 @@ fun AddElementDialog(
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(60.dp)
-                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp)
+                                .testTag(TestTags.SAVE_ELEMENT),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(

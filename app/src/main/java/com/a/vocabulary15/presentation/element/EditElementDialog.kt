@@ -1,6 +1,7 @@
 package com.a.vocabulary15.presentation.element
 
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
@@ -20,12 +21,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.presentation.MainActivity
 import java.util.*
 
 @Composable
 fun EditElementDialog(
-    activity: MainActivity,
+    context: Context,
     viewModel: ElementsViewModel) {
     if (viewModel.isEditElementOpen) {
         Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
@@ -68,7 +68,7 @@ fun EditElementDialog(
                         Button(
                             onClick = {
                                 ContextCompat.startActivity(
-                                    activity,
+                                    context,
                                     Intent(Intent.ACTION_VIEW, Uri.parse(link)),
                                     null
                                 )
@@ -100,7 +100,7 @@ fun EditElementDialog(
                         Button(
                             onClick = {
                                 ContextCompat.startActivity(
-                                    activity,
+                                    context,
                                     Intent(Intent.ACTION_VIEW, Uri.parse(linkImage)),
                                     null
                                 )
@@ -151,7 +151,7 @@ fun EditElementDialog(
                                 viewModel.editElement(
                                     Element(
                                         id = viewModel.item.id,
-                                        groupId = viewModel.idGroup.toInt(),
+                                        groupId = viewModel.idGroup,
                                         value = inputValue.value.lowercase(Locale.getDefault()),
                                         image = inputValueLinkImage.value,
                                         link = inputValueLink.value

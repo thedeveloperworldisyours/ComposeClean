@@ -89,8 +89,4 @@ class ElementsViewModel @Inject constructor(
     private fun notifyPostState(list: List<Element>) {
         viewStateMutable.value = ViewState.Success(list)
     }
-
-    private fun notifyErrorState(reason: String) {
-        viewStateMutable.value = ViewState.Error(reason)
-    }
 }

@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -16,6 +17,7 @@ import androidx.compose.ui.window.Dialog
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.test.TestEvent
 import com.a.vocabulary15.presentation.test.TestViewModel
+import com.a.vocabulary15.util.TestTags
 
 @Composable
 fun TestChooseLevelDialog(
@@ -25,7 +27,8 @@ fun TestChooseLevelDialog(
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp),
+                    .padding(5.dp)
+                    .testTag(TestTags.CHOOSE_LEVEL_DIALOG),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
             ) {
@@ -59,7 +62,8 @@ fun TestChooseLevelDialog(
                             modifier = Modifier
                                 .width(90.dp)
                                 .height(40.dp)
-                                .padding(0.dp, 0.dp, 10.dp, 0.dp),
+                                .padding(0.dp, 0.dp, 10.dp, 0.dp)
+                                .testTag(TestTags.LIST_LEVEL_BUTTON),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
@@ -74,7 +78,8 @@ fun TestChooseLevelDialog(
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(40.dp),
+                                .height(40.dp)
+                                .testTag(TestTags.ELEMENT_LEVEL_BUTTON),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(

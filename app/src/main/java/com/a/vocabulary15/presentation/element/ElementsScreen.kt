@@ -68,7 +68,9 @@ fun ElementDataScreen(
                         text = viewModel.elementName
                     )
                 }, actions = {
-                    IconButton(onClick = {
+                    IconButton(
+                        modifier = Modifier.testTag(TestTags.CHECK_YOUR_KNOWLEDGE),
+                        onClick = {
                         navController.navigate(
                             Screen.TestScreen.route +
                                 "?idGroup=${viewModel.idGroup}&elementName=${viewModel.elementName}")
@@ -90,6 +92,7 @@ fun ElementDataScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
+                modifier = Modifier.testTag(TestTags.NEW_ELEMENT),
                 onClick = {
                     viewModel.isAddElementOpen = true
                 }
@@ -101,11 +104,7 @@ fun ElementDataScreen(
             }
         }
     ) {
-        DetailDialog(viewModel)
-        DeleteAllDialog(navController, viewModel)
-        AddElementDialog(context, viewModel)
-        EditElementDialog(context, viewModel)
-        DeleteElementDialog(viewModel)
+
         Box(
             Modifier
                 .fillMaxSize()
@@ -135,6 +134,11 @@ fun ElementDataScreen(
                 }
             }
         }
+        DetailDialog(viewModel)
+        DeleteAllDialog(navController, viewModel)
+        AddElementDialog(context, viewModel)
+        EditElementDialog(context, viewModel)
+        DeleteElementDialog(viewModel)
     }
 }
 

@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import com.a.vocabulary15.presentation.test.TestEvent
 import com.a.vocabulary15.presentation.test.TestViewModel
 import com.a.vocabulary15.presentation.test.TestViewModel.Companion.LIST_MODE
 import com.a.vocabulary15.presentation.test.TestViewModel.Companion.TEXT_MODE
+import com.a.vocabulary15.util.TestTags
 
 @Composable
 fun TestMainColumn(
@@ -50,6 +52,7 @@ fun TestMainColumn(
                         contentPadding = PaddingValues(bottom = 80.dp),
                         modifier = Modifier
                             .fillMaxWidth()
+                            .testTag(TestTags.ELEMENT_LIST_OPTIONS)
                     ) {
                         itemsIndexed(items = listItems) { _, item: Element ->
                             TestListItem(item) {

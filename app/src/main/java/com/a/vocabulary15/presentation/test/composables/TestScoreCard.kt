@@ -8,12 +8,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
+import com.a.vocabulary15.util.TestTags
 
 @Composable
 fun TestScoreCard(
@@ -27,6 +29,7 @@ fun TestScoreCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 8.dp)
+            .testTag(TestTags.SCORE)
     ) {
         ConstraintLayout(
             modifier = Modifier

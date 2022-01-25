@@ -14,4 +14,12 @@ object TestTags {
     const val NEW_IMAGE_ELEMENT_TEXT_FIELD = "new_image_element_text_field"
     const val SAVE_ELEMENT = "save_element"
     const val ELEMENT_LIST = "element_list"
+
+    const val CHECK_YOUR_KNOWLEDGE = "check_your_knowledge"
+    const val CHOOSE_LEVEL_DIALOG = "choose_level_dialog"
+    const val LIST_LEVEL_BUTTON = "list_level_button"
+    const val ELEMENT_LEVEL_BUTTON = "element_level_button"
+    const val ELEMENT_LIST_OPTIONS = "element_list_options"
+    const val ENTER_NAME_ELEMENT_TEXT_FIELD = "enter_name_element_text_field"
+    const val SCORE = "score"
 }

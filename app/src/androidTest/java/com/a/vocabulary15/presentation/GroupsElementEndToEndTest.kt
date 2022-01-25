@@ -2,6 +2,7 @@ package com.a.vocabulary15.presentation
 
 import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.NavType
@@ -11,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.test.platform.app.InstrumentationRegistry
 import com.a.vocabulary15.di.DatabaseModule
+import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.element.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
 import com.a.vocabulary15.presentation.test.composables.TestScreen
@@ -26,7 +28,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 @UninstallModules(DatabaseModule::class)
-class GroupsEndToEndTest {
+class GroupsElementEndToEndTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -111,8 +113,6 @@ class GroupsEndToEndTest {
             .onFirst()
             .performClick()
 
-        composeRule.onNodeWithContentDescription(TestTags.NEW_ELEMENT).performClick()
-
         composeRule.onNodeWithTag(TestTags.NEW_NAME_ELEMENT_TEXT_FIELD)
             .performTextInput("new-name-element")
 
@@ -124,11 +124,35 @@ class GroupsEndToEndTest {
 
         composeRule.onNodeWithTag(TestTags.SAVE_ELEMENT)
 
-        composeRule.onNodeWithTag(TestTags.ELEMENT_LIST)
+        composeRule.onNodeWithTag(TestTags.ELEMENT_LIST).assertIsDisplayed()
 
-        composeRule.onNodeWithTag(TestTags.SAVE_ELEMENT)
-            .onChildren()
-            .onFirst()
-            .assert(hasText("new-name-element"))
+    }
+
+    @Test
+    fun chooseListLevel() {
+        saveElements()
+
+        composeRule.onNodeWithTag(TestTags.CHECK_YOUR_KNOWLEDGE)
+
+        composeRule.onNodeWithTag(TestTags.CHOOSE_LEVEL_DIALOG).assertIsDisplayed()
+
+        composeRule.onNodeWithTag(TestTags.LIST_LEVEL_BUTTON).performClick()
+
+        composeRule.onNodeWithTag(TestTags.ELEMENT_LIST_OPTIONS).assertIsDisplayed()
+
+        composeRule.onNodeWithTag(TestTags.SCORE).assertIsDisplayed()
+    }
+
+    @Test
+    fun chooseWordLevel() {
+        saveElements()
+
+        composeRule.onNodeWithTag(TestTags.CHECK_YOUR_KNOWLEDGE)
+
+        composeRule.onNodeWithTag(TestTags.CHOOSE_LEVEL_DIALOG).assertIsDisplayed()
+
+        composeRule.onNodeWithTag(TestTags.ENTER_NAME_ELEMENT_TEXT_FIELD).performClick()
+
+        composeRule.onNodeWithTag(TestTags.SCORE).assertIsDisplayed()
     }
 }

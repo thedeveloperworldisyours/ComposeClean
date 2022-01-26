@@ -41,7 +41,7 @@ This Android app has three screens,
 + test screen where you can choose two options, choose a word from the word list, or type the word.
 
 How to do the Vocabulary test?
-Given a picture, you can choose the correct word if you choose the list option or type the word if you choose the typing option.
++ Given a picture, you can choose the correct word if you choose the list option or type the word if you choose the typing option.
 
 <p align="center">
  <a href="https://github.com/thedeveloperworldisyours/ComposeClean/tree/master/app/src/main/java/com/a/vocabulary15/presentation/test" class="class"> 
@@ -51,8 +51,11 @@ Given a picture, you can choose the correct word if you choose the list option o
   <img src="https://github.com/thedeveloperworldisyours/ComposeClean/blob/master/screens/Screenshot_type_option.png" width="200px" />
  </a>
 </p>
+
+
 Developed By
 ------------
+
 * Javier González 
 
 <a href="https://www.linkedin.com/in/javier-gonz%C3%A1lez-cabezas/">

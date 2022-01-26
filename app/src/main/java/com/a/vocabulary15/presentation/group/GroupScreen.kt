@@ -69,6 +69,7 @@ fun GroupScreen(
                         .testTag(TestTags.EMPTY_GROUP_MESSAGE)
                 )
             } else {
+                viewModel.isAddGroupOpen = false
                 GroupListLazyColumn(
                     Modifier
                         .fillMaxWidth()

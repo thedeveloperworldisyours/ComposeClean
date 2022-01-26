@@ -35,7 +35,7 @@ Features:
      - To choose your list of words within a group.
      - To type the word
 
-This Android app has three screens,
+This Android app has three screens:
 + group list where you can add and remove groups.
 + word list where you can add, edit and delete the words, also view the detailed word with the web view component.
 + test screen where you can choose two options, choose a word from the word list, or type the word.

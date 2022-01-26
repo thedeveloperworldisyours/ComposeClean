@@ -2,7 +2,6 @@ package com.a.vocabulary15.presentation
 
 import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.NavType
@@ -12,7 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.test.platform.app.InstrumentationRegistry
 import com.a.vocabulary15.di.DatabaseModule
-import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.element.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
 import com.a.vocabulary15.presentation.test.composables.TestScreen
@@ -87,9 +85,13 @@ class GroupsElementEndToEndTest {
     }
 
     @Test
+    fun emptyGroupList() {
+        composeRule.onNodeWithTag(TestTags.EMPTY_GROUP_MESSAGE).assertIsDisplayed()
+    }
+
+    @Test
     fun saveNewGroup() {
         composeRule.onNodeWithTag(TestTags.NEW_GROUP_DIALOG).assertDoesNotExist()
-        composeRule.onNodeWithContentDescription(TestTags.NEW_GROUP).performClick()
 
         composeRule.onNodeWithTag(TestTags.NEW_GROUP_DIALOG).assertIsDisplayed()
         composeRule
@@ -103,6 +105,12 @@ class GroupsElementEndToEndTest {
             .onChildren()
             .onFirst()
             .assert(hasText("new-name-group"))
+    }
+
+    @Test
+    fun emptyElementList() {
+        saveNewGroup()
+        composeRule.onNodeWithTag(TestTags.EMPTY_ELEMENT_MESSAGE).assertIsDisplayed()
     }
 
     @Test
@@ -126,6 +134,15 @@ class GroupsElementEndToEndTest {
 
         composeRule.onNodeWithTag(TestTags.ELEMENT_LIST).assertIsDisplayed()
 
+    }
+
+    @Test
+    fun emptyTest(){
+        saveNewGroup()
+
+        composeRule.onNodeWithTag(TestTags.CHECK_YOUR_KNOWLEDGE)
+
+        composeRule.onNodeWithTag(TestTags.EMPTY_ELEMENT_MESSAGE).assertIsDisplayed()
     }
 
     @Test

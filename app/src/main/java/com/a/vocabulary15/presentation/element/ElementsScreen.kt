@@ -116,7 +116,7 @@ fun ElementDataScreen(
                     modifier = Modifier
                         .align(
                             Alignment.Center
-                        )
+                        ).testTag(TestTags.EMPTY_ELEMENT_MESSAGE)
                 )
             } else {
                 LazyColumn(

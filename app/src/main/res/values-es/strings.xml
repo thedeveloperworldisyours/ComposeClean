@@ -20,6 +20,7 @@
     <string name="search_image">Busca el enlace de la imagen</string>
     <string name="enter_image_link">Enlace de la imagen</string>
     <string name="check_your_knowledge">Comprueba tus conocimientos</string>
+    <string name="empty_group_list">Lista de grupos vacía</string>
     <string name="empty_group">El grupo %1$s esta vacío</string>
     <string name="get_right">Acertastes</string>
     <string name="get_wrong">Fallastes</string>

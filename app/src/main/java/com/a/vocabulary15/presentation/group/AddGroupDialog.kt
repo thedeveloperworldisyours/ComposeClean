@@ -24,8 +24,8 @@ import com.a.vocabulary15.util.TestTags.NEW_GROUP_DIALOG
 
 @Composable
 fun AddGroupDialog(viewModel: MainViewModel) {
-    if (viewModel.isAddGroupOpen) {
-        Dialog(onDismissRequest = { viewModel.isAddGroupOpen = false }) {
+    if (viewModel.state.value.isAddGroupOpen) {
+        Dialog(onDismissRequest = { viewModel.onEvent(GroupEvent.OpenAddGroupDialog(false)) }) {
             val inputValue = rememberSaveable { mutableStateOf("") }
             Surface(
                 modifier = Modifier
@@ -64,7 +64,7 @@ fun AddGroupDialog(viewModel: MainViewModel) {
                     ) {
                         Button(
                             onClick = {
-                                viewModel.isAddGroupOpen = false
+                                viewModel.onEvent(GroupEvent.OpenAddGroupDialog(false))
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -79,7 +79,7 @@ fun AddGroupDialog(viewModel: MainViewModel) {
                         }
                         Button(
                             onClick = {
-                                viewModel.isAddGroupOpen = false
+                                viewModel.onEvent(GroupEvent.OpenAddGroupDialog(false))
                                 viewModel.insertAndGetGroup(Group(0, inputValue.value))
                             },
                             modifier = Modifier

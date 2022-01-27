@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.element.composables
 
 import android.content.Context
 import android.content.Intent
@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,25 +18,23 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
-import com.a.vocabulary15.util.TestTags
+import com.a.vocabulary15.presentation.element.ElementEvent
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 import java.util.*
 
 @Composable
-fun AddElementDialog(
+fun EditElementDialog(
     context: Context,
-    viewModel: ElementsViewModel) {
-    if (viewModel.isAddElementOpen) {
-        Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
+    viewModel: ElementsViewModel
+) {
+    if (viewModel.state.value.isEditElementOpen) {
+        Dialog(onDismissRequest = { viewModel.onEvent(ElementEvent.OpenEditElementDialog(false)) }) {
             val link = stringResource(id = R.string.word_reference)
             val linkImage = stringResource(id = R.string.google_reference)
-            val inputValue = rememberSaveable { mutableStateOf("") }
-            val inputValueLink = rememberSaveable { mutableStateOf("") }
-            val inputValueLinkImage = rememberSaveable { mutableStateOf("") }
             Surface(
                 modifier = Modifier
                     .width(300.dp)
-                    .padding(5.dp)
-                    .testTag(TestTags.NEW_ELEMENT_DIALOG),
+                    .padding(5.dp),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
             ) {
@@ -49,20 +44,19 @@ fun AddElementDialog(
                 ) {
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.add_element),
+                        text = stringResource(R.string.edit_element),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
                     TextField(
-                        value = inputValue.value,
+                        value = viewModel.state.value.inputValue,
                         maxLines = 1,
-                        onValueChange = { inputValue.value = it },
+                        onValueChange = { viewModel.onEvent(ElementEvent.SetInputValue(it)) },
                         placeholder = { Text(text = stringResource(id = R.string.enter_name)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 10.dp, 0.dp, 10.dp)
-                            .testTag(TestTags.NEW_NAME_ELEMENT_TEXT_FIELD)
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -87,14 +81,13 @@ fun AddElementDialog(
                             )
                         }
                         TextField(
-                            value = inputValueLink.value,
+                            value = viewModel.state.value.inputValueLink,
                             maxLines = 1,
-                            onValueChange = { inputValueLink.value = it },
+                            onValueChange = { viewModel.onEvent(ElementEvent.SetInputValueLink(it)) },
                             placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 0.dp, 0.dp, 10.dp)
-                                .testTag(TestTags.NEW_LINK_ELEMENT_TEXT_FIELD)
                         )
                     }
                     Row(
@@ -120,27 +113,27 @@ fun AddElementDialog(
                             )
                         }
                         TextField(
-                            value = inputValueLinkImage.value,
+                            value = viewModel.state.value.inputValueLinkImage,
                             maxLines = 1,
-                            onValueChange = { inputValueLinkImage.value = it },
+                            onValueChange = { viewModel.onEvent(ElementEvent.SetInputValueLinkImage(it)) },
                             placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 0.dp, 0.dp, 10.dp)
-                                .testTag(TestTags.NEW_IMAGE_ELEMENT_TEXT_FIELD)
                         )
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
+
                         Button(
                             onClick = {
-                                viewModel.isAddElementOpen = false
+                                viewModel.onEvent(ElementEvent.OpenEditElementDialog(false))
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(60.dp)
+                                .height(40.dp)
                                 .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
@@ -151,26 +144,24 @@ fun AddElementDialog(
                         }
                         Button(
                             onClick = {
-                                viewModel.isAddElementOpen = false
-                                viewModel.setElement(
+                                viewModel.onEvent(ElementEvent.OpenEditElementDialog(false))
+                                viewModel.editElement(
                                     Element(
-                                        id = 0,
+                                        id = viewModel.item.id,
                                         groupId = viewModel.idGroup,
-                                        value = inputValue.value.lowercase(Locale.getDefault()),
-                                        image = inputValueLinkImage.value,
-                                        link = inputValueLink.value
+                                        value = viewModel.state.value.inputValue.lowercase(Locale.getDefault()),
+                                        image = viewModel.state.value.inputValueLinkImage,
+                                        link = viewModel.state.value.inputValueLink
                                     )
                                 )
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(60.dp)
-                                .padding(0.dp, 0.dp, 10.dp, 0.dp)
-                                .testTag(TestTags.SAVE_ELEMENT),
+                                .height(40.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(
-                                text = stringResource(id = R.string.add),
+                                text = stringResource(id = R.string.accept),
                                 color = Color.White
                             )
                         }

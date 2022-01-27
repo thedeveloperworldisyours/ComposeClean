@@ -23,7 +23,7 @@ fun TestFinishedDialog(
     navController: NavController,
     viewModel: TestViewModel
 ) {
-    if (viewModel.isTestFinishOpen.value) {
+    if (viewModel.state.value.isTestFinishOpen) {
         Dialog(onDismissRequest = { viewModel.onEvent(TestEvent.TestFinish(false)) }) {
             Surface(
                 modifier = Modifier

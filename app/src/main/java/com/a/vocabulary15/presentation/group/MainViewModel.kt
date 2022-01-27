@@ -1,8 +1,7 @@
 package com.a.vocabulary15.presentation.group
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.domain.model.Group
@@ -20,11 +19,21 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val groups = getGroups.invoke()
-
-    var isAddGroupOpen by mutableStateOf(false)
+    private val _state = mutableStateOf(GroupState())
+    val state: State<GroupState> = _state
 
     fun insertAndGetGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
         setGroup(group)
+    }
+    //events
+    fun onEvent(event: GroupEvent) {
+        when(event) {
+            is GroupEvent.OpenAddGroupDialog -> {
+                _state.value = state.value.copy(
+                    isAddGroupOpen = event.open
+                )
+            }
+        }
     }
 
 }

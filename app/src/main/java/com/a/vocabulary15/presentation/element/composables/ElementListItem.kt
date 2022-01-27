@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.element.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

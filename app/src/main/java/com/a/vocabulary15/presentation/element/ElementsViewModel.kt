@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.element
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -37,11 +38,10 @@ class ElementsViewModel @Inject constructor(
     //States
     var idGroup by mutableStateOf(-1)
     var elementName by mutableStateOf("")
-    var isDeleteAllOpen by mutableStateOf(false)
-    var isDeleteElementOpen by mutableStateOf(false)
-    var isAddElementOpen by mutableStateOf(false)
-    var isDetailElementOpen by mutableStateOf(false)
-    var isEditElementOpen by mutableStateOf(false)
+
+    private val _state = mutableStateOf(ElementState())
+    val state: State<ElementState> = _state
+
     var item = Element(1,1,"","", "")
 
     init {
@@ -57,7 +57,51 @@ class ElementsViewModel @Inject constructor(
             }
         }
     }
-
+    //events
+    fun onEvent(event: ElementEvent) {
+        when(event) {
+            is ElementEvent.OpenAddElementDialog -> {
+                _state.value = state.value.copy(
+                    isAddElementOpen = event.open
+                )
+            }
+            is ElementEvent.OpenEditElementDialog -> {
+                _state.value = state.value.copy(
+                    isEditElementOpen = event.open
+                )
+            }
+            is ElementEvent.OpenDeleteAllDialog -> {
+                _state.value = state.value.copy(
+                    isDeleteAllOpen = event.open
+                )
+            }
+            is ElementEvent.OpenDeleteElementDialog -> {
+                _state.value = state.value.copy(
+                    isDeleteElementOpen = event.open
+                )
+            }
+            is ElementEvent.OpenDetailElementDialog -> {
+                _state.value = state.value.copy(
+                    isDetailElementOpen = event.open
+                )
+            }
+            is ElementEvent.SetInputValue -> {
+                _state.value = state.value.copy(
+                    inputValue = event.input
+                )
+            }
+            is ElementEvent.SetInputValueLink -> {
+                _state.value = state.value.copy(
+                    inputValueLink = event.input
+                )
+            }
+            is ElementEvent.SetInputValueLinkImage -> {
+                _state.value = state.value.copy(
+                    inputValueLinkImage = event.input
+                )
+            }
+        }
+    }
     fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
         notifyLoading()
         getElementsJob?.cancel()

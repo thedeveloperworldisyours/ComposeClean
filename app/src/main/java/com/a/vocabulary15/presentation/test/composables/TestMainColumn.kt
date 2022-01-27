@@ -42,11 +42,11 @@ fun TestMainColumn(
     ) {
         Column {
             TestScoreCard(
-                listItems[viewModel.randomNumber.value].image,
-                viewModel.right.value,
-                viewModel.wrong.value
+                listItems[viewModel.state.value.randomNumber].image,
+                viewModel.state.value.right,
+                viewModel.state.value.wrong
             )
-            when (viewModel.mode.value) {
+            when (viewModel.state.value.levelMode) {
                 LIST_MODE -> {
                     LazyColumn(
                         contentPadding = PaddingValues(bottom = 80.dp),
@@ -56,12 +56,12 @@ fun TestMainColumn(
                     ) {
                         itemsIndexed(items = listItems) { _, item: Element ->
                             TestListItem(item) {
-                                if ((listItems[viewModel.randomNumber.value].id == item.id)) {
+                                if ((listItems[viewModel.state.value.randomNumber].id == item.id)) {
                                     viewModel.nextElement()
                                 } else {
                                     viewModel.onEvent(
                                         TestEvent.ChangeWrong(
-                                            viewModel.wrong.value + 1
+                                            viewModel.state.value.wrong + 1
                                         )
                                     )
                                 }
@@ -71,19 +71,19 @@ fun TestMainColumn(
                 }
                 TEXT_MODE -> {
                     TestRespondsTextField(label = stringResource(id = R.string.test_respond),
-                        value = viewModel.text.value,
+                        value = viewModel.state.value.text,
                         onValueChange = { viewModel.onEvent(TestEvent.ChangeText(it)) })
                     Button(
                         onClick = {
-                            if (listItems[viewModel.randomNumber.value].value ==
-                                viewModel.text.value
+                            if (listItems[viewModel.state.value.randomNumber].value ==
+                                viewModel.state.value.text
                             ) {
                                 viewModel.onEvent(TestEvent.ChangeText(""))
                                 viewModel.nextElement()
                             } else {
                                 viewModel.onEvent(
                                     TestEvent.ChangeWrong(
-                                        viewModel.wrong.value + 1
+                                        viewModel.state.value.wrong + 1
                                     )
                                 )
                             }

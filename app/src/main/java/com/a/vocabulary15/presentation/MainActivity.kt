@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.a.vocabulary15.presentation.element.ElementScreen
+import com.a.vocabulary15.presentation.element.composables.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
 import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme

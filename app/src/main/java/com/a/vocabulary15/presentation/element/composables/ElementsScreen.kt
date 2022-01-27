@@ -1,10 +1,7 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.element.composables
 
 import android.content.Context
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
@@ -13,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +20,8 @@ import androidx.navigation.NavController
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.common.ViewState
+import com.a.vocabulary15.presentation.element.ElementEvent
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.util.Screen
 import com.a.vocabulary15.util.TestTags
@@ -81,7 +81,7 @@ fun ElementDataScreen(
                         )
                     }
                     IconButton(onClick = {
-                        viewModel.isDeleteAllOpen = true
+                        viewModel.onEvent(ElementEvent.OpenDeleteAllDialog(true))
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_forever),
@@ -94,7 +94,10 @@ fun ElementDataScreen(
             FloatingActionButton(
                 modifier = Modifier.testTag(TestTags.NEW_ELEMENT),
                 onClick = {
-                    viewModel.isAddElementOpen = true
+                    viewModel.onEvent(ElementEvent.SetInputValue(""))
+                    viewModel.onEvent(ElementEvent.SetInputValueLink(""))
+                    viewModel.onEvent(ElementEvent.SetInputValueLinkImage(""))
+                    viewModel.onEvent(ElementEvent.OpenAddElementDialog(true))
                 }
             ) {
                 Icon(
@@ -110,13 +113,14 @@ fun ElementDataScreen(
                 .fillMaxSize()
         ) {
             if (elements.isEmpty()) {
-                viewModel.isAddElementOpen = true
+                viewModel.onEvent(ElementEvent.OpenAddElementDialog(true))
                 GroupElementText(
                     text = stringResource(id = R.string.empty_group, viewModel.elementName),
                     modifier = Modifier
                         .align(
                             Alignment.Center
-                        ).testTag(TestTags.EMPTY_ELEMENT_MESSAGE)
+                        )
+                        .testTag(TestTags.EMPTY_ELEMENT_MESSAGE)
                 )
             } else {
                 LazyColumn(
@@ -128,7 +132,7 @@ fun ElementDataScreen(
                     itemsIndexed(items = elements) { _, item: Element ->
                         ElementListItem(item, clickableItem = {
                             viewModel.item = item
-                            viewModel.isDetailElementOpen = true
+                            viewModel.onEvent(ElementEvent.OpenDetailElementDialog(true))
                         })
                     }
                 }
@@ -171,11 +175,12 @@ fun ElementLoadingScreen(
             Modifier
                 .fillMaxSize()
         ) {
-            GroupElementText(
-                text = viewModel.idGroup.toString(), modifier = Modifier
-                    .align(
-                        Alignment.Center
-                    )
+            LinearProgressIndicator(
+                color = colorResource(id = R.color.blue_200),
+                modifier = Modifier
+                    .absolutePadding(8.dp, 8.dp, 8.dp, 8.dp)
+                    .width(300.dp),
+                backgroundColor = colorResource(id = R.color.purple_700)
             )
         }
     }

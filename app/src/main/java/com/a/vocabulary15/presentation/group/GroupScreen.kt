@@ -44,7 +44,7 @@ fun GroupScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.isAddGroupOpen = true }
+                onClick = { viewModel.onEvent(GroupEvent.OpenAddGroupDialog(true)) }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -59,7 +59,6 @@ fun GroupScreen(
         ) {
             AddGroupDialog(viewModel)
             if (groups.value.isEmpty()) {
-                viewModel.isAddGroupOpen = true
                 GroupElementText(
                     text = stringResource(id = R.string.empty_group_list),
                     modifier = Modifier
@@ -69,7 +68,6 @@ fun GroupScreen(
                         .testTag(TestTags.EMPTY_GROUP_MESSAGE)
                 )
             } else {
-                viewModel.isAddGroupOpen = false
                 GroupListLazyColumn(
                     Modifier
                         .fillMaxWidth()

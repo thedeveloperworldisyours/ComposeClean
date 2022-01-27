@@ -1,8 +1,7 @@
 package com.a.vocabulary15.presentation.test.composables
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -11,7 +10,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.a.vocabulary15.R
@@ -77,11 +78,12 @@ fun TestLoadingScreen(
             Modifier
                 .fillMaxSize()
         ) {
-            GroupElementText(
-                text = viewModel.idGroup.toString(), modifier = Modifier
-                    .align(
-                        Alignment.Center
-                    )
+            LinearProgressIndicator(
+                color = colorResource(id = R.color.blue_200),
+                modifier = Modifier
+                    .absolutePadding(8.dp, 8.dp, 8.dp, 8.dp)
+                    .width(300.dp),
+                backgroundColor = colorResource(id = R.color.purple_700)
             )
         }
     }

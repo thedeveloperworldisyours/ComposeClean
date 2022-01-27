@@ -93,6 +93,8 @@ class GroupsElementEndToEndTest {
     fun saveNewGroup() {
         composeRule.onNodeWithTag(TestTags.NEW_GROUP_DIALOG).assertDoesNotExist()
 
+        composeRule.onNodeWithTag(TestTags.NEW_GROUP)
+
         composeRule.onNodeWithTag(TestTags.NEW_GROUP_DIALOG).assertIsDisplayed()
         composeRule
             .onNodeWithTag(TestTags.NAME_TEXT_FIELD)

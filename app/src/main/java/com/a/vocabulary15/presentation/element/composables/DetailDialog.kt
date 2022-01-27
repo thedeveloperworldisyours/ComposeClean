@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.element.composables
 
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -22,11 +22,13 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
+import com.a.vocabulary15.presentation.element.ElementEvent
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 
 @Composable
 fun DetailDialog(viewModel: ElementsViewModel) {
-    if (viewModel.isDetailElementOpen) {
-        Dialog(onDismissRequest = { viewModel.isDetailElementOpen = false }) {
+    if (viewModel.state.value.isDetailElementOpen) {
+        Dialog(onDismissRequest = { viewModel.state.value.isDetailElementOpen = false }) {
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,8 +67,8 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                     ) {
                         IconButton(
                             onClick = {
-                                viewModel.isDetailElementOpen = false
-                                viewModel.isDeleteElementOpen = true
+                                viewModel.onEvent(ElementEvent.OpenDetailElementDialog(false))
+                                viewModel.onEvent(ElementEvent.OpenDeleteElementDialog(true))
                             },
                             modifier = Modifier
                                 .size(50.dp)
@@ -82,8 +84,11 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                         Spacer(modifier = Modifier.size(5.dp))
                         IconButton(
                             onClick = {
-                                viewModel.isDetailElementOpen = false
-                                viewModel.isEditElementOpen = true
+                                viewModel.onEvent(ElementEvent.SetInputValue(viewModel.item.value))
+                                viewModel.onEvent(ElementEvent.SetInputValueLink(viewModel.item.link))
+                                viewModel.onEvent(ElementEvent.SetInputValueLinkImage(viewModel.item.image))
+                                viewModel.onEvent(ElementEvent.OpenDetailElementDialog(false))
+                                viewModel.onEvent(ElementEvent.OpenEditElementDialog(true))
                             },
                             modifier = Modifier
                                 .size(50.dp)
@@ -112,7 +117,7 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                         )
                         Button(
                             onClick = {
-                                viewModel.isDetailElementOpen = false
+                                viewModel.onEvent(ElementEvent.OpenDetailElementDialog(false))
                             },
                             modifier = Modifier
                                 .width(90.dp)

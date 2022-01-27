@@ -22,7 +22,7 @@ import com.a.vocabulary15.util.TestTags
 @Composable
 fun TestChooseLevelDialog(
     viewModel: TestViewModel) {
-    if (viewModel.isChooseLevelOpen.value) {
+    if (viewModel.state.value.isChooseLevelOpen) {
         Dialog(onDismissRequest = { viewModel.onEvent(TestEvent.OpenChooseMode(false)) }) {
             Surface(
                 modifier = Modifier

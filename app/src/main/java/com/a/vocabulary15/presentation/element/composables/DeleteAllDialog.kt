@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.element
+package com.a.vocabulary15.presentation.element.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,14 +13,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.a.vocabulary15.R
+import com.a.vocabulary15.presentation.element.ElementEvent
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 
 @Composable
-fun DeleteElementDialog(
+fun DeleteAllDialog(
+    navController: NavController,
     viewModel: ElementsViewModel
 ) {
-    if (viewModel.isDeleteElementOpen) {
-        Dialog(onDismissRequest = { viewModel.isDeleteElementOpen = false }) {
+    if (viewModel.state.value.isDeleteAllOpen) {
+        Dialog(onDismissRequest = { viewModel.state.value.isDeleteAllOpen = false }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -34,14 +38,17 @@ fun DeleteElementDialog(
                 ) {
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.delete_title),
+                        text = stringResource(id = R.string.delete_title),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 19.sp
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.do_you_want_to_delete, viewModel.item.value),
+                        text = stringResource(
+                            id = R.string.do_you_want_delete,
+                            viewModel.elementName
+                        ),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
@@ -52,7 +59,7 @@ fun DeleteElementDialog(
                     ) {
                         Button(
                             onClick = {
-                                viewModel.isDeleteElementOpen = false
+                                viewModel.onEvent(ElementEvent.OpenDeleteAllDialog(false))
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -67,8 +74,8 @@ fun DeleteElementDialog(
                         }
                         Button(
                             onClick = {
-                                viewModel.isDeleteElementOpen = false
-                                viewModel.deleteElement(viewModel.item.id)
+                                viewModel.deleteGroupWithElements(viewModel.idGroup)
+                                navController.navigateUp()
                             },
                             modifier = Modifier
                                 .width(90.dp)
@@ -85,4 +92,5 @@ fun DeleteElementDialog(
             }
         }
     }
+
 }

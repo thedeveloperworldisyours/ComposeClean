@@ -3,6 +3,7 @@ package com.a.vocabulary15.presentation.group
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
@@ -62,6 +63,7 @@ fun GroupScreen(
                 GroupElementText(
                     text = stringResource(id = R.string.empty_group_list),
                     modifier = Modifier
+                        .fillMaxHeight()
                         .align(
                             Alignment.Center
                         )

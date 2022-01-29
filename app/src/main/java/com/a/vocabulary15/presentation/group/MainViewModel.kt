@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(
     private val _state = mutableStateOf(GroupState())
     val state: State<GroupState> = _state
 
-    fun insertAndGetGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertGroup(group: Group) = viewModelScope.launch(Dispatchers.IO) {
         setGroup(group)
     }
     //events

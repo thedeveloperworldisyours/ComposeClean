@@ -40,7 +40,7 @@ class GroupViewModelTest {
     @Test
     fun `set group successfully`() {
         runBlocking {
-            groupViewModel.insertAndGetGroup(group)
+            groupViewModel.insertGroup(group)
 
             verify(setGroup).invoke(group)
         }

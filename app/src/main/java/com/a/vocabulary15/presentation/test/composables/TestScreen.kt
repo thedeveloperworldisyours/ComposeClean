@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.common.ViewState
+import com.a.vocabulary15.presentation.test.TestEvent
 import com.a.vocabulary15.presentation.test.TestViewModel
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.util.TestTags
@@ -40,11 +41,15 @@ fun TestScreen(
                         .fillMaxSize()
                 ) {
                     GroupElementText(
-                        text = stringResource(id = R.string.empty_group, viewModel.elementName),
+                        text = stringResource(
+                            id = R.string.empty_group,
+                            viewModel.state.value.elementName
+                        ),
                         modifier = Modifier
                             .align(
                                 Alignment.Center
-                            ).testTag(TestTags.EMPTY_TEST)
+                            )
+                            .testTag(TestTags.EMPTY_TEST)
                     )
                 }
             } else {
@@ -62,7 +67,8 @@ fun TestScreen(
 
 @Composable
 fun TestLoadingScreen(
-    viewModel: TestViewModel) {
+    viewModel: TestViewModel
+) {
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -74,9 +80,11 @@ fun TestLoadingScreen(
             )
         }
     ) {
-        Box(
+        Column(
             Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LinearProgressIndicator(
                 color = colorResource(id = R.color.blue_200),
@@ -85,6 +93,7 @@ fun TestLoadingScreen(
                     .width(300.dp),
                 backgroundColor = colorResource(id = R.color.purple_700)
             )
+            viewModel.onEvent(TestEvent.FetchElement)
         }
     }
 }

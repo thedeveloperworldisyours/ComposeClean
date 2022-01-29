@@ -154,7 +154,7 @@ fun AddElementDialog(
                                 viewModel.setElement(
                                     Element(
                                         id = 0,
-                                        groupId = viewModel.idGroup,
+                                        groupId = viewModel.state.value.idGroup,
                                         value = viewModel.state.value.inputValue.lowercase(Locale.getDefault()),
                                         image = viewModel.state.value.inputValueLinkImage,
                                         link = viewModel.state.value.inputValueLink

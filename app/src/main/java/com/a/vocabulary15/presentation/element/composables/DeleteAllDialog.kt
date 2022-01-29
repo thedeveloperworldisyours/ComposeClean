@@ -24,7 +24,7 @@ fun DeleteAllDialog(
     viewModel: ElementsViewModel
 ) {
     if (viewModel.state.value.isDeleteAllOpen) {
-        Dialog(onDismissRequest = { viewModel.state.value.isDeleteAllOpen = false }) {
+        Dialog(onDismissRequest = { viewModel.onEvent(ElementEvent.OpenDeleteAllDialog(false)) }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -47,7 +47,7 @@ fun DeleteAllDialog(
                     Text(
                         text = stringResource(
                             id = R.string.do_you_want_delete,
-                            viewModel.elementName
+                            viewModel.state.value.elementName
                         ),
                         color = Color.Black,
                         fontSize = 19.sp
@@ -74,7 +74,7 @@ fun DeleteAllDialog(
                         }
                         Button(
                             onClick = {
-                                viewModel.deleteGroupWithElements(viewModel.idGroup)
+                                viewModel.deleteGroupWithElements(viewModel.state.value.idGroup)
                                 navController.navigateUp()
                             },
                             modifier = Modifier

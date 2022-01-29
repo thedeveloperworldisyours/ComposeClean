@@ -1,5 +1,6 @@
 package com.a.vocabulary15.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import com.a.vocabulary15.domain.usecases.GetElements
 import com.a.vocabulary15.presentation.test.TestViewModel
 import com.nhaarman.mockitokotlin2.verify
@@ -18,11 +19,15 @@ class TestViewModelTest {
 
     lateinit var testViewModel: TestViewModel
 
-    val idGroup = 0
+    private val idGroup = 0
 
     @Before
     fun setup() {
-        testViewModel = TestViewModel(getElements)
+        val savedStateHandle = SavedStateHandle().apply {
+            set("idGroup", idGroup)
+            set("elementName", "elementName")
+        }
+        testViewModel = TestViewModel(getElements, savedStateHandle)
     }
 
     @Test

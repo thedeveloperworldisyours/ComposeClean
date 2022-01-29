@@ -115,7 +115,13 @@ fun EditElementDialog(
                         TextField(
                             value = viewModel.state.value.inputValueLinkImage,
                             maxLines = 1,
-                            onValueChange = { viewModel.onEvent(ElementEvent.SetInputValueLinkImage(it)) },
+                            onValueChange = {
+                                viewModel.onEvent(
+                                    ElementEvent.SetInputValueLinkImage(
+                                        it
+                                    )
+                                )
+                            },
                             placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -147,8 +153,8 @@ fun EditElementDialog(
                                 viewModel.onEvent(ElementEvent.OpenEditElementDialog(false))
                                 viewModel.editElement(
                                     Element(
-                                        id = viewModel.item.id,
-                                        groupId = viewModel.idGroup,
+                                        id = viewModel.state.value.element.id,
+                                        groupId = viewModel.state.value.idGroup,
                                         value = viewModel.state.value.inputValue.lowercase(Locale.getDefault()),
                                         image = viewModel.state.value.inputValueLinkImage,
                                         link = viewModel.state.value.inputValueLink

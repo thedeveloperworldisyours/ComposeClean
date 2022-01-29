@@ -1,9 +1,7 @@
 package com.a.vocabulary15.presentation.test
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,24 +33,23 @@ class TestViewModel @Inject constructor(
     val viewState = viewStateMutable.asStateFlow()
     private var getElementsJob: Job? = null
 
-    private var elementsAsked = mutableListOf<Boolean>()
-
     //state
-    var idGroup by mutableStateOf(-1)
-    var elementName by mutableStateOf("")
     private val _state = mutableStateOf(TestState())
     val state: State<TestState> = _state
 
     init {
         savedStateHandle.get<Int>("idGroup")?.let { currentID ->
             if (currentID != -1) {
-                idGroup = currentID
-                getElements(currentID)
+                _state.value = state.value.copy(
+                    idGroup = currentID
+                )
             }
         }
         savedStateHandle.get<String>("elementName")?.let { name ->
             if (name != "") {
-                elementName = name
+                _state.value = state.value.copy(
+                    elementName = name
+                )
             }
         }
     }
@@ -100,6 +97,9 @@ class TestViewModel @Inject constructor(
                     isChooseLevelOpen = event.open
                 )
             }
+            is TestEvent.FetchElement -> {
+                getElements(state.value.idGroup)
+            }
         }
     }
 
@@ -113,7 +113,6 @@ class TestViewModel @Inject constructor(
     }
 
     private fun initTest(elementList: List<Element>) {
-        elementList
         onEvent(TestEvent.UpdateListItems(elementList))
         if (state.value.randomNumber == -1) {
             getNumber()
@@ -123,15 +122,24 @@ class TestViewModel @Inject constructor(
 
     private fun getNumber() {
         onEvent(TestEvent.ChangeRandomNumber(state.value.elements.indices.random()))
-        elementsAsked = MutableList(state.value.elements.size) { false }
+        _state.value = state.value.copy(
+            asked = MutableList(state.value.elements.size) { false }
+        )
     }
 
     private fun setCompletedElement(elementCompleted: Int) {
+        val elementsAsked =  MutableList(state.value.elements.size) { false }
+        for (i in state.value.asked.indices) {
+            elementsAsked[i] = state.value.asked[i]
+        }
         elementsAsked[elementCompleted] = true
+        _state.value = state.value.copy(
+            asked = elementsAsked
+        )
     }
 
     private fun isTestFinished(): Boolean {
-        for (item in elementsAsked) {
+        for (item in state.value.asked) {
             if (!item) {
                 return false
             }
@@ -142,10 +150,12 @@ class TestViewModel @Inject constructor(
     fun nextElement() {
         if (isTestFinished()) {
             onEvent(TestEvent.TestFinish(true))
-            elementsAsked = MutableList(state.value.elements.size) { false }
+            _state.value = state.value.copy(
+                asked = MutableList(state.value.elements.size) { false }
+            )
         } else {
             val possibleElement = (state.value.elements.indices).random()
-            if (elementsAsked[possibleElement]) {
+            if (state.value.asked[possibleElement]) {
                 nextElement()
             } else {
                 onEvent(TestEvent.ChangeRight(state.value.right + 1))

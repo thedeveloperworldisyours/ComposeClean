@@ -22,7 +22,7 @@ fun DeleteElementDialog(
     viewModel: ElementsViewModel
 ) {
     if (viewModel.state.value.isDeleteElementOpen) {
-        Dialog(onDismissRequest = { viewModel.state.value.isDeleteElementOpen = false }) {
+        Dialog(onDismissRequest = { viewModel.onEvent(ElementEvent.OpenDeleteElementDialog(false)) }) {
             Surface(
                 modifier = Modifier
                     .width(300.dp)
@@ -43,7 +43,10 @@ fun DeleteElementDialog(
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = stringResource(R.string.do_you_want_to_delete, viewModel.item.value),
+                        text = stringResource(
+                            R.string.do_you_want_to_delete,
+                            viewModel.state.value.element
+                        ),
                         color = Color.Black,
                         fontSize = 19.sp
                     )
@@ -70,7 +73,7 @@ fun DeleteElementDialog(
                         Button(
                             onClick = {
                                 viewModel.onEvent(ElementEvent.OpenDeleteElementDialog(false))
-                                viewModel.deleteElement(viewModel.item.id)
+                                viewModel.deleteElement(viewModel.state.value.element.id)
                             },
                             modifier = Modifier
                                 .width(90.dp)

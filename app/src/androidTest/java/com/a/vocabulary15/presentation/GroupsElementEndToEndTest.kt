@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.test.platform.app.InstrumentationRegistry
 import com.a.vocabulary15.di.DatabaseModule
-import com.a.vocabulary15.presentation.element.ElementScreen
+import com.a.vocabulary15.presentation.element.composables.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
 import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
@@ -93,7 +93,7 @@ class GroupsElementEndToEndTest {
     fun saveNewGroup() {
         composeRule.onNodeWithTag(TestTags.NEW_GROUP_DIALOG).assertDoesNotExist()
 
-        composeRule.onNodeWithTag(TestTags.NEW_GROUP)
+        composeRule.onNodeWithContentDescription(TestTags.NEW_GROUP).performClick()
 
         composeRule.onNodeWithTag(TestTags.NEW_GROUP_DIALOG).assertIsDisplayed()
         composeRule
@@ -122,6 +122,8 @@ class GroupsElementEndToEndTest {
             .onChildren()
             .onFirst()
             .performClick()
+
+        composeRule.onNodeWithTag(TestTags.NEW_ELEMENT).performClick()
 
         composeRule.onNodeWithTag(TestTags.NEW_NAME_ELEMENT_TEXT_FIELD)
             .performTextInput("new-name-element")

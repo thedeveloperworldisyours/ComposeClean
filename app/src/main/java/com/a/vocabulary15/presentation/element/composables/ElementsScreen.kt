@@ -65,16 +65,17 @@ fun ElementDataScreen(
                 title = {
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = viewModel.elementName
+                        text = viewModel.state.value.elementName
                     )
                 }, actions = {
                     IconButton(
                         modifier = Modifier.testTag(TestTags.CHECK_YOUR_KNOWLEDGE),
                         onClick = {
-                        navController.navigate(
-                            Screen.TestScreen.route +
-                                "?idGroup=${viewModel.idGroup}&elementName=${viewModel.elementName}")
-                    }) {
+                            navController.navigate(
+                                Screen.TestScreen.route +
+                                        "?idGroup=${viewModel.state.value.idGroup}&elementName=${viewModel.state.value.elementName}"
+                            )
+                        }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_check_knowledge),
                             contentDescription = stringResource(id = R.string.check_your_knowledge)
@@ -113,9 +114,11 @@ fun ElementDataScreen(
                 .fillMaxSize()
         ) {
             if (elements.isEmpty()) {
-                viewModel.onEvent(ElementEvent.OpenAddElementDialog(true))
                 GroupElementText(
-                    text = stringResource(id = R.string.empty_group, viewModel.elementName),
+                    text = stringResource(
+                        id = R.string.empty_group,
+                        viewModel.state.value.elementName
+                    ),
                     modifier = Modifier
                         .align(
                             Alignment.Center
@@ -131,7 +134,7 @@ fun ElementDataScreen(
                 ) {
                     itemsIndexed(items = elements) { _, item: Element ->
                         ElementListItem(item, clickableItem = {
-                            viewModel.item = item
+                            viewModel.onEvent(ElementEvent.SetElement(item))
                             viewModel.onEvent(ElementEvent.OpenDetailElementDialog(true))
                         })
                     }
@@ -171,18 +174,20 @@ fun ElementLoadingScreen(
             }
         }
     ) {
-        Box(
+        Column(
             Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LinearProgressIndicator(
                 color = colorResource(id = R.color.blue_200),
                 modifier = Modifier
-                    .fillMaxHeight()
                     .absolutePadding(8.dp, 8.dp, 8.dp, 8.dp)
                     .width(300.dp),
                 backgroundColor = colorResource(id = R.color.purple_700)
             )
+            viewModel.onEvent(ElementEvent.FetchElements)
         }
     }
 }

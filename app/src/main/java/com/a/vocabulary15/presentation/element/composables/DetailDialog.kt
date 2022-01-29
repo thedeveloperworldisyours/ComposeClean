@@ -28,7 +28,7 @@ import com.a.vocabulary15.presentation.element.ElementsViewModel
 @Composable
 fun DetailDialog(viewModel: ElementsViewModel) {
     if (viewModel.state.value.isDetailElementOpen) {
-        Dialog(onDismissRequest = { viewModel.state.value.isDetailElementOpen = false }) {
+        Dialog(onDismissRequest = { viewModel.onEvent(ElementEvent.OpenDetailElementDialog(false)) }) {
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
@@ -50,11 +50,11 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                                 }
                             }
                         }, update = {
-                            if (viewModel.item.link.contains("https://") || viewModel.item.link.contains(
+                            if (viewModel.state.value.element.link.contains("https://") || viewModel.state.value.element.link.contains(
                                     "http://"
                                 )
                             ) {
-                                it.loadUrl(viewModel.item.link)
+                                it.loadUrl(viewModel.state.value.element.link)
                             }
                         }
                     )
@@ -84,9 +84,9 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                         Spacer(modifier = Modifier.size(5.dp))
                         IconButton(
                             onClick = {
-                                viewModel.onEvent(ElementEvent.SetInputValue(viewModel.item.value))
-                                viewModel.onEvent(ElementEvent.SetInputValueLink(viewModel.item.link))
-                                viewModel.onEvent(ElementEvent.SetInputValueLinkImage(viewModel.item.image))
+                                viewModel.onEvent(ElementEvent.SetInputValue(viewModel.state.value.element.value))
+                                viewModel.onEvent(ElementEvent.SetInputValueLink(viewModel.state.value.element.link))
+                                viewModel.onEvent(ElementEvent.SetInputValueLinkImage(viewModel.state.value.element.image))
                                 viewModel.onEvent(ElementEvent.OpenDetailElementDialog(false))
                                 viewModel.onEvent(ElementEvent.OpenEditElementDialog(true))
                             },
@@ -108,7 +108,7 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                         Image(
                             modifier = Modifier
                                 .size(50.dp),
-                            painter = rememberImagePainter(viewModel.item.image),
+                            painter = rememberImagePainter(viewModel.state.value.element.image),
                             contentDescription = null
                         )
                         Spacer(

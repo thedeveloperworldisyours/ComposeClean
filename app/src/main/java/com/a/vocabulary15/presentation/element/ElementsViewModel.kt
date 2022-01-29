@@ -1,9 +1,7 @@
 package com.a.vocabulary15.presentation.element
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,25 +33,23 @@ class ElementsViewModel @Inject constructor(
 
     private var getElementsJob: Job? = null
 
-    //States
-    var idGroup by mutableStateOf(-1)
-    var elementName by mutableStateOf("")
-
+    //State
     private val _state = mutableStateOf(ElementState())
     val state: State<ElementState> = _state
-
-    var item = Element(1,1,"","", "")
 
     init {
         savedStateHandle.get<Int>("idGroup")?.let { currentID ->
             if (currentID != -1) {
-                idGroup = currentID
-                getElements(currentID)
+                _state.value = state.value.copy(
+                    idGroup = currentID
+                )
             }
         }
         savedStateHandle.get<String>("elementName")?.let { name ->
             if (name != "") {
-                elementName = name
+                _state.value = state.value.copy(
+                    elementName = name
+                )
             }
         }
     }
@@ -100,10 +96,17 @@ class ElementsViewModel @Inject constructor(
                     inputValueLinkImage = event.input
                 )
             }
+            is ElementEvent.SetElement -> {
+                _state.value = state.value.copy(
+                    element = event.element
+                )
+            }
+            is ElementEvent.FetchElements -> {
+                getElements(state.value.idGroup)
+            }
         }
     }
-    fun getElements(idGroup :Int) = viewModelScope.launch(Dispatchers.IO) {
-        notifyLoading()
+    fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
         getElementsJob?.cancel()
         getElementsJob = getElements.invoke(idGroup).onEach { elements ->
             notifyPostState(elements)
@@ -124,10 +127,6 @@ class ElementsViewModel @Inject constructor(
 
     fun deleteElement(id: Int) = viewModelScope.launch(Dispatchers.IO) {
         deleteElement.invoke(id)
-    }
-
-    private fun notifyLoading() {
-        viewStateMutable.value = ViewState.Loading
     }
 
     private fun notifyPostState(list: List<Element>) {

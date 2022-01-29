@@ -11,4 +11,5 @@ sealed class TestEvent {
     class ChangeRandomNumber(val newNumber: Int) : TestEvent()
     class TestFinish(val newBoolean: Boolean) : TestEvent()
     class OpenChooseMode(val open: Boolean): TestEvent()
+    object FetchElement: TestEvent()
 }

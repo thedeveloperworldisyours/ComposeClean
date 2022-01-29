@@ -80,7 +80,7 @@ fun AddGroupDialog(viewModel: MainViewModel) {
                         Button(
                             onClick = {
                                 viewModel.onEvent(GroupEvent.OpenAddGroupDialog(false))
-                                viewModel.insertAndGetGroup(Group(0, inputValue.value))
+                                viewModel.insertGroup(Group(0, inputValue.value))
                             },
                             modifier = Modifier
                                 .width(90.dp)

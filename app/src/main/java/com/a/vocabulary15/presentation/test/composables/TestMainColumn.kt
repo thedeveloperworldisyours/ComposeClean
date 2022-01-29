@@ -34,7 +34,7 @@ fun TestMainColumn(
                 title = {
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = viewModel.elementName
+                        text = viewModel.state.value.elementName
                     )
                 }
             )

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -35,30 +36,45 @@ fun TestScreen(
         }
         is ViewState.Success<*> -> {
             val elements = (state.value as ViewState.Success<*>).value as List<Element>
-            if (elements.isEmpty()) {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                ) {
-                    GroupElementText(
-                        text = stringResource(
-                            id = R.string.empty_group,
-                            viewModel.state.value.elementName
-                        ),
-                        modifier = Modifier
-                            .align(
-                                Alignment.Center
+            Scaffold(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                fontWeight = FontWeight.Bold,
+                                text = viewModel.state.value.elementName
                             )
-                            .testTag(TestTags.EMPTY_TEST)
+                        }
                     )
                 }
-            } else {
-                TestChooseLevelDialog(viewModel)
-                TestFinishedDialog(navController, viewModel)
-                TestMainColumn(
-                    viewModel,
-                    elements
-                )
+            ) {
+                if (elements.isEmpty()) {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                    ) {
+                        GroupElementText(
+                            text = stringResource(
+                                id = R.string.empty_group,
+                                viewModel.state.value.elementName
+                            ),
+                            modifier = Modifier
+                                .align(
+                                    Alignment.Center
+                                )
+                                .testTag(TestTags.EMPTY_TEST)
+                        )
+                    }
+                } else {
+                    TestChooseLevelDialog(viewModel)
+                    TestFinishedDialog(navController, viewModel)
+                    TestMainColumn(
+                        viewModel,
+                        elements
+                    )
+                }
             }
         }
     }

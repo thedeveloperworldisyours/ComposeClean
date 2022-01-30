@@ -29,7 +29,8 @@ class TestViewModel @Inject constructor(
         const val TEXT_MODE = 1
     }
 
-    private val viewStateMutable: MutableStateFlow<ViewState<*>> = MutableStateFlow(ViewState.Loading)
+    private val viewStateMutable: MutableStateFlow<ViewState<*>> =
+        MutableStateFlow(ViewState.Loading)
     val viewState = viewStateMutable.asStateFlow()
     private var getElementsJob: Job? = null
 
@@ -56,7 +57,7 @@ class TestViewModel @Inject constructor(
 
     //events
     fun onEvent(event: TestEvent) {
-        when(event) {
+        when (event) {
             is TestEvent.ChangeMode -> {
                 _state.value = state.value.copy(
                     levelMode = event.mode
@@ -104,7 +105,6 @@ class TestViewModel @Inject constructor(
     }
 
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {
-        notifyLoading()
         getElementsJob?.cancel()
         getElementsJob = getElements.invoke(idGroup).onEach { elements ->
             initTest(elements)
@@ -113,11 +113,13 @@ class TestViewModel @Inject constructor(
     }
 
     private fun initTest(elementList: List<Element>) {
-        onEvent(TestEvent.UpdateListItems(elementList))
-        if (state.value.randomNumber == -1) {
-            getNumber()
+        if (elementList.isNotEmpty()) {
+            onEvent(TestEvent.UpdateListItems(elementList))
+            if (state.value.randomNumber == -1) {
+                getNumber()
+            }
+            setCompletedElement(state.value.randomNumber)
         }
-        setCompletedElement(state.value.randomNumber)
     }
 
     private fun getNumber() {
@@ -128,7 +130,7 @@ class TestViewModel @Inject constructor(
     }
 
     private fun setCompletedElement(elementCompleted: Int) {
-        val elementsAsked =  MutableList(state.value.elements.size) { false }
+        val elementsAsked = MutableList(state.value.elements.size) { false }
         for (i in state.value.asked.indices) {
             elementsAsked[i] = state.value.asked[i]
         }
@@ -171,10 +173,6 @@ class TestViewModel @Inject constructor(
         onEvent(TestEvent.ChangeRight(0))
         onEvent(TestEvent.ChangeWrong(0))
         onEvent(TestEvent.TestFinish(false))
-    }
-
-    private fun notifyLoading() {
-        viewStateMutable.value = ViewState.Loading
     }
 
     private fun notifyPostState(list: List<Element>) {

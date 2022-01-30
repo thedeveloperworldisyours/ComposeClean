@@ -146,7 +146,7 @@ class GroupsElementEndToEndTest {
 
         composeRule.onNodeWithTag(TestTags.CHECK_YOUR_KNOWLEDGE)
 
-        composeRule.onNodeWithTag(TestTags.EMPTY_ELEMENT_MESSAGE).assertIsDisplayed()
+        composeRule.onNodeWithTag(TestTags.EMPTY_TEST).assertIsDisplayed()
     }
 
     @Test

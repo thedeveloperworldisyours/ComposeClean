@@ -12,29 +12,19 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.first
 
 @RunWith(MockitoJUnitRunner::class)
 class DeleteElementTest {
 
     @Mock
     private lateinit var repository: Repository
-
-    private lateinit var fakeRepository: FakeRepository
-
     private lateinit var deleteElement: DeleteElement
 
-    private lateinit var getFakeElement: GetElements
 
-    private lateinit var setFakeElement: SetElement
-
-    private lateinit var deleteFakeElement : DeleteElement
 
     @Before
     fun setup(){
-        fakeRepository = FakeRepository()
-        getFakeElement = GetElementsImpl(fakeRepository)
-        deleteFakeElement = DeleteElementImpl(fakeRepository)
-        setFakeElement = SetElementImpl(fakeRepository)
         deleteElement = DeleteElementImpl(repository)
 
         val elements = mutableListOf<Element>()
@@ -59,20 +49,5 @@ class DeleteElementTest {
 
             verify(repository).deleteElement(1)
         }
-    }
-
-    @Test
-    fun `delete element with successfully with fake repository`()= runBlocking {
-        val thisElement = Element(
-            1,
-            1,
-            "image",
-            "value",
-            "link")
-        setFakeElement.invoke(thisElement)
-        val oldElements = getFakeElement.invoke(1)
-        val newElements = deleteElement.invoke(1)
-
-        assertThat(newElements).isNotEqualTo(oldElements)
     }
 }

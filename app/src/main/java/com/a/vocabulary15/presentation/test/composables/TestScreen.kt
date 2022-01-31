@@ -1,10 +1,7 @@
 package com.a.vocabulary15.presentation.test.composables
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -102,12 +99,11 @@ fun TestLoadingScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LinearProgressIndicator(
+            CircularProgressIndicator(
                 color = colorResource(id = R.color.blue_200),
                 modifier = Modifier
                     .absolutePadding(8.dp, 8.dp, 8.dp, 8.dp)
-                    .width(300.dp),
-                backgroundColor = colorResource(id = R.color.purple_700)
+                    .width(50.dp)
             )
             viewModel.onEvent(TestEvent.FetchElement)
         }

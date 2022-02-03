@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.ui.composables.GroupElementText
 import com.a.vocabulary15.presentation.ui.composables.GroupListLazyColumn
+import com.a.vocabulary15.presentation.util.Screen
 import com.a.vocabulary15.util.TestTags
 import com.a.vocabulary15.util.TestTags.GROUP_LIST
 import com.a.vocabulary15.util.TestTags.NEW_GROUP
@@ -41,9 +42,20 @@ fun GroupScreen(
                     Text(
                         fontWeight = FontWeight.Bold, text = stringResource(id = R.string.app_name)
                     )
+                }, actions = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(Screen.StatisticsScreen.route)
+                        }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_bar_chart),
+                            contentDescription = stringResource(id = R.string.statistics)
+                        )
+                    }
                 }
             )
-        }, floatingActionButton = {
+        }
+        , floatingActionButton = {
             FloatingActionButton(
                 onClick = { viewModel.onEvent(GroupEvent.OpenAddGroupDialog(true)) }
             ) {

@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.a.vocabulary15.presentation.element.composables.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
+import com.a.vocabulary15.presentation.statistics.StatisticsScreen
 import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import com.a.vocabulary15.presentation.util.Screen
@@ -35,6 +36,9 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = Screen.GroupScreen.route) {
                             GroupScreen(navController)
+                        }
+                        composable(route = Screen.StatisticsScreen.route) {
+                            StatisticsScreen(navController)
                         }
                         composable(route = Screen.ElementScreen.route +
                                 "?idGroup={idGroup}&elementName={elementName}",

@@ -18,11 +18,15 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.a.vocabulary15.R
+import com.a.vocabulary15.presentation.element.ElementEvent
+import com.a.vocabulary15.presentation.element.ElementsViewModel
 
 @Composable
 fun StatisticsScreen(
@@ -122,6 +126,38 @@ fun BarChart() {
                 topLeft = Offset(p.x + 30f, 600 - (600 - p.y) * heightPre),
                 size = Size(55f, (600 - p.y) * heightPre)
             )
+        }
+    }
+}
+
+@Composable
+fun StatisticsLoadingScreen(
+    viewModel: ElementsViewModel
+) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxWidth(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.loading))
+                }
+            )
+        }
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(
+                color = colorResource(id = R.color.blue_200),
+                modifier = Modifier
+                    .absolutePadding(8.dp, 8.dp, 8.dp, 8.dp)
+                    .width(50.dp)
+            )
+            viewModel.onEvent(ElementEvent.FetchElements)
         }
     }
 }

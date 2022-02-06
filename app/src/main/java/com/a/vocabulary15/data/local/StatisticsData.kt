@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 data class StatisticsData(
     @PrimaryKey(autoGenerate = true) var id: Int,
-    @ColumnInfo(name = "date") var date: Int,
+    @ColumnInfo(name = "date") var date: Long = 0,
     @ColumnInfo(name = "points") var points: Int,
     @ColumnInfo(name = "groupId") var groupId: Int?)

@@ -33,6 +33,15 @@
         <entry key="app/src/main/res/drawable/ic_check_knowledge.xml" value="0.23282051282051283" />
         <entry key="app/src/main/res/drawable/ic_check_knowlege.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/drawable/ic_delete_forever.xml" value="0.23282051282051283" />
+        <entry key="app/src/main/res/drawable/ic_green_24.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hagman_4.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hagman_5.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hangman_2.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hangman_3.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hangman_6.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hangman_7.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hangman_final.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/drawable/ic_hangman_start.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.23282051282051283" />
         <entry key="app/src/main/res/drawable/ic_red_24.xml" value="0.23282051282051283" />

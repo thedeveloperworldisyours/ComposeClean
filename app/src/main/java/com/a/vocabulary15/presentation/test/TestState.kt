@@ -6,12 +6,15 @@ data class TestState(
     val idGroup: Int = -1,
     val elementName: String = "",
     val elements: List<Element> = emptyList(),
-    val levelMode:Int = -1,
-    val text:String = "",
-    val right:Int = 0,
-    val wrong:Int = 0,
-    val randomNumber:Int = -1,
+    val levelMode: Int = -1,
+    val text: String = "",
+    val right: Int = 0,
+    val wrong: Int = 0,
+    val randomNumber: Int = -1,
     val isTestFinishOpen: Boolean = false,
     val isChooseLevelOpen: Boolean = true,
-    val asked: List<Boolean> = emptyList())
+    val asked: List<Boolean> = emptyList(),
+    val wordShowed: List<String> = emptyList(),
+    val wrongLetters: List<String> = emptyList()
+)
 

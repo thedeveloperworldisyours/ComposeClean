@@ -10,6 +10,8 @@ sealed class TestEvent {
     class ChangeWrong(val newWrongValue: Int) : TestEvent()
     class ChangeRandomNumber(val newNumber: Int) : TestEvent()
     class TestFinish(val newBoolean: Boolean) : TestEvent()
-    class OpenChooseMode(val open: Boolean): TestEvent()
-    object FetchElement: TestEvent()
+    class OpenChooseMode(val open: Boolean) : TestEvent()
+    object FetchElement : TestEvent()
+    class GenerateUnderscores(val word: String) : TestEvent()
+    class CheckLetter(val letter: String) : TestEvent()
 }

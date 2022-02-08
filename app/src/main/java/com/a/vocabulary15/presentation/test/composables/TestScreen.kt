@@ -65,7 +65,7 @@ fun TestScreen(
                         )
                     }
                 } else {
-                    TestChooseLevelDialog(viewModel)
+                    TestChooseLevelDialog(navController, viewModel)
                     TestFinishedDialog(navController, viewModel)
                     TestMainColumn(
                         viewModel,

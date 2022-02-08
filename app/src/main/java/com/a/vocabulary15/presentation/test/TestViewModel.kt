@@ -27,6 +27,7 @@ class TestViewModel @Inject constructor(
     companion object {
         const val LIST_MODE = 0
         const val TEXT_MODE = 1
+        const val HANGMAN_MODE = 2
     }
 
     private val viewStateMutable: MutableStateFlow<ViewState<*>> =
@@ -100,6 +101,12 @@ class TestViewModel @Inject constructor(
             }
             is TestEvent.FetchElement -> {
                 getElements(state.value.idGroup)
+            }
+            is TestEvent.GenerateUnderscores -> {
+                generateUnderscores(word = event.word)
+            }
+            is TestEvent.CheckLetter -> {
+                checkLetter(event.letter)
             }
         }
     }
@@ -177,5 +184,54 @@ class TestViewModel @Inject constructor(
 
     private fun notifyPostState(list: List<Element>) {
         viewStateMutable.value = ViewState.Success(list)
+    }
+
+    private fun generateUnderscores(word: String) {
+        val wordShowed = mutableListOf<String>()
+        word.forEach { char ->
+            if (char != '/') {
+                wordShowed.add("_")
+            }
+        }
+        _state.value = state.value.copy(
+            wordShowed = wordShowed
+        )
+    }
+
+    private fun checkLetter(letter: String) {
+        val word = state.value.elements[state.value.randomNumber].value
+        val wordShowed = mutableListOf<String>()
+        var success = false
+        var i = 0
+        var repeated = false
+        word.forEach { char ->
+            if (char.toString() == letter) {
+                wordShowed.add(letter)
+                i++
+                success = true
+            } else {
+                wordShowed.add(state.value.wordShowed[i])
+                i++
+            }
+        }
+        if (success) {
+            _state.value = state.value.copy(
+                wordShowed = wordShowed
+            )
+        } else {
+            val newWrongLetters = mutableListOf<String>()
+            for (index in state.value.wrongLetters.indices) {
+                if (letter == state.value.wrongLetters[index]) {
+                    repeated = true
+                }
+                newWrongLetters.add(state.value.wrongLetters[index])
+            }
+            if (!repeated) {
+                newWrongLetters.add(letter)
+                _state.value = state.value.copy(
+                    wrongLetters = newWrongLetters
+                )
+            }
+        }
     }
 }

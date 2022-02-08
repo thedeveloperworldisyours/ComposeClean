@@ -21,6 +21,7 @@ object TestTags {
     const val CHECK_YOUR_KNOWLEDGE = "check_your_knowledge"
     const val CHOOSE_LEVEL_DIALOG = "choose_level_dialog"
     const val LIST_LEVEL_BUTTON = "list_level_button"
+    const val HANGMAN_LEVEL_BUTTON = "hangman_level_button"
     const val ELEMENT_LEVEL_BUTTON = "element_level_button"
     const val ELEMENT_LIST_OPTIONS = "element_list_options"
     const val ENTER_NAME_ELEMENT_TEXT_FIELD = "enter_name_element_text_field"

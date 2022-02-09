@@ -80,9 +80,7 @@ class TestViewModel @Inject constructor(
                 )
             }
             is TestEvent.ChangeWrong -> {
-                _state.value = state.value.copy(
-                    wrong = event.newWrongValue
-                )
+                saveWrong(event.newWrongValue)
             }
             is TestEvent.ChangeRandomNumber -> {
                 _state.value = state.value.copy(
@@ -231,7 +229,14 @@ class TestViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     wrongLetters = newWrongLetters
                 )
+                saveWrong(state.value.wrong +1)
             }
         }
+    }
+
+    fun saveWrong(wrong: Int){
+        _state.value = state.value.copy(
+            wrong = wrong
+        )
     }
 }

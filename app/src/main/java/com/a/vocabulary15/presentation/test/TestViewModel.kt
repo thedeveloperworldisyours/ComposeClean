@@ -80,7 +80,9 @@ class TestViewModel @Inject constructor(
                 )
             }
             is TestEvent.ChangeWrong -> {
-                saveWrong(event.newWrongValue)
+                _state.value = state.value.copy(
+                    wrong = event.newWrongValue
+                )
             }
             is TestEvent.ChangeRandomNumber -> {
                 _state.value = state.value.copy(
@@ -168,6 +170,7 @@ class TestViewModel @Inject constructor(
                 onEvent(TestEvent.ChangeRight(state.value.right + 1))
                 setCompletedElement(possibleElement)
                 onEvent(TestEvent.ChangeRandomNumber(possibleElement))
+                restartAgainHangman(possibleElement)
             }
         }
     }
@@ -175,6 +178,7 @@ class TestViewModel @Inject constructor(
     fun startAgain() {
         getNumber()
         setCompletedElement(state.value.randomNumber)
+        restartAgainHangman(state.value.randomNumber)
         onEvent(TestEvent.ChangeRight(0))
         onEvent(TestEvent.ChangeWrong(0))
         onEvent(TestEvent.TestFinish(false))
@@ -200,43 +204,68 @@ class TestViewModel @Inject constructor(
         val word = state.value.elements[state.value.randomNumber].value
         val wordShowed = mutableListOf<String>()
         var success = false
-        var i = 0
-        var repeated = false
-        word.forEach { char ->
+
+        word.forEachIndexed { index, char ->
             if (char.toString() == letter) {
                 wordShowed.add(letter)
-                i++
                 success = true
             } else {
-                wordShowed.add(state.value.wordShowed[i])
-                i++
+                wordShowed.add(state.value.wordShowed[index])
             }
         }
-        if (success) {
-            _state.value = state.value.copy(
-                wordShowed = wordShowed
-            )
+        resultHangman(success, letter, wordShowed)
+    }
+
+    private fun resultHangman(success: Boolean, letter: String, wordShowed: List<String>) {
+        var repeated = false
+        if (isHangmanCompleted(wordShowed)) {
+            saveWrongLetters(emptyList())
+            nextElement()
         } else {
-            val newWrongLetters = mutableListOf<String>()
-            for (index in state.value.wrongLetters.indices) {
-                if (letter == state.value.wrongLetters[index]) {
-                    repeated = true
+            if (success) {
+                saveWordShowed(wordShowed)
+            } else {
+                val newWrongLetters = mutableListOf<String>()
+                for (index in state.value.wrongLetters.indices) {
+                    if (letter == state.value.wrongLetters[index]) {
+                        repeated = true
+                    }
+                    newWrongLetters.add(state.value.wrongLetters[index])
                 }
-                newWrongLetters.add(state.value.wrongLetters[index])
-            }
-            if (!repeated) {
-                newWrongLetters.add(letter)
-                _state.value = state.value.copy(
-                    wrongLetters = newWrongLetters
-                )
-                saveWrong(state.value.wrong +1)
+                if (!repeated) {
+                    newWrongLetters.add(letter)
+                    saveWrongLetters(newWrongLetters)
+                    onEvent(TestEvent.ChangeWrong(state.value.wrong + 1))
+                }
             }
         }
     }
 
-    fun saveWrong(wrong: Int){
+    private fun isHangmanCompleted(wordShowed: List<String>): Boolean {
+        for (letter in wordShowed) {
+            if (letter == "_") {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun saveWordShowed(wordShowed: List<String>) {
         _state.value = state.value.copy(
-            wrong = wrong
+            wordShowed = wordShowed
         )
+    }
+
+    private fun saveWrongLetters(newWrongLetters: List<String>) {
+        _state.value = state.value.copy(
+            wrongLetters = newWrongLetters
+        )
+    }
+
+    private fun restartAgainHangman(possibleElement: Int) {
+        if(state.value.levelMode == HANGMAN_MODE) {
+            generateUnderscores(state.value.elements[possibleElement].value)
+            saveWordShowed(state.value.wordShowed)
+        }
     }
 }

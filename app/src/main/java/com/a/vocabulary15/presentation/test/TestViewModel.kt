@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.usecases.GetElements
 import com.a.vocabulary15.presentation.common.ViewState
@@ -217,7 +218,6 @@ class TestViewModel @Inject constructor(
     }
 
     private fun resultHangman(success: Boolean, letter: String, wordShowed: List<String>) {
-        var repeated = false
         if (isHangmanCompleted(wordShowed)) {
             saveWrongLetters(emptyList())
             nextElement()
@@ -225,17 +225,26 @@ class TestViewModel @Inject constructor(
             if (success) {
                 saveWordShowed(wordShowed)
             } else {
+                var sameFail = false
                 val newWrongLetters = mutableListOf<String>()
                 for (index in state.value.wrongLetters.indices) {
                     if (letter == state.value.wrongLetters[index]) {
-                        repeated = true
+                        sameFail = true
                     }
                     newWrongLetters.add(state.value.wrongLetters[index])
                 }
-                if (!repeated) {
+                if (!sameFail) {
+                    saveHangmanStep(setHangmanImage(newWrongLetters.size))
                     newWrongLetters.add(letter)
                     saveWrongLetters(newWrongLetters)
                     onEvent(TestEvent.ChangeWrong(state.value.wrong + 1))
+                    if (newWrongLetters.size == 7) {
+                        saveWrongLetters(emptyList())
+                        nextElement()
+                        if (state.value.right > 0) {
+                            onEvent(TestEvent.ChangeRight(state.value.right - 1))
+                        }
+                    }
                 }
             }
         }
@@ -262,10 +271,45 @@ class TestViewModel @Inject constructor(
         )
     }
 
+    private fun saveHangmanStep(step: Int) {
+        _state.value = state.value.copy(
+            hangmanStep = step
+        )
+    }
+
     private fun restartAgainHangman(possibleElement: Int) {
-        if(state.value.levelMode == HANGMAN_MODE) {
+        if (state.value.levelMode == HANGMAN_MODE) {
             generateUnderscores(state.value.elements[possibleElement].value)
             saveWordShowed(state.value.wordShowed)
+            saveHangmanStep(R.drawable.ic_hangman_start)
         }
+    }
+
+    private fun setHangmanImage(step: Int): Int {
+        var resource = 0
+        when (step) {
+            0 -> {
+                resource = R.drawable.ic_hangman_2
+            }
+            1 -> {
+                resource = R.drawable.ic_hangman_3
+            }
+            2 -> {
+                resource = R.drawable.ic_hangman_4
+            }
+            3 -> {
+                resource = R.drawable.ic_hangman_5
+            }
+            4 -> {
+                resource = R.drawable.ic_hangman_6
+            }
+            5 -> {
+                resource = R.drawable.ic_hangman_7
+            }
+            6 -> {
+                resource = R.drawable.ic_hangman_final
+            }
+        }
+        return resource
     }
 }

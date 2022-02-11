@@ -1,5 +1,7 @@
 package com.a.vocabulary15.presentation.test.composables
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -7,12 +9,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.rememberImagePainter
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.presentation.test.TestEvent
@@ -83,12 +89,25 @@ fun TestMainColumn(
                         TestCharItem(item, Color.Blue)
                     }
                 }
-                LazyRow(modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 0.dp)
-                    .height(50.dp)) {
-                    items(items = viewModel.state.value.wrongLetters) { item: String ->
-                        TestCharItem(item, Color.Red)
+                ConstraintLayout(modifier = Modifier.fillMaxWidth()){
+                    val (lazyRow, image) = createRefs()
+                    LazyRow(modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 0.dp)
+                        .height(50.dp)
+                        .constrainAs(lazyRow) {}) {
+                        items(items = viewModel.state.value.wrongLetters) { item: String ->
+                            TestCharItem(item, Color.Red)
+                        }
                     }
+                    Image(
+                        modifier = Modifier
+                            .size(66.dp)
+                            .background(Color.White)
+                            .padding(0.dp, 0.dp, 16.dp, 0.dp)
+                            .constrainAs(image) {end.linkTo(parent.end)},
+                        painter = rememberImagePainter(viewModel.state.value.hangmanStep),
+                        contentDescription = null
+                    )
                 }
                 TestRespondsTextField(
                     done = { },

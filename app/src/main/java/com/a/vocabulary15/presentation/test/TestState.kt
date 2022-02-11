@@ -1,5 +1,6 @@
 package com.a.vocabulary15.presentation.test
 
+import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
 
 data class TestState(
@@ -15,6 +16,7 @@ data class TestState(
     val isChooseLevelOpen: Boolean = true,
     val asked: List<Boolean> = emptyList(),
     val wordShowed: List<String> = emptyList(),
-    val wrongLetters: List<String> = emptyList()
+    val wrongLetters: List<String> = emptyList(),
+    val hangmanStep: Int = R.drawable.ic_hangman_start
 )
 

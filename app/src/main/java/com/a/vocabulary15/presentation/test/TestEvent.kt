@@ -12,6 +12,7 @@ sealed class TestEvent {
     class TestFinish(val newBoolean: Boolean) : TestEvent()
     class OpenChooseMode(val open: Boolean) : TestEvent()
     object FetchElement : TestEvent()
+    object NextInTextMode : TestEvent()
     class GenerateUnderscores(val word: String) : TestEvent()
     class CheckLetter(val letter: String) : TestEvent()
 }

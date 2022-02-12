@@ -103,8 +103,11 @@ class TestViewModel @Inject constructor(
             is TestEvent.FetchElement -> {
                 getElements(state.value.idGroup)
             }
+            is TestEvent.NextInTextMode -> {
+                nextInTextMode()
+            }
             is TestEvent.GenerateUnderscores -> {
-                generateUnderscores(word = event.word)
+                saveWordShowed(generateUnderscores(word = event.word))
             }
             is TestEvent.CheckLetter -> {
                 checkLetter(event.letter)
@@ -189,16 +192,25 @@ class TestViewModel @Inject constructor(
         viewStateMutable.value = ViewState.Success(list)
     }
 
-    private fun generateUnderscores(word: String) {
+    //Text mode
+    private fun nextInTextMode() {
+        if (state.value.elements[state.value.randomNumber].value == state.value.text) {
+            onEvent(TestEvent.ChangeText(""))
+            nextElement()
+        } else {
+            onEvent(TestEvent.ChangeWrong(state.value.wrong + 1))
+        }
+    }
+
+    //Hangman mode
+    fun generateUnderscores(word: String): List<String> {
         val wordShowed = mutableListOf<String>()
         word.forEach { char ->
             if (char != '/') {
                 wordShowed.add("_")
             }
         }
-        _state.value = state.value.copy(
-            wordShowed = wordShowed
-        )
+        return wordShowed
     }
 
     private fun checkLetter(letter: String) {
@@ -279,13 +291,12 @@ class TestViewModel @Inject constructor(
 
     private fun restartAgainHangman(possibleElement: Int) {
         if (state.value.levelMode == HANGMAN_MODE) {
-            generateUnderscores(state.value.elements[possibleElement].value)
-            saveWordShowed(state.value.wordShowed)
+            saveWordShowed(generateUnderscores(state.value.elements[possibleElement].value))
             saveHangmanStep(R.drawable.ic_hangman_start)
         }
     }
 
-    private fun setHangmanImage(step: Int): Int {
+    fun setHangmanImage(step: Int): Int {
         var resource = 0
         when (step) {
             0 -> {

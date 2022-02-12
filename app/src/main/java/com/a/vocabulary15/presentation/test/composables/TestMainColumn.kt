@@ -64,12 +64,12 @@ fun TestMainColumn(
             }
             TEXT_MODE -> {
                 TestRespondsTextField(
-                    done = { nextInTextMode(viewModel, listItems) },
+                    done = { viewModel.onEvent(TestEvent.NextInTextMode) },
                     label = stringResource(id = R.string.test_respond),
                     value = viewModel.state.value.text,
                     onValueChange = { viewModel.onEvent(TestEvent.ChangeText(it)) })
                 Button(
-                    onClick = { nextInTextMode(viewModel, listItems) },
+                    onClick = { viewModel.onEvent(TestEvent.NextInTextMode) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(68.dp)
@@ -119,23 +119,5 @@ fun TestMainColumn(
                 viewModel.onEvent(TestEvent.OpenChooseMode(true))
             }
         }
-    }
-}
-
-fun nextInTextMode(
-    viewModel: TestViewModel,
-    listItems: List<Element>
-) {
-    if (listItems[viewModel.state.value.randomNumber].value ==
-        viewModel.state.value.text
-    ) {
-        viewModel.onEvent(TestEvent.ChangeText(""))
-        viewModel.nextElement()
-    } else {
-        viewModel.onEvent(
-            TestEvent.ChangeWrong(
-                viewModel.state.value.wrong + 1
-            )
-        )
     }
 }

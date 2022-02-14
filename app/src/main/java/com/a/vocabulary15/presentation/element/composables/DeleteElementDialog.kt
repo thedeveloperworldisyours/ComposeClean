@@ -45,7 +45,7 @@ fun DeleteElementDialog(
                     Text(
                         text = stringResource(
                             R.string.do_you_want_to_delete,
-                            viewModel.state.value.element
+                            viewModel.state.value.element.value
                         ),
                         color = Color.Black,
                         fontSize = 19.sp

@@ -45,6 +45,15 @@ fun TestFinishedDialog(
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     Text(
+                        text = stringResource(
+                            id = R.string.test_finished_score,
+                            viewModel.state.value.right - viewModel.state.value.wrong
+                        ),
+                        color = viewModel.state.value.finalScoreColor,
+                        fontSize = 19.sp
+                    )
+                    Spacer(modifier = Modifier.padding(5.dp))
+                    Text(
                         text = stringResource(id = R.string.test_finished_question),
                         color = Color.Black,
                         fontSize = 19.sp

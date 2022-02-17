@@ -2,6 +2,7 @@ package com.a.vocabulary15.presentation.test
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -162,6 +163,7 @@ class TestViewModel @Inject constructor(
 
     fun nextElement() {
         if (isTestFinished()) {
+            saveFinalScoreColor(findFinalScoreColor(state.value.right - state.value.wrong))
             onEvent(TestEvent.TestFinish(true))
             _state.value = state.value.copy(
                 asked = MutableList(state.value.elements.size) { false }
@@ -186,6 +188,25 @@ class TestViewModel @Inject constructor(
         onEvent(TestEvent.ChangeRight(0))
         onEvent(TestEvent.ChangeWrong(0))
         onEvent(TestEvent.TestFinish(false))
+    }
+
+    private fun findFinalScoreColor(score: Int) = when {
+            0 < score -> {
+                Color(0xFF51983C)
+            }
+            0 == score -> {
+                Color.Gray
+            }
+            else -> {
+                Color.Red
+            }
+        }
+
+
+    private fun saveFinalScoreColor(color: Color) {
+        _state.value = state.value.copy(
+            finalScoreColor = color
+        )
     }
 
     private fun notifyPostState(list: List<Element>) {

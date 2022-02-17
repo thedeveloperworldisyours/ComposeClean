@@ -25,6 +25,7 @@
     <string name="get_right">Acertastes</string>
     <string name="get_wrong">Fallastes</string>
     <string name="test_finished">Examen terminado</string>
+    <string name="test_finished_score">Marcador: %1$d</string>
     <string name="test_finished_question">¿Quieres empezar de nuevo?</string>
     <string name="test_finished_no">No</string>
     <string name="test_respond">Introduzca la palabra</string>

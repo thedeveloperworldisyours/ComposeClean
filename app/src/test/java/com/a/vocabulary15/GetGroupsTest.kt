@@ -5,7 +5,6 @@ import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.usecases.GetGroups
 import com.a.vocabulary15.domain.usecases.GetGroupsImpl
-import com.a.vocabulary15.domain.usecases.SetGroup
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.flow.first
@@ -29,7 +28,7 @@ class GetGroupsTest {
     private lateinit var getFakeGroup: GetGroups
 
     @Before
-    fun setup(){
+    fun setup() {
         getGroups = GetGroupsImpl(repository)
         fakeRepository = FakeRepository()
         getFakeGroup = GetGroupsImpl(fakeRepository)
@@ -40,16 +39,16 @@ class GetGroupsTest {
     }
 
     @Test
-    fun `get groups successfully`(){
-        runBlocking {
-            getGroups.invoke()
+    fun `get groups successfully`() {
 
-            verify(repository).getGroups()
-        }
+        getGroups.invoke()
+
+        verify(repository).getGroups()
+
     }
 
     @Test
-    fun `get group successfully with fakerepository` () {
+    fun `get group successfully with fakerepository`() {
         runBlocking {
             val groups = getFakeGroup().first()
 

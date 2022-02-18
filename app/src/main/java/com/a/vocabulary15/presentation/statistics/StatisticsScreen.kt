@@ -1,36 +1,35 @@
 package com.a.vocabulary15.presentation.statistics
 
-import android.graphics.Point
-import android.widget.Toast
-import androidx.compose.runtime.Composable
-import androidx.compose.animation.core.FloatTweenSpec
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.a.vocabulary15.R
-import com.a.vocabulary15.presentation.element.ElementEvent
-import com.a.vocabulary15.presentation.element.ElementsViewModel
+import com.a.vocabulary15.domain.model.Statistics
+import com.a.vocabulary15.presentation.ui.theme.Typography
+import com.a.vocabulary15.presentation.util.convertMillisecondsToCalendar
+import com.a.vocabulary15.util.TestTags
+import java.util.*
 
 @Composable
 fun StatisticsScreen(
-    navController: NavController) {
+    viewModel: StatisticsViewModel = hiltViewModel()
+) {
+    val statistics = viewModel.statistics.collectAsState(initial = emptyList())
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -38,7 +37,8 @@ fun StatisticsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        fontWeight = FontWeight.Bold, text = stringResource(id = R.string.statistics)
+                        fontWeight = FontWeight.Bold,
+                        text = stringResource(id = R.string.statistics)
                     )
                 }
             )
@@ -49,11 +49,80 @@ fun StatisticsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            BarChart()
+            if (statistics.value.isEmpty()) {
+                Text(
+                    fontWeight = FontWeight.Bold,
+                    text = stringResource(id = R.string.statistics_empty),
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    style = Typography.body1,
+                )
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(bottom = 80.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(TestTags.ELEMENT_LIST)
+                ) {
+
+                    items(items = statistics.value) { item: Statistics ->
+                        Surface(modifier = Modifier.clickable { }) {
+                            Card(
+                                backgroundColor = Color.Blue,
+                                elevation = 5.dp,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp, vertical = 8.dp)
+                            ) {
+                                Box {
+                                    Text(
+                                        text = convertMillisecondsToCalendar(
+                                            Calendar.getInstance(),
+                                            item.date
+                                        ),
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterStart)
+                                            .padding(25.dp, 16.dp, 0.dp, 16.dp),
+                                        style = Typography.body1
+                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .align(Alignment.CenterEnd)
+                                            .background(Color.White)
+                                    ) {
+                                        Image(
+                                            modifier = Modifier
+                                                .size(55.dp),
+                                            painter = painterResource(id = R.drawable.ic_arrow),
+                                            contentDescription = null
+                                        )
+                                        Text(
+                                            text = item.points.toString(),
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Black,
+                                            modifier = Modifier
+                                                .padding(25.dp, 16.dp, 0.dp, 16.dp),
+                                            style = Typography.body1
+                                        )
+                                        Spacer(
+                                            modifier = Modifier
+                                                .padding(13.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
+/*
 private fun identifyCLickItem(
     points: List<Point>,
     x: Float,
@@ -160,4 +229,4 @@ fun StatisticsLoadingScreen(
             viewModel.onEvent(ElementEvent.FetchElements)
         }
     }
-}
+}*/

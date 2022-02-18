@@ -36,4 +36,5 @@
     <string name="test_level">Modo del test</string>
     <string name="test_level_choose">Seleccione un modo:</string>
     <string name="statistics">Estadisticas</string>
+    <string name="statistics_empty">Lista vacía de estadísticas</string>
 </resources>

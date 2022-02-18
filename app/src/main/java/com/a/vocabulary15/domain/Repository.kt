@@ -2,6 +2,7 @@ package com.a.vocabulary15.domain
 
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.Group
+import com.a.vocabulary15.domain.model.Statistics
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {
@@ -19,5 +20,9 @@ interface Repository {
     suspend fun deleteElement(id: Int)
 
     suspend fun editElement(element: Element)
+
+    suspend fun setStatistics(statistics: Statistics)
+
+    fun getStatistics(): Flow<List<Statistics>>
 
 }

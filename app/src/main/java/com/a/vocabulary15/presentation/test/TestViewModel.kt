@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Element
+import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.domain.usecases.GetElements
+import com.a.vocabulary15.domain.usecases.SetStatistics
 import com.a.vocabulary15.presentation.common.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,11 +20,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
     var getElements: GetElements,
+    var setStatistics: SetStatistics,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -163,6 +167,7 @@ class TestViewModel @Inject constructor(
 
     fun nextElement() {
         if (isTestFinished()) {
+            insertStatistics(generateStatistics())
             saveFinalScoreColor(findFinalScoreColor(state.value.right - state.value.wrong))
             onEvent(TestEvent.TestFinish(true))
             _state.value = state.value.copy(
@@ -190,23 +195,37 @@ class TestViewModel @Inject constructor(
         onEvent(TestEvent.TestFinish(false))
     }
 
-    private fun findFinalScoreColor(score: Int) = when {
-            0 < score -> {
-                Color(0xFF51983C)
-            }
-            0 == score -> {
-                Color.Gray
-            }
-            else -> {
-                Color.Red
-            }
+    fun findFinalScoreColor(score: Int) = when {
+        0 < score -> {
+            Color(0xFF51983C)
         }
+        0 == score -> {
+            Color.Gray
+        }
+        else -> {
+            Color.Red
+        }
+    }
 
 
     private fun saveFinalScoreColor(color: Color) {
         _state.value = state.value.copy(
             finalScoreColor = color
         )
+    }
+
+    private fun generateStatistics(): Statistics {
+        val calendar: Calendar = Calendar.getInstance()
+        return Statistics(
+            0,
+            calendar.timeInMillis,
+            state.value.right - state.value.wrong,
+            state.value.idGroup
+        )
+    }
+
+    fun insertStatistics(statistics: Statistics) = viewModelScope.launch(Dispatchers.IO) {
+        setStatistics.invoke(statistics)
     }
 
     private fun notifyPostState(list: List<Element>) {

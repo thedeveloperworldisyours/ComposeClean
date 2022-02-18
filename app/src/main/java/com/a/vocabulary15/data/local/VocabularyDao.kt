@@ -33,4 +33,11 @@ interface VocabularyDao {
 
     @Query("DELETE FROM GroupData WHERE id = :id")
     fun deleteGroupById(id: Int)
+
+    //Statistics
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun setStatistics(statisticsData: StatisticsData): Long
+
+    @Query("SELECT * FROM StatisticsData")
+    fun getStatistics(): Flow<List<StatisticsData>>
 }

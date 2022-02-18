@@ -6,6 +6,7 @@ import com.a.vocabulary15.data.toModel
 import com.a.vocabulary15.domain.Repository
 import com.a.vocabulary15.domain.model.Element
 import com.a.vocabulary15.domain.model.Group
+import com.a.vocabulary15.domain.model.Statistics
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -42,4 +43,12 @@ class RepositoryImpl constructor(
     override suspend fun editElement(element: Element) {
         vocabularyDao.editElement(element.id, element.value, element.link, element.image)
     }
+
+    override suspend fun setStatistics(statistics: Statistics) {
+        vocabularyDao.setStatistics(statistics.toData())
+    }
+
+    override fun getStatistics() =
+        vocabularyDao.getStatistics().map { list -> list.map { it.toModel() } }
+
 }

@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                             GroupScreen(navController)
                         }
                         composable(route = Screen.StatisticsScreen.route) {
-                            StatisticsScreen(navController)
+                            StatisticsScreen()
                         }
                         composable(route = Screen.ElementScreen.route +
                                 "?idGroup={idGroup}&elementName={elementName}",

@@ -1,8 +1,11 @@
 package com.a.vocabulary15.viewmodel
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import com.a.vocabulary15.R
+import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.domain.usecases.GetElements
+import com.a.vocabulary15.domain.usecases.SetStatistics
 import com.a.vocabulary15.presentation.test.TestViewModel
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.verify
@@ -19,9 +22,19 @@ class TestViewModelTest {
     @Mock
     private lateinit var getElements: GetElements
 
+    @Mock
+    private lateinit var setStatistics: SetStatistics
+
     lateinit var testViewModel: TestViewModel
 
     private val idGroup = 0
+
+    private val statistics = Statistics(
+        0,
+        0,
+        1,
+        1
+    )
 
     @Before
     fun setup() {
@@ -29,15 +42,24 @@ class TestViewModelTest {
             set("idGroup", idGroup)
             set("elementName", "elementName")
         }
-        testViewModel = TestViewModel(getElements, savedStateHandle)
+        testViewModel = TestViewModel(getElements, setStatistics, savedStateHandle)
     }
 
     @Test
-    fun `get element success`(){
+    fun `get element success`() {
         runBlocking {
             testViewModel.getElements(idGroup)
 
             verify(getElements).invoke(idGroup)
+        }
+    }
+
+    @Test
+    fun `insert statistics successfully`() {
+        runBlocking {
+            testViewModel.insertStatistics(statistics)
+
+            verify(setStatistics).invoke(statistics)
         }
     }
 
@@ -59,10 +81,31 @@ class TestViewModelTest {
     }
 
     @Test
-    fun `setting Hangman Image with success`(){
+    fun `setting Hangman Image with success`() {
 
         val resource = testViewModel.setHangmanImage(2)
 
         Truth.assertThat(resource).isEqualTo(R.drawable.ic_hangman_4)
+    }
+
+    @Test
+    fun `finding green color in final score color when score is positive`() {
+        val color = testViewModel.findFinalScoreColor(1)
+
+        Truth.assertThat(color).isEqualTo(Color(0xFF51983C))
+    }
+
+    @Test
+    fun `finding gray color in final score color when score is neutral`() {
+        val color = testViewModel.findFinalScoreColor(0)
+
+        Truth.assertThat(color).isEqualTo(Color.Gray)
+    }
+
+    @Test
+    fun `finding green color in final score color when score is negative`() {
+        val color = testViewModel.findFinalScoreColor(-1)
+
+        Truth.assertThat(color).isEqualTo(Color.Red)
     }
 }

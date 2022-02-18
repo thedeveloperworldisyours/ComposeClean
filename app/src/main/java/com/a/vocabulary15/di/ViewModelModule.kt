@@ -5,7 +5,6 @@ import com.a.vocabulary15.domain.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -33,4 +32,10 @@ class ViewModelModule {
 
     @Provides
     fun provideEditElement(repository: Repository): EditElement = EditElementImpl(repository)
+
+    @Provides
+    fun provideGetStatistics(repository: Repository): GetStatistics = GetStatisticsImpl(repository)
+
+    @Provides
+    fun provideSetStatistics(repository: Repository): SetStatistics = SetStatisticsImpl(repository)
 }

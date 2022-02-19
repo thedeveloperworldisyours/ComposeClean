@@ -22,6 +22,7 @@ import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.presentation.ui.theme.Typography
 import com.a.vocabulary15.presentation.util.convertMillisecondsToCalendar
+import com.a.vocabulary15.presentation.util.findFinalScoreColor
 import com.a.vocabulary15.util.TestTags
 import java.util.*
 
@@ -54,7 +55,7 @@ fun StatisticsScreen(
                     fontWeight = FontWeight.Bold,
                     text = stringResource(id = R.string.statistics_empty),
                     modifier = Modifier
-                        .fillMaxHeight(),
+                        .fillMaxWidth(),
                     style = Typography.body1,
                 )
             } else {
@@ -102,7 +103,7 @@ fun StatisticsScreen(
                                         Text(
                                             text = item.points.toString(),
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.Black,
+                                            color = findFinalScoreColor(item.points),
                                             modifier = Modifier
                                                 .padding(25.dp, 16.dp, 0.dp, 16.dp),
                                             style = Typography.body1

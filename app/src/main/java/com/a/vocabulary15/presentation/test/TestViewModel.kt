@@ -12,6 +12,7 @@ import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.domain.usecases.GetElements
 import com.a.vocabulary15.domain.usecases.SetStatistics
 import com.a.vocabulary15.presentation.common.ViewState
+import com.a.vocabulary15.presentation.util.findFinalScoreColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -194,19 +195,6 @@ class TestViewModel @Inject constructor(
         onEvent(TestEvent.ChangeWrong(0))
         onEvent(TestEvent.TestFinish(false))
     }
-
-    fun findFinalScoreColor(score: Int) = when {
-        0 < score -> {
-            Color(0xFF51983C)
-        }
-        0 == score -> {
-            Color.Gray
-        }
-        else -> {
-            Color.Red
-        }
-    }
-
 
     private fun saveFinalScoreColor(color: Color) {
         _state.value = state.value.copy(

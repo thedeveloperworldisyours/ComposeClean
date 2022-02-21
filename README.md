@@ -25,7 +25,7 @@ In this project you can find:
  </a>
 </p>
 
-This Android app helps you memorize your vocabulary. Your mind will create a connection between the word and the image. You can get it if you review your vocabulary by doing a daily test.
+This Android app helps you memorize your vocabulary. Your mind will create a connection between the word and the image. You can get it if you review your vocabulary by doing a daily test. Daily test has tree options with different levels.
 
 Features:
 + You can group your words. 

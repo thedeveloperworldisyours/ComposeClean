@@ -87,25 +87,4 @@ class TestViewModelTest {
 
         Truth.assertThat(resource).isEqualTo(R.drawable.ic_hangman_4)
     }
-
-    @Test
-    fun `finding green color in final score color when score is positive`() {
-        val color = testViewModel.findFinalScoreColor(1)
-
-        Truth.assertThat(color).isEqualTo(Color(0xFF51983C))
-    }
-
-    @Test
-    fun `finding gray color in final score color when score is neutral`() {
-        val color = testViewModel.findFinalScoreColor(0)
-
-        Truth.assertThat(color).isEqualTo(Color.Gray)
-    }
-
-    @Test
-    fun `finding green color in final score color when score is negative`() {
-        val color = testViewModel.findFinalScoreColor(-1)
-
-        Truth.assertThat(color).isEqualTo(Color.Red)
-    }
 }

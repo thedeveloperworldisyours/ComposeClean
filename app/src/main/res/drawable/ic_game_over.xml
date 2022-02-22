@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 22.5,20 L 7.5,20 7.5,22.5 5,22.5 5,25 2.5,25
+         2.5,42.5 5,42.5 5,45 7.5,45 7.5,47.5 22.5,47.5
+         22.5,32.5 12.5,32.5
+         12.3,35 17.5,35
+         17.5,45 10,45 10,42.5
+         7.5,42.5 7.5,25 10,25 10,22.5 22.5,22.5Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 32.5,47.5 L 32.5,25 35,25 35,22.5 40,22.5 40,25 42.5,25
+        42.5,35 32.5,35 32.5,37.5 42.5,37.5 42.5,47.5 47.5,47.5
+        47.5,25 45,25 45,22.5 42.5,22.5 42.5,20
+         32.5,20 32.5,22.5 30,22.5 30,25 27.5,25 27.5,47.5Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 57.5,47.5 L 57.5,35 60,35 60,37.5 65,37.5 65,35
+        67.5,35 67.5,47.5 72.5,47.5 72.5,20 67.5,20
+        67.5,22.5 65,22.5 65,25 60,25 60,22.5
+        57.5,22.5 57.5,20 52.5,20 52.5,47.5Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 97.5,47.5 L 97.5,45 82.5,45 82.5,35 92.5,35 92.5,32.5
+        82.5,32.5 82.5,22.5 97.5,22.5 97.5,20 77.5,20 77.5,47.5Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 17.5,77.5 L 22.5,77.5 22.5,55
+        20,55 20,52.5 5,52.5 5,55 2.5,55 2.5,77.5
+        5,77.5 5,80 20,80 20,77.5 7.5,77.5 7.5,55 17.5,55Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 42.5,52.5 L 42.5,70 40,70 40,72.5 35,72.5
+        35,70 32.5,70 32.5,52.5 27.5,52.5
+        27.5,72.5 30,72.5
+        30,75 32.5,75 32.5,77.5 35,77.5
+        35,80 40,80 40,77.5 42.5,77.5
+        42.5,75 45,75 45,72.5 47.5,72.5 47.5,52.5Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 72.5,80 L 72.5,77.5
+        57.5,77.5 57.5,67.5
+        67.5,67.5  67.5,65
+        57.5,65 57.5,55
+        72.5,55 72.5,52.5 52.5,52.5 52.5,80Z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#fff"
+        android:fillType="evenOdd"
+        android:pathData="M 97.5,80 L 97.5,77.5 95,77.5 95,75 92.5,75
+        92.5,72.5 90,72.5 90,67.5 82.5,67.5 82.5,55
+        92.5,55 92.5,65 87.5,65 87.5,67.5 97.5,67.5
+        97.5,55 95,55 95,52.2 77.5,52.5 77.5,80
+        82.5,80 82.5,72.5 85,72.5 85,75 87.5,75
+        87.5,77.5 90,77.5 90,80Z"
+        android:strokeWidth="1" />
+</vector>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Word &amp; Link</string>
+    <string name="app_name">Mr.Hangman</string>
     <string name="do_you_want_delete">¿Quieres borrar el grupo %1$s y sus palabras?</string>
     <string name="loading">Cargando&#8230;</string>
     <string name="nothing_to_show">Nada que enseñar</string>

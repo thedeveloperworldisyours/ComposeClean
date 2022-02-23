@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -17,12 +16,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.presentation.ui.theme.Typography
 import com.a.vocabulary15.presentation.util.convertMillisecondsToCalendar
 import com.a.vocabulary15.presentation.util.findFinalScoreColor
+import com.a.vocabulary15.presentation.util.getTitleWithID
 import com.a.vocabulary15.util.TestTags
 import java.util.*
 
@@ -30,6 +31,7 @@ import java.util.*
 fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
+    val groups = viewModel.groups.collectAsState(initial = emptyList())
     val statistics = viewModel.statistics.collectAsState(initial = emptyList())
     Scaffold(
         modifier = Modifier
@@ -46,16 +48,14 @@ fun StatisticsScreen(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier.fillMaxSize()
         ) {
             if (statistics.value.isEmpty()) {
                 Text(
                     fontWeight = FontWeight.Bold,
                     text = stringResource(id = R.string.statistics_empty),
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxSize(),
                     style = Typography.body1,
                 )
             } else {
@@ -65,8 +65,7 @@ fun StatisticsScreen(
                         .fillMaxWidth()
                         .testTag(TestTags.ELEMENT_LIST)
                 ) {
-
-                    items(items = statistics.value) { item: Statistics ->
+                    items(items = statistics.value.sortedByDescending {it.date}) { item: Statistics ->
                         Surface(modifier = Modifier.clickable { }) {
                             Card(
                                 backgroundColor = Color.Blue,
@@ -75,25 +74,47 @@ fun StatisticsScreen(
                                     .fillMaxWidth()
                                     .padding(horizontal = 20.dp, vertical = 8.dp)
                             ) {
-                                Box {
+                                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                                    val (time, title, row) = createRefs()
                                     Text(
                                         text = convertMillisecondsToCalendar(
                                             Calendar.getInstance(),
                                             item.date
                                         ),
+                                        color = Color.White,
+                                        modifier = Modifier
+                                            .padding(16.dp, 8.dp, 0.dp, 8.dp)
+                                            .constrainAs(time) {
+                                                top.linkTo(parent.top)
+                                                bottom.linkTo(parent.bottom)
+                                                start.linkTo(parent.start)
+                                            },
+                                        style = Typography.caption
+                                    )
+                                    Text(
+                                        text = getTitleWithID(groups.value, item.groupId ?: 0),
                                         fontWeight = FontWeight.Bold,
                                         color = Color.White,
                                         modifier = Modifier
-                                            .align(Alignment.CenterStart)
-                                            .padding(25.dp, 16.dp, 0.dp, 16.dp),
+                                            .padding(16.dp, 8.dp, 0.dp, 8.dp)
+                                            .constrainAs(title) {
+                                                top.linkTo(parent.top)
+                                                bottom.linkTo(parent.bottom)
+                                                start.linkTo(time.end)
+                                            },
                                         style = Typography.body1
                                     )
                                     Row(
                                         modifier = Modifier
                                             .fillMaxHeight()
-                                            .align(Alignment.CenterEnd)
+                                            .constrainAs(row) {
+                                                top.linkTo(parent.top)
+                                                bottom.linkTo(parent.bottom)
+                                                end.linkTo(parent.end)
+                                            }
                                             .background(Color.White)
                                     ) {
+
                                         Image(
                                             modifier = Modifier
                                                 .size(55.dp),
@@ -105,7 +126,7 @@ fun StatisticsScreen(
                                             fontWeight = FontWeight.Bold,
                                             color = findFinalScoreColor(item.points),
                                             modifier = Modifier
-                                                .padding(25.dp, 16.dp, 0.dp, 16.dp),
+                                                .padding(0.dp, 16.dp, 0.dp, 16.dp),
                                             style = Typography.body1
                                         )
                                         Spacer(

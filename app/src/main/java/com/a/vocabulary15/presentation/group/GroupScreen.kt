@@ -75,7 +75,7 @@ fun GroupScreen(
                 GroupElementText(
                     text = stringResource(id = R.string.empty_group_list),
                     modifier = Modifier
-                        .fillMaxHeight()
+                        .fillMaxSize()
                         .align(
                             Alignment.Center
                         )

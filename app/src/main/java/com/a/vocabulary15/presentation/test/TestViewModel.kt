@@ -168,6 +168,7 @@ class TestViewModel @Inject constructor(
 
     fun nextElement() {
         if (isTestFinished()) {
+            onEvent(TestEvent.ChangeRight(state.value.right + 1))
             insertStatistics(generateStatistics())
             saveFinalScoreColor(findFinalScoreColor(state.value.right - state.value.wrong))
             onEvent(TestEvent.TestFinish(true))

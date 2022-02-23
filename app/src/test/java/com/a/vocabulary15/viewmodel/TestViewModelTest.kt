@@ -1,6 +1,5 @@
 package com.a.vocabulary15.viewmodel
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import com.a.vocabulary15.R
 import com.a.vocabulary15.domain.model.Statistics

@@ -25,23 +25,25 @@ In this project you can find:
  </a>
 </p>
 
-This Android app helps you memorize your vocabulary. Your mind will create a connection between the word and the image. You can get it if you review your vocabulary by doing a daily test. Daily test has tree options with different levels.
+This Android app helps you memorize your vocabulary. Your mind will create a connection between the word and the image. You can get it if you review your vocabulary by doing a daily test. The daily test has three options.
 
 Features:
-+ You can group your words. 
-+ Each saved word will have image and web link.
-+ You can review your vocabulary with a test screen.
-+ In the test, you can choose two options:
-     - To choose your list of words within a group.
-     - To type the word
+- You can group your words.
+- Each saved word will have an image and web link.
+- You can review your vocabulary with a test.
+- In the test, you can choose three options:
+  - To choose your list of words within a group.
+  - To type the word within a group.
+  - To spell out the word like the Hangman game.
 
-This Android app has three screens:
-+ group list where you can add and remove groups.
-+ word list where you can add, edit and delete the words, also view the detailed word with the web view component.
-+ test screen where you can choose two options, choose a word from the word list, or type the word.
+This Android app has four screens:
+- Group list where you can add and remove groups.
+- Wordlist where you can add, edit and delete the words, also view the detailed word with the web view component.
+- Test screen where you can choose three options, choose a word from the word list or type the word or spell out the word.
+- Statistics screen where you can see your tests results.
 
 How to do the Vocabulary test?
-+ Given a picture, you can choose the correct word if you choose the list option or type the word if you choose the typing option or hangman option.
+Given a picture, you can choose the correct word if you choose the list option or type the word if you choose the typing option, or spell if you choose the hangman option.
 
 <p align="center">
  <a href="https://github.com/thedeveloperworldisyours/ComposeClean/tree/master/app/src/main/java/com/a/vocabulary15/presentation/test" class="class"> 

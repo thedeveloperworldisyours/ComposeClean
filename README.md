@@ -52,6 +52,9 @@ Given a picture, you can choose the correct word if you choose the list option o
  <a href="https://github.com/thedeveloperworldisyours/ComposeClean/tree/master/app/src/main/java/com/a/vocabulary15/presentation/test" class="class"> 
   <img src="https://github.com/thedeveloperworldisyours/ComposeClean/blob/master/screens/Screenshot_type_option.png" width="200px" />
  </a>
+ <a href="https://github.com/thedeveloperworldisyours/ComposeClean/tree/master/app/src/main/java/com/a/vocabulary15/presentation/test" class="class"> 
+  <img src="https://github.com/thedeveloperworldisyours/ComposeClean/blob/master/screens/Screenshot_hangman.png" width="200px" />
+ </a>
 </p>
 
 

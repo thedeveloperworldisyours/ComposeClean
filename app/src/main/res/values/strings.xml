@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mr.Hangman</string>
+    <string name="app_name">Mr. Hangman</string>
     <string name="do_you_want_delete">Do you want to delete %1$s group and its words?</string>
     <string name="loading">Loading&#8230;</string>
     <string name="nothing_to_show">Nothing to show</string>

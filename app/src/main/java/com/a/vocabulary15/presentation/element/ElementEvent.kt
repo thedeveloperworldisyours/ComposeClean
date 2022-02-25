@@ -13,4 +13,6 @@ sealed class ElementEvent{
     class SetInputValueLinkImage(val input: String): ElementEvent()
     class SetElement(val element: Element): ElementEvent()
     object FetchElements: ElementEvent()
+    class SetErrorLinkImage(val error: Boolean) : ElementEvent()
+    class SetErrorLinkWord(val error: Boolean) : ElementEvent()
 }

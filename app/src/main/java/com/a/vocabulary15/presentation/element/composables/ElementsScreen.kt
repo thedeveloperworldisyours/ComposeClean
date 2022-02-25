@@ -95,6 +95,8 @@ fun ElementDataScreen(
             FloatingActionButton(
                 modifier = Modifier.testTag(TestTags.NEW_ELEMENT),
                 onClick = {
+                    viewModel.onEvent(ElementEvent.SetErrorLinkImage(false))
+                    viewModel.onEvent(ElementEvent.SetErrorLinkWord(false))
                     viewModel.onEvent(ElementEvent.SetInputValue(""))
                     viewModel.onEvent(ElementEvent.SetInputValueLink(""))
                     viewModel.onEvent(ElementEvent.SetInputValueLinkImage(""))

@@ -37,4 +37,6 @@
     <string name="test_level_choose">Seleccione un modo:</string>
     <string name="statistics">Estadisticas</string>
     <string name="statistics_empty">Lista vacía de estadísticas</string>
+    <string name="text_error_word">Formato errorneo ejemplo: https//:www.palabra.com</string>
+    <string name="text_error_image">Formato erroneo ejemplo: https//:www.imagen.com</string>
 </resources>

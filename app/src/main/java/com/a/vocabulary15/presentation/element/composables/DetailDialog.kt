@@ -84,6 +84,8 @@ fun DetailDialog(viewModel: ElementsViewModel) {
                         Spacer(modifier = Modifier.size(5.dp))
                         IconButton(
                             onClick = {
+                                viewModel.onEvent(ElementEvent.SetErrorLinkImage(false))
+                                viewModel.onEvent(ElementEvent.SetErrorLinkWord(false))
                                 viewModel.onEvent(ElementEvent.SetInputValue(viewModel.state.value.element.value))
                                 viewModel.onEvent(ElementEvent.SetInputValueLink(viewModel.state.value.element.link))
                                 viewModel.onEvent(ElementEvent.SetInputValueLinkImage(viewModel.state.value.element.image))

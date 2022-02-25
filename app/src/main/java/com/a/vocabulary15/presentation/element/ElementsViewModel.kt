@@ -104,6 +104,16 @@ class ElementsViewModel @Inject constructor(
             is ElementEvent.FetchElements -> {
                 getElements(state.value.idGroup)
             }
+            is ElementEvent.SetErrorLinkImage -> {
+                _state.value = state.value.copy(
+                    isErrorLinkImage = event.error
+                )
+            }
+            is ElementEvent.SetErrorLinkWord -> {
+                _state.value = state.value.copy(
+                    isErrorLinkWord = event.error
+                )
+            }
         }
     }
     fun getElements(idGroup: Int) = viewModelScope.launch(Dispatchers.IO) {

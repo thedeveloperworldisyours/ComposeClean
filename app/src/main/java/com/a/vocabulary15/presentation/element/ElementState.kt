@@ -13,5 +13,7 @@ data class ElementState(
     val inputValue :String = "",
     val inputValueLink :String = "",
     val inputValueLinkImage :String = "",
-    val element: Element = Element(1,1,"","", "")
+    val element: Element = Element(1,1,"","", ""),
+    val isErrorLinkImage: Boolean = false,
+    val isErrorLinkWord: Boolean = false
 )

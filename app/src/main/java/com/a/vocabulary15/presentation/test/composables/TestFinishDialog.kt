@@ -82,7 +82,7 @@ fun TestFinishedDialog(
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(40.dp)
+                                .height(60.dp)
                                 .padding(0.dp, 0.dp, 10.dp, 0.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
@@ -97,7 +97,7 @@ fun TestFinishedDialog(
                             },
                             modifier = Modifier
                                 .width(90.dp)
-                                .height(40.dp),
+                                .height(60.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
                             Text(

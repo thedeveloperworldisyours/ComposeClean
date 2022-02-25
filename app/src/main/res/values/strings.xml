@@ -39,4 +39,6 @@
     <string name="test_level_choose">Choose the mode:</string>
     <string name="statistics">Statistics</string>
     <string name="statistics_empty">Empty statistics list</string>
+    <string name="text_error_word">Format error e.g. https//:www.word.com</string>
+    <string name="text_error_image">Format error e.g. https//:www.image.com</string>
 </resources>

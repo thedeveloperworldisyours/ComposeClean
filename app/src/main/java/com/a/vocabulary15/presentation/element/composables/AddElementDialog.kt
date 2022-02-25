@@ -3,9 +3,12 @@ package com.a.vocabulary15.presentation.element.composables
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.webkit.URLUtil
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -87,12 +90,42 @@ fun AddElementDialog(
                         TextField(
                             value = viewModel.state.value.inputValueLink,
                             maxLines = 1,
-                            onValueChange = { viewModel.onEvent(ElementEvent.SetInputValueLink(it)) },
+                            onValueChange = {
+                                viewModel.onEvent(ElementEvent.SetInputValueLink(it))
+                                if (it.isNotEmpty()) {
+                                    viewModel.onEvent(
+                                        ElementEvent.SetErrorLinkWord(
+                                            !URLUtil.isValidUrl(
+                                                it
+                                            )
+                                        )
+                                    )
+                                } else {
+                                    viewModel.onEvent(ElementEvent.SetErrorLinkWord(false))
+                                }
+                            },
+                            trailingIcon = {
+                                if (viewModel.state.value.isErrorLinkWord)
+                                    Icon(
+                                        Icons.Filled.Error,
+                                        "error",
+                                        tint = MaterialTheme.colors.error
+                                    )
+                            },
+                            isError = viewModel.state.value.isErrorLinkWord,
                             placeholder = { Text(text = stringResource(id = R.string.enter_link)) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 0.dp, 0.dp, 10.dp)
                                 .testTag(TestTags.NEW_LINK_ELEMENT_TEXT_FIELD)
+                        )
+                    }
+                    if (viewModel.state.value.isErrorLinkWord) {
+                        Text(
+                            text = stringResource(id = R.string.text_error_word),
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(56.dp, 0.dp, 0.dp, 16.dp)
                         )
                     }
                     Row(
@@ -121,12 +154,41 @@ fun AddElementDialog(
                             value = viewModel.state.value.inputValueLinkImage,
                             maxLines = 1,
                             onValueChange = {
-                                viewModel.onEvent(ElementEvent.SetInputValueLinkImage(it))  },
+                                viewModel.onEvent(ElementEvent.SetInputValueLinkImage(it))
+                                if (it.isNotEmpty()) {
+                                    viewModel.onEvent(
+                                        ElementEvent.SetErrorLinkImage(
+                                            !URLUtil.isValidUrl(
+                                                it
+                                            )
+                                        )
+                                    )
+                                } else {
+                                    viewModel.onEvent(ElementEvent.SetErrorLinkImage(false))
+                                }
+                            },
+                            trailingIcon = {
+                                if (viewModel.state.value.isErrorLinkImage)
+                                    Icon(
+                                        Icons.Filled.Error,
+                                        "error",
+                                        tint = MaterialTheme.colors.error
+                                    )
+                            },
                             placeholder = { Text(text = stringResource(id = R.string.enter_image_link)) },
+                            isError = viewModel.state.value.isErrorLinkImage,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(0.dp, 0.dp, 0.dp, 10.dp)
                                 .testTag(TestTags.NEW_IMAGE_ELEMENT_TEXT_FIELD)
+                        )
+                    }
+                    if (viewModel.state.value.isErrorLinkImage) {
+                        Text(
+                            text = stringResource(id = R.string.text_error_image),
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(56.dp, 0.dp, 0.dp, 16.dp)
                         )
                     }
                     Row(

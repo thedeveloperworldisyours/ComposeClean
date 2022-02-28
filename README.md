@@ -11,7 +11,7 @@ In this project you can find:
 | Flow | [Flow][flow] |
 <p align="center">
  <a href="https://play.google.com/store/apps/details?id=com.a.vocabulary15" class="class"> 
-  <img src="https://github.com/thedeveloperworldisyours/ComposeClean/blob/master/screens/google-play-badge.png" width="100px" />
+  <img src="https://github.com/thedeveloperworldisyours/ComposeClean/blob/master/screens/google-play-badge.png" />
  </a>
 </p>
 <p align="center">

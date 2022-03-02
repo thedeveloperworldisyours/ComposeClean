@@ -7,15 +7,31 @@ import java.util.*
 fun convertMillisecondsToCalendar(calendar: Calendar, timeStamp: Long): String {
     return if (timeStamp != 0L) {
         calendar.timeInMillis = timeStamp
-        "${calendar.get(Calendar.DAY_OF_MONTH)}" +
-                "/${calendar.get(Calendar.MONTH) + 1}" +
+        addZeroBefore(calendar, Calendar.DAY_OF_MONTH) +
+                addZeroBefore(calendar, Calendar.MONTH) +
                 "/${calendar.get(Calendar.YEAR)}\n" +
-                "${calendar.get(Calendar.HOUR_OF_DAY)}" +
-                ":${calendar.get(Calendar.MINUTE)}"
+                addZeroBefore(calendar, Calendar.HOUR_OF_DAY) +
+                ":" + addZeroBefore(calendar, Calendar.MINUTE)
     } else {
         ""
     }
 }
+
+fun addZeroBefore(calendar: Calendar, field: Int) =
+    if (field == Calendar.MONTH){
+        if (calendar.get(field) < 10) {
+            "/0${calendar.get(Calendar.MONTH) + 1}"
+        } else {
+            "/${calendar.get(Calendar.MONTH) + 1}"
+        }
+    } else {
+        if (calendar.get(field) < 10) {
+            "${calendar.get(field)}"
+        } else {
+            "${calendar.get(field)}"
+        }
+    }
+
 
 fun findFinalScoreColor(score: Int) = when {
     0 < score -> {

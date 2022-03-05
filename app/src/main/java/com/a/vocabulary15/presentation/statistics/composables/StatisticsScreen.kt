@@ -19,20 +19,30 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.a.vocabulary15.R
-import com.a.vocabulary15.domain.model.Statistics
+import com.a.vocabulary15.presentation.common.ViewState
+import com.a.vocabulary15.presentation.statistics.composables.StatisticsLoadingScreen
+import com.a.vocabulary15.presentation.statistics.data.StatisticsEntity
 import com.a.vocabulary15.presentation.ui.theme.Typography
-import com.a.vocabulary15.presentation.util.convertMillisecondsToCalendar
 import com.a.vocabulary15.presentation.util.findFinalScoreColor
-import com.a.vocabulary15.presentation.util.getTitleWithID
 import com.a.vocabulary15.util.TestTags
-import java.util.*
 
 @Composable
 fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    val groups = viewModel.groups.collectAsState(initial = emptyList())
-    val statistics = viewModel.statistics.collectAsState(initial = emptyList())
+    val state = viewModel.viewState.collectAsState(initial = ViewState.Loading)
+
+    when (state.value) {
+        is ViewState.Loading -> {StatisticsLoadingScreen(viewModel)}
+        is ViewState.Success -> {
+            StatisticsDataScreen(
+                (state.value as ViewState.Success<*>).value as List<StatisticsEntity>)
+        }
+    }
+}
+
+@Composable
+fun StatisticsDataScreen(statistics: List<StatisticsEntity>){
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -50,7 +60,7 @@ fun StatisticsScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            if (statistics.value.isEmpty()) {
+            if (statistics.isEmpty()) {
                 Text(
                     fontWeight = FontWeight.Bold,
                     text = stringResource(id = R.string.statistics_empty),
@@ -65,7 +75,7 @@ fun StatisticsScreen(
                         .fillMaxWidth()
                         .testTag(TestTags.ELEMENT_LIST)
                 ) {
-                    items(items = statistics.value.sortedByDescending {it.date}) { item: Statistics ->
+                    items(items = statistics) { item: StatisticsEntity ->
                         Surface(modifier = Modifier.clickable { }) {
                             Card(
                                 backgroundColor = Color.Blue,
@@ -77,10 +87,7 @@ fun StatisticsScreen(
                                 ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                                     val (time, title, row) = createRefs()
                                     Text(
-                                        text = convertMillisecondsToCalendar(
-                                            Calendar.getInstance(),
-                                            item.date
-                                        ),
+                                        text = item.date,
                                         color = Color.White,
                                         modifier = Modifier
                                             .padding(16.dp, 8.dp, 0.dp, 8.dp)
@@ -92,7 +99,7 @@ fun StatisticsScreen(
                                         style = Typography.caption
                                     )
                                     Text(
-                                        text = getTitleWithID(groups.value, item.groupId ?: 0),
+                                        text = item.groupTitle,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.White,
                                         modifier = Modifier

@@ -26,7 +26,7 @@ fun addZeroBefore(calendar: Calendar, field: Int) =
         }
     } else {
         if (calendar.get(field) < 10) {
-            "${calendar.get(field)}"
+            "0${calendar.get(field)}"
         } else {
             "${calendar.get(field)}"
         }

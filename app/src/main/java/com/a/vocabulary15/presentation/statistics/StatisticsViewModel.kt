@@ -35,7 +35,7 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    private fun getStatisticsEntity() = viewModelScope.launch(Dispatchers.IO) {
+    fun getStatisticsEntity() = viewModelScope.launch(Dispatchers.IO) {
         getStatisticsJob?.cancel()
         getStatisticsJob = viewModelScope.launch {
             getGroups.invoke().zip(getStatistics.invoke()) { groups, statistics ->

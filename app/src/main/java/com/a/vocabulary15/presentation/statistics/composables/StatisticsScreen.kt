@@ -226,36 +226,4 @@ fun BarChart() {
             )
         }
     }
-}
-
-@Composable
-fun StatisticsLoadingScreen(
-    viewModel: ElementsViewModel
-) {
-    Scaffold(
-        modifier = Modifier
-            .fillMaxWidth(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.loading))
-                }
-            )
-        }
-    ) {
-        Column(
-            Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator(
-                color = colorResource(id = R.color.blue_200),
-                modifier = Modifier
-                    .absolutePadding(8.dp, 8.dp, 8.dp, 8.dp)
-                    .width(50.dp)
-            )
-            viewModel.onEvent(ElementEvent.FetchElements)
-        }
-    }
 }*/

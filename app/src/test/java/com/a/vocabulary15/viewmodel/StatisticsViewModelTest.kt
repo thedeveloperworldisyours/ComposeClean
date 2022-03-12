@@ -1,5 +1,6 @@
 package com.a.vocabulary15.viewmodel
 
+import app.cash.turbine.test
 import com.a.vocabulary15.domain.model.Group
 import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.domain.usecases.GetGroups
@@ -8,10 +9,11 @@ import com.a.vocabulary15.presentation.common.ViewState
 import com.a.vocabulary15.presentation.statistics.StatisticsViewModel
 import com.a.vocabulary15.presentation.statistics.data.StatisticsEntity
 import com.a.vocabulary15.presentation.util.convertMillisecondsToCalendar
+import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,66 +32,98 @@ class StatisticsViewModelTest {
     private lateinit var getGroups: GetGroups
 
     lateinit var statisticsViewModel: StatisticsViewModel
-
+    val group = Group(1, "name")
+    val secondGroup = Group(2, "Second Name")
+    val groups = mutableListOf<Group>()
+    val firstStatistics = Statistics(
+        id = 1,
+        date = 1110L,
+        points = 1,
+        groupId = 1
+    )
+    val secondStatistics = Statistics(
+        id = 1,
+        date = 1110L,
+        points = 2,
+        groupId = 2
+    )
+    val statisticsList = mutableListOf<Statistics>()
+    val listStatisticsEntity = mutableListOf<StatisticsEntity>()
     @Before
-    fun setup(){
+    fun setup() {
         runBlocking {
             statisticsViewModel = StatisticsViewModel(getStatistics, getGroups)
+        }
+
+        groups.add(group)
+        groups.add(secondGroup)
+        statisticsList.add(firstStatistics)
+        statisticsList.add(secondStatistics)
+        listStatisticsEntity.add(
+            StatisticsEntity(
+                convertMillisecondsToCalendar(
+                    Calendar.getInstance(),
+                    1110L
+                ),
+                points = 1,
+                groupTitle = "name"
+            )
+        )
+        listStatisticsEntity.add(
+            StatisticsEntity(
+                convertMillisecondsToCalendar(
+                    Calendar.getInstance(),
+                    1110L
+                ),
+                points = 2,
+                groupTitle = "Second Name"
+            )
+        )
+    }
+
+    @Test
+    fun `get Statistics list loading`() {
+        runBlocking {
+
+            val job = launch {
+                statisticsViewModel.viewState.test {
+                    val emission = awaitItem()
+                    assertThat(emission).isEqualTo(ViewState.Loading)
+                    cancelAndConsumeRemainingEvents()
+                }
+            }
+
+            statisticsViewModel.getStatisticsEntity()
+            job.join()
+            job.cancel()
         }
     }
 
     @Test
     fun `get Statistics list successfully`() {
         runBlocking {
-
-            val group = Group(1, "name")
-            val secondGroup = Group(2, "Second Name")
-            val groups = mutableListOf<Group>()
-            groups.add(group)
-            groups.add(secondGroup)
-
-            val firstStatistics = Statistics(
-                id=1,
-                date = 1110L,
-                points = 1,
-                groupId = 1)
-            val secondStatistics = Statistics(
-                id=1,
-                date = 1110L,
-                points = 2,
-                groupId = 2)
-            val statisticsList = mutableListOf<Statistics>()
-            statisticsList.add(firstStatistics)
-            statisticsList.add(secondStatistics)
-
-            val listStatisticsEntity = mutableListOf<StatisticsEntity>()
-            listStatisticsEntity.add(
-                StatisticsEntity(
-                    convertMillisecondsToCalendar(
-                    Calendar.getInstance(),
-                        1110L
-                ),
-                    points = 1,
-                    groupTitle = "name")
-            )
-            listStatisticsEntity.add(
-                StatisticsEntity(
-                    convertMillisecondsToCalendar(
-                        Calendar.getInstance(),
-                        1110L
-                    ),
-                    points = 2,
-                    groupTitle = "Second Name")
-            )
-
             `when`(getGroups.invoke()).thenReturn(flow { emit(groups) })
             `when`(getStatistics.invoke()).thenReturn(flow { emit(statisticsList) })
 
-            val result = statisticsViewModel.getStatisticsEntity()
+            statisticsViewModel.getStatisticsEntityTest(getGroups.invoke(), getStatistics.invoke()).test {
+                val emission = awaitItem()
+                assertThat(emission).isEqualTo(listStatisticsEntity)
+                cancelAndConsumeRemainingEvents()
+            }
 
             verify(getGroups).invoke()
             verify(getStatistics).invoke()
-            Assert.assertEquals(statisticsViewModel.viewState.value, result)
+        }
+    }
+
+    @Test
+    fun `get Statistics list successfully without mocks`() {
+        runBlocking {
+            statisticsViewModel.getStatisticsEntityTest(flow { emit(groups) }, flow { emit(statisticsList) }).test {
+                val emission = awaitItem()
+                assertThat(emission).isEqualTo(listStatisticsEntity)
+                cancelAndConsumeRemainingEvents()
+            }
         }
     }
 }

@@ -2,6 +2,8 @@ package com.a.vocabulary15.presentation.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.a.vocabulary15.domain.model.Group
+import com.a.vocabulary15.domain.model.Statistics
 import com.a.vocabulary15.domain.usecases.GetGroups
 import com.a.vocabulary15.domain.usecases.GetStatistics
 import com.a.vocabulary15.presentation.common.ViewState
@@ -35,29 +37,39 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
+    fun getStatisticsEntityTest(
+        getGroups: Flow<List<Group>>,
+        getStatistics: Flow<List<Statistics>>
+    ): Flow<List<StatisticsEntity>> {
+        return getGroups.zip(getStatistics) { groups, statistics ->
+            val listStatisticsEntity = mutableListOf<StatisticsEntity>()
+            statistics.onEach {
+                groups.onEach { group ->
+                    if (group.id == it.groupId) {
+                        listStatisticsEntity.add(
+                            StatisticsEntity(
+                                date = convertMillisecondsToCalendar(
+                                    Calendar.getInstance(),
+                                    it.date
+                                ),
+                                points = it.points,
+                                groupTitle = group.name
+                            )
+                        )
+                    }
+                }
+            }
+            return@zip listStatisticsEntity
+        }
+    }
+
     fun getStatisticsEntity() = viewModelScope.launch(Dispatchers.IO) {
         getStatisticsJob?.cancel()
         getStatisticsJob = viewModelScope.launch {
-            getGroups.invoke().zip(getStatistics.invoke()) { groups, statistics ->
-                val listStatisticsEntity = mutableListOf<StatisticsEntity>()
-                statistics.onEach {
-                    groups.onEach { group ->
-                        if (group.id == it.groupId) {
-                            listStatisticsEntity.add(
-                                StatisticsEntity(
-                                    date = convertMillisecondsToCalendar(
-                                        Calendar.getInstance(),
-                                        it.date
-                                    ),
-                                    points = it.points,
-                                    groupTitle = group.name
-                                )
-                            )
-                        }
-                    }
-                }
-                return@zip listStatisticsEntity
-            }.collect { notifyPostState(it) }
+            getStatisticsEntityTest(
+                getGroups.invoke(),
+                getStatistics.invoke()
+            ).collect { notifyPostState(it) }
         }
     }
 

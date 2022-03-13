@@ -31,24 +31,24 @@ class StatisticsViewModelTest {
     @Mock
     private lateinit var getGroups: GetGroups
 
-    lateinit var statisticsViewModel: StatisticsViewModel
+    private lateinit var statisticsViewModel: StatisticsViewModel
     val group = Group(1, "name")
-    val secondGroup = Group(2, "Second Name")
-    val groups = mutableListOf<Group>()
-    val firstStatistics = Statistics(
+    private val secondGroup = Group(2, "Second Name")
+    private val groups = mutableListOf<Group>()
+    private val firstStatistics = Statistics(
         id = 1,
         date = 1110L,
         points = 1,
         groupId = 1
     )
-    val secondStatistics = Statistics(
+    private val secondStatistics = Statistics(
         id = 1,
         date = 1110L,
         points = 2,
         groupId = 2
     )
-    val statisticsList = mutableListOf<Statistics>()
-    val listStatisticsEntity = mutableListOf<StatisticsEntity>()
+    private val statisticsList = mutableListOf<Statistics>()
+    private val listStatisticsEntity = mutableListOf<StatisticsEntity>()
     @Before
     fun setup() {
         runBlocking {

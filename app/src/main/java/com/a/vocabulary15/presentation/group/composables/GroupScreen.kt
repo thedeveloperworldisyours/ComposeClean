@@ -48,6 +48,7 @@ fun GroupScreen(
                             navController.navigate(Screen.StatisticsScreen.route)
                         }) {
                         Icon(
+                            modifier = Modifier.testTag(TestTags.STATISTICS_ICON),
                             painter = painterResource(id = R.drawable.ic_baseline_bar_chart),
                             contentDescription = stringResource(id = R.string.statistics)
                         )

@@ -2,6 +2,7 @@ package com.a.vocabulary15.presentation
 
 import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.NavType
@@ -10,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.test.platform.app.InstrumentationRegistry
+import com.a.vocabulary15.R
 import com.a.vocabulary15.di.DatabaseModule
 import com.a.vocabulary15.presentation.element.composables.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
@@ -17,6 +19,8 @@ import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import com.a.vocabulary15.presentation.util.Screen
 import com.a.vocabulary15.util.TestTags
+import com.a.vocabulary15.util.TestTags.STATISTICS_ICON
+import com.a.vocabulary15.util.TestTags.STATISTICS_LIST
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
@@ -82,6 +86,12 @@ class GroupsElementEndToEndTest {
                 }
             }
         }
+    }
+
+    @Test
+    fun goToStatistics(){
+        composeRule.onNodeWithTag(STATISTICS_ICON).assertIsDisplayed()
+        composeRule.onNodeWithTag(STATISTICS_LIST).assertIsDisplayed()
     }
 
     @Test

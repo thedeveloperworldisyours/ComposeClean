@@ -26,4 +26,7 @@ object TestTags {
     const val ELEMENT_LIST_OPTIONS = "element_list_options"
     const val ENTER_NAME_ELEMENT_TEXT_FIELD = "enter_name_element_text_field"
     const val SCORE = "score"
+
+    const val STATISTICS_ICON = "statistics_icon"
+    const val STATISTICS_LIST = "statistics_list"
 }

@@ -73,7 +73,7 @@ fun StatisticsDataScreen(statistics: List<StatisticsEntity>){
                     contentPadding = PaddingValues(bottom = 80.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag(TestTags.ELEMENT_LIST)
+                        .testTag(TestTags.STATISTICS_LIST)
                 ) {
                     items(items = statistics) { item: StatisticsEntity ->
                         Surface(modifier = Modifier.clickable { }) {

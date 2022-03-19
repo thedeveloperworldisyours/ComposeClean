@@ -37,7 +37,7 @@ class StatisticsViewModelTest {
     private val groups = mutableListOf<Group>()
     private val firstStatistics = Statistics(
         id = 1,
-        date = 1110L,
+        date = 123456788L,
         points = 1,
         groupId = 1
     )
@@ -63,7 +63,7 @@ class StatisticsViewModelTest {
             StatisticsEntity(
                 convertMillisecondsToCalendar(
                     Calendar.getInstance(),
-                    1110L
+                    123456788L
                 ),
                 points = 1,
                 groupTitle = "name"
@@ -124,6 +124,36 @@ class StatisticsViewModelTest {
                 assertThat(emission).isEqualTo(listStatisticsEntity)
                 cancelAndConsumeRemainingEvents()
             }
+        }
+    }
+
+    @Test
+    fun `count statistics between two milliseconds`() {
+
+        val count = statisticsViewModel.findOutMonth(123456789L, 23456789L, statisticsList)
+
+        assertThat(count).isEqualTo(1)
+    }
+
+    @Test
+    fun `get statistics`() {
+        runBlocking {
+            val job = launch {
+                statisticsViewModel.viewState.test {
+                    val emission = awaitItem()
+                    assertThat(emission).isEqualTo(ViewState.Success<*>)
+                    cancelAndConsumeRemainingEvents()
+                }
+            }
+
+            /*`when`(getStatistics.invoke()).thenReturn(flow { emit(statisticsList) })
+            statisticsViewModel.getStatisticsByMonth()
+            val job = launch {
+                statisticsViewModel.getStatisticsByMonth().isCompleted
+            }*/
+            assertThat(statisticsViewModel.viewState.value is ViewState.Success).isTrue()
+            verify(getStatistics).invoke()
+            job.cancel()
         }
     }
 }

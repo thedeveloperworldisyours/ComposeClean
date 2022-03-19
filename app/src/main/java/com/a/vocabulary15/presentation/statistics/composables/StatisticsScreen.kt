@@ -1,4 +1,4 @@
-package com.a.vocabulary15.presentation.statistics
+package com.a.vocabulary15.presentation.statistics.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,7 +22,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.a.vocabulary15.R
 import com.a.vocabulary15.presentation.common.ViewState
-import com.a.vocabulary15.presentation.statistics.composables.StatisticsLoadingScreen
+import com.a.vocabulary15.presentation.statistics.StatisticsEvent
+import com.a.vocabulary15.presentation.statistics.StatisticsViewModel
 import com.a.vocabulary15.presentation.statistics.data.StatisticsEntity
 import com.a.vocabulary15.presentation.ui.theme.Typography
 import com.a.vocabulary15.presentation.util.findFinalScoreColor
@@ -33,16 +36,17 @@ fun StatisticsScreen(
     val state = viewModel.viewState.collectAsState(initial = ViewState.Loading)
 
     when (state.value) {
-        is ViewState.Loading -> {StatisticsLoadingScreen(viewModel)}
+        is ViewState.Loading -> {
+            StatisticsLoadingScreen(viewModel)
+        }
         is ViewState.Success -> {
-            StatisticsDataScreen(
-                (state.value as ViewState.Success<*>).value as List<StatisticsEntity>)
+            CustomScaffold(viewModel, (state.value as ViewState.Success<*>).value as List<*>)
         }
     }
 }
 
 @Composable
-fun StatisticsDataScreen(statistics: List<StatisticsEntity>){
+fun CustomScaffold(viewModel: StatisticsViewModel, list: List<*>) {
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -60,95 +64,219 @@ fun StatisticsDataScreen(statistics: List<StatisticsEntity>){
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            if (statistics.isEmpty()) {
-                Text(
-                    fontWeight = FontWeight.Bold,
-                    text = stringResource(id = R.string.statistics_empty),
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    style = Typography.body1,
-                )
+            if (list.isEmpty()) {
+                EmptyDataScreen()
             } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(bottom = 80.dp),
+                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                    val (all, by) = createRefs()
+                    Button(
+                        onClick = {
+                            viewModel.onEvent(StatisticsEvent.FetchStatistics)
+                        },
+                        modifier = Modifier
+                            .width(90.dp)
+                            .height(60.dp)
+                            .padding(10.dp)
+                            .constrainAs(all) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                            },
+                        shape = RoundedCornerShape(5.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.statistics_all),
+                            color = Color.White
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth)
+                        },
+                        modifier = Modifier
+                            .width(90.dp)
+                            .height(60.dp)
+                            .padding(10.dp, 10.dp, 0.dp, 10.dp)
+                            .testTag(TestTags.SAVE_GROUP).constrainAs(by) {
+                                top.linkTo(parent.top)
+                                end.linkTo(parent.end)
+                            },
+                        shape = RoundedCornerShape(5.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.statistics_by_month),
+                            color = Color.White
+                        )
+                    }
+                }
+                if (list[0] is StatisticsEntity) {
+                    StatisticsEntityDataScreen(list as List<StatisticsEntity>)
+                } else {
+                    StatisticsMonthScreen(list as List<Int>)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun StatisticsMonthScreen(countList: List<Int>) {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = 80.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(TestTags.STATISTICS_LIST)
+    ) {
+        itemsIndexed(items = countList) { index: Int, number: Int ->
+            Surface(modifier = Modifier.clickable { }) {
+                Card(
+                    backgroundColor = Color.Blue,
+                    elevation = 5.dp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag(TestTags.STATISTICS_LIST)
+                        .padding(horizontal = 20.dp, vertical = 8.dp)
                 ) {
-                    items(items = statistics) { item: StatisticsEntity ->
-                        Surface(modifier = Modifier.clickable { }) {
-                            Card(
-                                backgroundColor = Color.Blue,
-                                elevation = 5.dp,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 20.dp, vertical = 8.dp)
-                            ) {
-                                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                                    val (time, title, row) = createRefs()
-                                    Text(
-                                        text = item.date,
-                                        color = Color.White,
-                                        modifier = Modifier
-                                            .padding(16.dp, 8.dp, 0.dp, 8.dp)
-                                            .constrainAs(time) {
-                                                top.linkTo(parent.top)
-                                                bottom.linkTo(parent.bottom)
-                                                start.linkTo(parent.start)
-                                            },
-                                        style = Typography.caption
-                                    )
-                                    Text(
-                                        text = item.groupTitle,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White,
-                                        modifier = Modifier
-                                            .padding(16.dp, 8.dp, 0.dp, 8.dp)
-                                            .constrainAs(title) {
-                                                top.linkTo(parent.top)
-                                                bottom.linkTo(parent.bottom)
-                                                start.linkTo(time.end)
-                                            },
-                                        style = Typography.body1
-                                    )
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxHeight()
-                                            .constrainAs(row) {
-                                                top.linkTo(parent.top)
-                                                bottom.linkTo(parent.bottom)
-                                                end.linkTo(parent.end)
-                                            }
-                                            .background(Color.White)
-                                    ) {
-
-                                        Image(
-                                            modifier = Modifier
-                                                .size(55.dp),
-                                            painter = painterResource(id = R.drawable.ic_arrow),
-                                            contentDescription = null
-                                        )
-                                        Text(
-                                            text = item.points.toString(),
-                                            fontWeight = FontWeight.Bold,
-                                            color = findFinalScoreColor(item.points),
-                                            modifier = Modifier
-                                                .padding(0.dp, 16.dp, 0.dp, 16.dp),
-                                            style = Typography.body1
-                                        )
-                                        Spacer(
-                                            modifier = Modifier
-                                                .padding(13.dp)
-                                        )
-                                    }
+                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                        val (title, row) = createRefs()
+                        Text(
+                            text = "$index months ago",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            modifier = Modifier
+                                .padding(16.dp, 8.dp, 0.dp, 8.dp)
+                                .constrainAs(title) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                },
+                            style = Typography.body1
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .constrainAs(row) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    end.linkTo(parent.end)
                                 }
-                            }
+                                .background(Color.White)
+                        ) {
+                            Image(
+                                modifier = Modifier
+                                    .size(55.dp),
+                                painter = painterResource(id = R.drawable.ic_arrow),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = number.toString(),
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(0.dp, 16.dp, 0.dp, 16.dp),
+                                style = Typography.body1
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .padding(13.dp)
+                            )
                         }
                     }
                 }
             }
         }
     }
+}
+
+
+@Composable
+fun StatisticsEntityDataScreen(statistics: List<StatisticsEntity>) {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = 80.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(TestTags.STATISTICS_LIST)
+    ) {
+        items(items = statistics) { item: StatisticsEntity ->
+            Surface(modifier = Modifier.clickable { }) {
+                Card(
+                    backgroundColor = Color.Blue,
+                    elevation = 5.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 8.dp)
+                ) {
+                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                        val (time, title, row) = createRefs()
+                        Text(
+                            text = item.date,
+                            color = Color.White,
+                            modifier = Modifier
+                                .padding(16.dp, 8.dp, 0.dp, 8.dp)
+                                .constrainAs(time) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                },
+                            style = Typography.caption
+                        )
+                        Text(
+                            text = item.groupTitle,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            modifier = Modifier
+                                .padding(16.dp, 8.dp, 0.dp, 8.dp)
+                                .constrainAs(title) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(time.end)
+                                },
+                            style = Typography.body1
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .constrainAs(row) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    end.linkTo(parent.end)
+                                }
+                                .background(Color.White)
+                        ) {
+
+                            Image(
+                                modifier = Modifier
+                                    .size(55.dp),
+                                painter = painterResource(id = R.drawable.ic_arrow),
+                                contentDescription = null
+                            )
+                            Text(
+                                text = item.points.toString(),
+                                fontWeight = FontWeight.Bold,
+                                color = findFinalScoreColor(item.points),
+                                modifier = Modifier
+                                    .padding(0.dp, 16.dp, 0.dp, 16.dp),
+                                style = Typography.body1
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .padding(13.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun EmptyDataScreen() {
+    Text(
+        fontWeight = FontWeight.Bold,
+        text = stringResource(id = R.string.statistics_empty),
+        modifier = Modifier
+            .fillMaxSize(),
+        style = Typography.body1,
+    )
 }
 
 /*

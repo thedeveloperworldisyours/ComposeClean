@@ -27,6 +27,11 @@ class StatisticsViewModel @Inject constructor(
         MutableStateFlow(ViewState.Loading)
     val viewState = viewStateMutable.asStateFlow()
     private var getStatisticsJob: Job? = null
+    private var getStatisticsMonthJob: Job? = null
+
+    companion object {
+        val MONTH_MILLISECONDS = 2628002880
+    }
 
     //events
     fun onEvent(event: StatisticsEvent) {
@@ -34,7 +39,43 @@ class StatisticsViewModel @Inject constructor(
             is StatisticsEvent.FetchStatistics -> {
                 getStatisticsEntity()
             }
+            is StatisticsEvent.FetchStatisticsByMonth -> {
+                getStatisticsByMonth()
+            }
         }
+    }
+
+    fun getStatisticsByMonth() = viewModelScope.launch(Dispatchers.IO) {
+        getStatisticsMonthJob?.cancel()
+        getStatisticsMonthJob = getStatistics.invoke().onEach { statistics ->
+            val calendar = Calendar.getInstance()
+            //val listMonthTitle = mutableMapOf<String, Int>()
+            val listInt = mutableListOf<Int>()
+            for (i in 0..11) {
+                val currentTime = calendar.timeInMillis - MONTH_MILLISECONDS * i
+                val pastTime = calendar.timeInMillis - MONTH_MILLISECONDS * (i + 1)
+                calendar.timeInMillis = pastTime
+                if (calendar.get(Calendar.MONTH) < 10) {
+                    //listMonthTitle["0${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
+                        listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                } else {
+                    //listMonthTitle["${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
+                    listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                }
+            }
+            notifyPostStateCountList(listInt)
+        }.launchIn(viewModelScope)
+
+    }
+
+    fun findOutMonth(currentTime: Long, pastTime: Long, list: List<Statistics>):Int {
+        var count = 0
+        for (statistic in list) {
+            if (statistic.date in (pastTime + 1) until currentTime) {
+                count ++
+            }
+        }
+        return count
     }
 
     fun getStatisticsEntityTest(
@@ -71,6 +112,9 @@ class StatisticsViewModel @Inject constructor(
                 getStatistics.invoke()
             ).collect { notifyPostState(it) }
         }
+    }
+    private fun notifyPostStateCountList(list: List<Int>) {
+        viewStateMutable.value = ViewState.Success(list)
     }
 
     private fun notifyPostState(list: List<StatisticsEntity>) {

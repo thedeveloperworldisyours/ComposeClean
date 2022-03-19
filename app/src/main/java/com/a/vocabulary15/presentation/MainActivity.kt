@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.a.vocabulary15.presentation.element.composables.ElementScreen
 import com.a.vocabulary15.presentation.group.GroupScreen
-import com.a.vocabulary15.presentation.statistics.StatisticsScreen
+import com.a.vocabulary15.presentation.statistics.composables.StatisticsScreen
 import com.a.vocabulary15.presentation.test.composables.TestScreen
 import com.a.vocabulary15.presentation.ui.theme.Vocabulary15Theme
 import com.a.vocabulary15.presentation.util.Screen

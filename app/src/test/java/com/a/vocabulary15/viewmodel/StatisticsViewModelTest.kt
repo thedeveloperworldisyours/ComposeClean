@@ -49,6 +49,7 @@ class StatisticsViewModelTest {
     )
     private val statisticsList = mutableListOf<Statistics>()
     private val listStatisticsEntity = mutableListOf<StatisticsEntity>()
+
     @Before
     fun setup() {
         runBlocking {
@@ -136,24 +137,24 @@ class StatisticsViewModelTest {
     }
 
     @Test
-    fun `get statistics`() {
+    fun `get statistics flow`() {
         runBlocking {
-            val job = launch {
-                statisticsViewModel.viewState.test {
-                    val emission = awaitItem()
-                    assertThat(emission).isEqualTo(ViewState.Success<*>)
-                    cancelAndConsumeRemainingEvents()
-                }
+            val calendar= Calendar.getInstance()
+            calendar.timeInMillis = 123456789L
+
+            val listInt = mutableListOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+            `when`(getStatistics.invoke()).thenReturn(flow { emit(statisticsList) })
+
+            statisticsViewModel.getStatisticFlow(getStatistics.invoke(), calendar).test {
+                val emission = awaitItem()
+                assertThat(emission).isEqualTo(statisticsList)
+                cancelAndConsumeRemainingEvents()
             }
 
-            /*`when`(getStatistics.invoke()).thenReturn(flow { emit(statisticsList) })
-            statisticsViewModel.getStatisticsByMonth()
-            val job = launch {
-                statisticsViewModel.getStatisticsByMonth().isCompleted
-            }*/
-            assertThat(statisticsViewModel.viewState.value is ViewState.Success).isTrue()
+
+            assertThat(statisticsViewModel.viewState.value).isEqualTo(ViewState.Success(listInt))
             verify(getStatistics).invoke()
-            job.cancel()
         }
     }
 }

@@ -30,7 +30,7 @@ class StatisticsViewModel @Inject constructor(
     private var getStatisticsMonthJob: Job? = null
 
     companion object {
-        val MONTH_MILLISECONDS = 2628002880
+        const val MONTH_MILLISECONDS = 2628002880
     }
 
     //events
@@ -45,10 +45,13 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    fun getStatisticsByMonth() = viewModelScope.launch(Dispatchers.IO) {
-        getStatisticsMonthJob?.cancel()
-        getStatisticsMonthJob = getStatistics.invoke().onEach { statistics ->
-            val calendar = Calendar.getInstance()
+
+    fun getStatisticFlow(
+        getStatistics: Flow<List<Statistics>>,
+        calendar: Calendar
+    ): Flow<List<Statistics>> {
+        return getStatistics.onEach { statistics ->
+
             //val listMonthTitle = mutableMapOf<String, Int>()
             val listInt = mutableListOf<Int>()
             for (i in 0..11) {
@@ -57,15 +60,19 @@ class StatisticsViewModel @Inject constructor(
                 calendar.timeInMillis = pastTime
                 if (calendar.get(Calendar.MONTH) < 10) {
                     //listMonthTitle["0${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
-                        listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                    listInt.add(findOutMonth(currentTime, pastTime, statistics))
                 } else {
                     //listMonthTitle["${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
                     listInt.add(findOutMonth(currentTime, pastTime, statistics))
                 }
             }
             notifyPostStateCountList(listInt)
-        }.launchIn(viewModelScope)
-
+        }
+    }
+    private fun getStatisticsByMonth() = viewModelScope.launch(Dispatchers.IO) {
+        getStatisticsMonthJob?.cancel()
+        getStatisticsMonthJob = viewModelScope.launch {getStatisticFlow(getStatistics.invoke(),
+            Calendar.getInstance()) }
     }
 
     fun findOutMonth(currentTime: Long, pastTime: Long, list: List<Statistics>):Int {

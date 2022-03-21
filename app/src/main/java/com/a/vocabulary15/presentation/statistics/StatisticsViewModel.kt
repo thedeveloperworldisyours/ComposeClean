@@ -69,10 +69,32 @@ class StatisticsViewModel @Inject constructor(
             notifyPostStateCountList(listInt)
         }
     }
-    private fun getStatisticsByMonth() = viewModelScope.launch(Dispatchers.IO) {
+    /*private fun getStatisticsByMonth() = viewModelScope.launch(Dispatchers.IO) {
         getStatisticsMonthJob?.cancel()
         getStatisticsMonthJob = viewModelScope.launch {getStatisticFlow(getStatistics.invoke(),
             Calendar.getInstance()) }
+    }*/
+
+    private fun getStatisticsByMonth() = viewModelScope.launch(Dispatchers.IO) {
+        getStatisticsMonthJob?.cancel()
+        getStatisticsMonthJob =getStatistics.invoke().onEach { statistics ->
+            val calendar = Calendar.getInstance()
+            //val listMonthTitle = mutableMapOf<String, Int>()
+            val listInt = mutableListOf<Int>()
+            for (i in 0..11) {
+                val currentTime = calendar.timeInMillis - MONTH_MILLISECONDS * i
+                val pastTime = calendar.timeInMillis - MONTH_MILLISECONDS * (i + 1)
+                calendar.timeInMillis = pastTime
+                if (calendar.get(Calendar.MONTH) < 10) {
+                    //listMonthTitle["0${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
+                    listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                } else {
+                    //listMonthTitle["${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
+                    listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                }
+            }
+            notifyPostStateCountList(listInt)
+        }.launchIn(viewModelScope)
     }
 
     fun findOutMonth(currentTime: Long, pastTime: Long, list: List<Statistics>):Int {

@@ -7,13 +7,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +29,8 @@ import com.a.vocabulary15.presentation.statistics.data.StatisticsEntity
 import com.a.vocabulary15.presentation.ui.theme.Typography
 import com.a.vocabulary15.presentation.util.findFinalScoreColor
 import com.a.vocabulary15.util.TestTags
+import com.google.accompanist.pager.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun StatisticsScreen(
@@ -44,9 +47,67 @@ fun StatisticsScreen(
         }
     }
 }
+typealias ComposableFun = @Composable () -> Unit
 
+sealed class TabItem(var icon: Int, var title: String, var screen: () -> Unit) {
+    class Statistics(viewModel: StatisticsViewModel) : TabItem(android.R.drawable.ic_dialog_email,
+        "statis",
+        { })//viewModel.onEvent(StatisticsEvent.FetchStatistics) })
+
+    class StatisticsByMonth(viewModel: StatisticsViewModel) :
+        TabItem(android.R.drawable.ic_dialog_alert,
+            "statistics_by_month", { })//viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth) })
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
+@Composable
+fun Tabs(viewModel: StatisticsViewModel, tabs: List<TabItem>, pagerState: PagerState) {
+    val scope = rememberCoroutineScope()
+    // OR ScrollableTabRow()
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
+        backgroundColor = colorResource(id = R.color.blue_200),
+        contentColor = Color.White,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions))
+        }) {
+        tabs.forEachIndexed { index, tab ->
+            // OR Tab()
+            LeadingIconTab(
+                icon = { Icon(painter = painterResource(id = tab.icon), contentDescription = "") },
+                text = { Text(tab.title) },
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    scope.launch {
+                        if (index == 0) {
+                            viewModel.onEvent(StatisticsEvent.FetchStatistics)
+                        } else {
+                            viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth)
+                        }
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
+    HorizontalPager(state = pagerState, count = tabs.size) { page ->
+        tabs[page].screen()
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CustomScaffold(viewModel: StatisticsViewModel, list: List<*>) {
+    val tabs = listOf(
+        TabItem.Statistics(viewModel),
+        TabItem.StatisticsByMonth(viewModel)
+    )
+    val pagerState = rememberPagerState()
     Scaffold(
         modifier = Modifier
             .fillMaxWidth(),
@@ -67,47 +128,8 @@ fun CustomScaffold(viewModel: StatisticsViewModel, list: List<*>) {
             if (list.isEmpty()) {
                 EmptyDataScreen()
             } else {
-                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                    val (all, by) = createRefs()
-                    Button(
-                        onClick = {
-                            viewModel.onEvent(StatisticsEvent.FetchStatistics)
-                        },
-                        modifier = Modifier
-                            .width(90.dp)
-                            .height(60.dp)
-                            .padding(10.dp)
-                            .constrainAs(all) {
-                                top.linkTo(parent.top)
-                                start.linkTo(parent.start)
-                            },
-                        shape = RoundedCornerShape(5.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.statistics_all),
-                            color = Color.White
-                        )
-                    }
-                    Button(
-                        onClick = {
-                            viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth)
-                        },
-                        modifier = Modifier
-                            .width(90.dp)
-                            .height(60.dp)
-                            .padding(10.dp, 10.dp, 0.dp, 10.dp)
-                            .testTag(TestTags.SAVE_GROUP).constrainAs(by) {
-                                top.linkTo(parent.top)
-                                end.linkTo(parent.end)
-                            },
-                        shape = RoundedCornerShape(5.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.statistics_by_month),
-                            color = Color.White
-                        )
-                    }
-                }
+                Tabs(viewModel = viewModel, tabs = tabs, pagerState = pagerState)
+                TabsContent(tabs = tabs, pagerState = pagerState)
                 if (list[0] is StatisticsEntity) {
                     StatisticsEntityDataScreen(list as List<StatisticsEntity>)
                 } else {

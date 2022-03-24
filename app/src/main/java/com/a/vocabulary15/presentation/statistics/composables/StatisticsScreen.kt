@@ -50,12 +50,12 @@ fun StatisticsScreen(
 typealias ComposableFun = @Composable () -> Unit
 
 sealed class TabItem(var icon: Int, var title: String, var screen: () -> Unit) {
-    class Statistics(viewModel: StatisticsViewModel) : TabItem(android.R.drawable.ic_dialog_email,
+    class Statistics(viewModel: StatisticsViewModel) : TabItem(R.drawable.ic_baseline_list_24,
         "statis",
         { })//viewModel.onEvent(StatisticsEvent.FetchStatistics) })
 
     class StatisticsByMonth(viewModel: StatisticsViewModel) :
-        TabItem(android.R.drawable.ic_dialog_alert,
+        TabItem(R.drawable.ic_baseline_bar_chart,
             "statistics_by_month", { })//viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth) })
 }
 

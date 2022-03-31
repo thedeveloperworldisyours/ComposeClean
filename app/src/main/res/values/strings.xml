@@ -15,7 +15,7 @@
     <string name="add_element">Add word</string>
     <string name="get_element">Get word</string>
     <string name="word_reference" translatable="false">https://www.wordreference.com</string>
-    <string name="google_reference" translatable="false">https://www.icons8.com</string>
+    <string name="google_reference" translatable="false">https://www.google.com</string>
     <string name="enter_name">Enter name</string>
     <string name="search_word_link">Search word link</string>
     <string name="enter_link">Word link</string>

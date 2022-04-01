@@ -50,13 +50,13 @@ fun StatisticsScreen(
 typealias ComposableFun = @Composable () -> Unit
 
 sealed class TabItem(var icon: Int, var title: String, var screen: () -> Unit) {
-    class Statistics(viewModel: StatisticsViewModel) : TabItem(R.drawable.ic_baseline_list_24,
-        "statis",
+    class Statistics(viewModel: StatisticsViewModel, title: String) : TabItem(R.drawable.ic_baseline_list_24,
+        title,
         { })//viewModel.onEvent(StatisticsEvent.FetchStatistics) })
 
-    class StatisticsByMonth(viewModel: StatisticsViewModel) :
+    class StatisticsByMonth(viewModel: StatisticsViewModel, title: String) :
         TabItem(R.drawable.ic_baseline_bar_chart,
-            "statistics_by_month", { })//viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth) })
+            title, { })//viewModel.onEvent(StatisticsEvent.FetchStatisticsByMonth) })
 }
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
@@ -104,8 +104,9 @@ fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
 @Composable
 fun CustomScaffold(viewModel: StatisticsViewModel, list: List<*>) {
     val tabs = listOf(
-        TabItem.Statistics(viewModel),
-        TabItem.StatisticsByMonth(viewModel)
+        TabItem.Statistics(viewModel, stringResource(id = R.string.statistics)),
+        TabItem.StatisticsByMonth(viewModel, stringResource(id = R.string.statistics_by_month))
+
     )
     val pagerState = rememberPagerState()
     Scaffold(

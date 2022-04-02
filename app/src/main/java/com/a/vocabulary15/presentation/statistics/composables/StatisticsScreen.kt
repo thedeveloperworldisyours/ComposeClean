@@ -1,18 +1,26 @@
 package com.a.vocabulary15.presentation.statistics.composables
 
+import android.graphics.Point
+import android.widget.Toast
+import androidx.compose.animation.core.FloatTweenSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -143,12 +151,14 @@ fun CustomScaffold(viewModel: StatisticsViewModel, list: List<*>) {
 
 @Composable
 fun StatisticsMonthScreen(countList: List<Int>) {
-    LazyColumn(
+    BarChart(countList)
+    /*LazyColumn(
         contentPadding = PaddingValues(bottom = 80.dp),
         modifier = Modifier
             .fillMaxWidth()
             .testTag(TestTags.STATISTICS_LIST)
     ) {
+
         itemsIndexed(items = countList) { index: Int, number: Int ->
             Surface(modifier = Modifier.clickable { }) {
                 Card(
@@ -206,7 +216,7 @@ fun StatisticsMonthScreen(countList: List<Int>) {
                 }
             }
         }
-    }
+    }*/
 }
 
 
@@ -302,8 +312,8 @@ fun EmptyDataScreen() {
     )
 }
 
-/*
-private fun identifyCLickItem(
+
+/*private fun identifyCLickItem(
     points: List<Point>,
     x: Float,
     y: Float
@@ -314,23 +324,21 @@ private fun identifyCLickItem(
         }
     }
     return -1
+}*/
+
+private fun getListPoints(countList: List<Int>): List<Point> {
+    val points = mutableListOf<Point>()
+    var x = 10
+    for( point in countList) {
+        points.add(Point(x, point))
+        x += 80
+    }
+    return points
 }
 
 @Composable
-fun BarChart() {
-    val point = listOf(
-        Point(10, 10),
-        Point(90, 100),
-        Point(170, 30),
-        Point(250, 200),
-        Point(330, 120),
-        Point(410, 10),
-        Point(490, 280),
-        Point(570, 100),
-        Point(650, 10),
-        Point(730, 100),
-        Point(810, 200),
-    )
+fun BarChart(countList: List<Int>) {
+    val point = getListPoints(countList)
 
     val context = LocalContext.current
     var start by remember { mutableStateOf(false) }
@@ -347,23 +355,23 @@ fun BarChart() {
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        val i = identifyCLickItem(point, it.x, it.y)
+                        /*val i = identifyCLickItem(point, it.x, it.y)
                         Toast
                             .makeText(context, "onTap: $i", Toast.LENGTH_SHORT)
-                            .show()
+                            .show()*/
                     }
                 )
             }
     ) {
         drawLine(
-            start = Offset(10f, 600f),
+            start = Offset(10f, 300f),
             end = Offset(10f, 0f),
             color = Color.Black,
             strokeWidth = 3f
         )
         drawLine(
-            start = Offset(10f, 600f),
-            end = Offset(900f, 600f),
+            start = Offset(10f, 300f),
+            end = Offset(900f, 300f),
             color = Color.Black,
             strokeWidth = 3f
         )
@@ -372,9 +380,9 @@ fun BarChart() {
         for (p in point) {
             drawRect(
                 color = Color.Red,
-                topLeft = Offset(p.x + 30f, 600 - (600 - p.y) * heightPre),
-                size = Size(55f, (600 - p.y) * heightPre)
+                topLeft = Offset(p.x + 30f, 300 - p.y * heightPre),
+                size = Size(55f, p.y * heightPre)
             )
         }
     }
-}*/
+}

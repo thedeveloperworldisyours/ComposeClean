@@ -81,10 +81,9 @@ class StatisticsViewModel @Inject constructor(
             val calendar = Calendar.getInstance()
             //val listMonthTitle = mutableMapOf<String, Int>()
             val listInt = mutableListOf<Int>()
+            var currentTime = calendar.timeInMillis
+            var pastTime = calendar.timeInMillis - MONTH_MILLISECONDS
             for (i in 0..11) {
-                val currentTime = calendar.timeInMillis - MONTH_MILLISECONDS * i
-                val pastTime = calendar.timeInMillis - MONTH_MILLISECONDS * (i + 1)
-                calendar.timeInMillis = pastTime
                 if (calendar.get(Calendar.MONTH) < 10) {
                     //listMonthTitle["0${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
                     listInt.add(findOutMonth(currentTime, pastTime, statistics))
@@ -92,6 +91,8 @@ class StatisticsViewModel @Inject constructor(
                     //listMonthTitle["${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
                     listInt.add(findOutMonth(currentTime, pastTime, statistics))
                 }
+                currentTime = pastTime
+                pastTime = currentTime - MONTH_MILLISECONDS
             }
             notifyPostStateCountList(listInt)
         }.launchIn(viewModelScope)
@@ -101,7 +102,7 @@ class StatisticsViewModel @Inject constructor(
         var count = 0
         for (statistic in list) {
             if (statistic.date in (pastTime + 1) until currentTime) {
-                count ++
+                count += statistic.points
             }
         }
         return count

@@ -1,7 +1,6 @@
 package com.a.vocabulary15.presentation.statistics.composables
 
 import android.graphics.Point
-import android.widget.Toast
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
@@ -12,7 +11,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -151,72 +149,53 @@ fun CustomScaffold(viewModel: StatisticsViewModel, list: List<*>) {
 
 @Composable
 fun StatisticsMonthScreen(countList: List<Int>) {
-    BarChart(countList)
-    /*LazyColumn(
-        contentPadding = PaddingValues(bottom = 80.dp),
+    val points = getListPoints(countList)
+
+    val context = LocalContext.current
+    var start by remember { mutableStateOf(false) }
+    val heightPre by animateFloatAsState(
+        targetValue = if (start) 1f else 0f,
+        animationSpec = FloatTweenSpec(duration = 1000)
+    )
+
+    Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag(TestTags.STATISTICS_LIST)
-    ) {
-
-        itemsIndexed(items = countList) { index: Int, number: Int ->
-            Surface(modifier = Modifier.clickable { }) {
-                Card(
-                    backgroundColor = Color.Blue,
-                    elevation = 5.dp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 8.dp)
-                ) {
-                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                        val (title, row) = createRefs()
-                        Text(
-                            text = "$index months ago",
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            modifier = Modifier
-                                .padding(16.dp, 8.dp, 0.dp, 8.dp)
-                                .constrainAs(title) {
-                                    top.linkTo(parent.top)
-                                    bottom.linkTo(parent.bottom)
-                                    start.linkTo(parent.start)
-                                },
-                            style = Typography.body1
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .constrainAs(row) {
-                                    top.linkTo(parent.top)
-                                    bottom.linkTo(parent.bottom)
-                                    end.linkTo(parent.end)
-                                }
-                                .background(Color.White)
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(55.dp),
-                                painter = painterResource(id = R.drawable.ic_arrow),
-                                contentDescription = null
-                            )
-                            Text(
-                                text = number.toString(),
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(0.dp, 16.dp, 0.dp, 16.dp),
-                                style = Typography.body1
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .padding(13.dp)
-                            )
-                        }
+            .height(300.dp)
+            .background(Color.White)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        /*val i = identifyCLickItem(point, it.x, it.y)
+                        Toast
+                            .makeText(context, "onTap: $i", Toast.LENGTH_SHORT)
+                            .show()*/
                     }
-                }
+                )
             }
+    ) {
+        drawLine(
+            start = Offset(10f, 300f),
+            end = Offset(10f, 0f),
+            color = Color.Black,
+            strokeWidth = 3f
+        )
+        drawLine(
+            start = Offset(10f, 300f),
+            end = Offset(900f, 300f),
+            color = Color.Black,
+            strokeWidth = 3f
+        )
+        start = true
+
+        for (p in points) {
+            drawRect(
+                color = Color.Red,
+                topLeft = Offset(p.x + 30f, 300 - p.y * heightPre),
+                size = Size(55f, p.y * heightPre)
+            )
         }
-    }*/
+    }
 }
 
 
@@ -312,20 +291,6 @@ fun EmptyDataScreen() {
     )
 }
 
-
-/*private fun identifyCLickItem(
-    points: List<Point>,
-    x: Float,
-    y: Float
-): Int {
-    for ((index, point) in points.withIndex()) {
-        if (x > point.x + 20 && x < point.x + 20 + 40) {
-            return index
-        }
-    }
-    return -1
-}*/
-
 private fun getListPoints(countList: List<Int>): List<Point> {
     val points = mutableListOf<Point>()
     var x = 10
@@ -334,55 +299,4 @@ private fun getListPoints(countList: List<Int>): List<Point> {
         x += 80
     }
     return points
-}
-
-@Composable
-fun BarChart(countList: List<Int>) {
-    val point = getListPoints(countList)
-
-    val context = LocalContext.current
-    var start by remember { mutableStateOf(false) }
-    val heightPre by animateFloatAsState(
-        targetValue = if (start) 1f else 0f,
-        animationSpec = FloatTweenSpec(duration = 1000)
-    )
-
-    Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .background(Color.White)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        /*val i = identifyCLickItem(point, it.x, it.y)
-                        Toast
-                            .makeText(context, "onTap: $i", Toast.LENGTH_SHORT)
-                            .show()*/
-                    }
-                )
-            }
-    ) {
-        drawLine(
-            start = Offset(10f, 300f),
-            end = Offset(10f, 0f),
-            color = Color.Black,
-            strokeWidth = 3f
-        )
-        drawLine(
-            start = Offset(10f, 300f),
-            end = Offset(900f, 300f),
-            color = Color.Black,
-            strokeWidth = 3f
-        )
-        start = true
-
-        for (p in point) {
-            drawRect(
-                color = Color.Red,
-                topLeft = Offset(p.x + 30f, 300 - p.y * heightPre),
-                size = Size(55f, p.y * heightPre)
-            )
-        }
-    }
 }

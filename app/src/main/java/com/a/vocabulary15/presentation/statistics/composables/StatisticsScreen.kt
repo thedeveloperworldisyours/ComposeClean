@@ -166,10 +166,10 @@ fun StatisticsMonthScreen(countList: List<Int>) {
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        /*val i = identifyCLickItem(point, it.x, it.y)
+                        val i = identifyCLickItem(point, it.x, it.y)
                         Toast
                             .makeText(context, "onTap: $i", Toast.LENGTH_SHORT)
-                            .show()*/
+                            .show()
                     }
                 )
             }

@@ -194,7 +194,7 @@ fun StatisticsMonthScreen(countList: List<Int>) {
 
             for (p in points) {
                 drawRect(
-                    color = Color.Red,
+                    color = Color.Blue,
                     topLeft = Offset(p.x + 30f, 300 - p.y * heightPre),
                     size = Size(55f, p.y * heightPre)
                 )

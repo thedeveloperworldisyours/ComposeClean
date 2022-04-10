@@ -56,9 +56,10 @@ fun StatisticsScreen(
 typealias ComposableFun = @Composable () -> Unit
 
 sealed class TabItem(var icon: Int, var title: String, var screen: () -> Unit) {
-    class Statistics(viewModel: StatisticsViewModel, title: String) : TabItem(R.drawable.ic_baseline_list_24,
-        title,
-        { })//viewModel.onEvent(StatisticsEvent.FetchStatistics) })
+    class Statistics(viewModel: StatisticsViewModel, title: String) :
+        TabItem(R.drawable.ic_baseline_list_24,
+            title,
+            { })//viewModel.onEvent(StatisticsEvent.FetchStatistics) })
 
     class StatisticsByMonth(viewModel: StatisticsViewModel, title: String) :
         TabItem(R.drawable.ic_baseline_bar_chart,
@@ -157,43 +158,47 @@ fun StatisticsMonthScreen(countList: List<Int>) {
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
     )
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+        val (canvas) = createRefs()
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .background(Color.White)
+                .absolutePadding(10.dp, 60.dp, 0.dp, 0.dp)
+                .constrainAs(canvas) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = {
 
-    Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .background(Color.White)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        val i = identifyCLickItem(point, it.x, it.y)
-                        Toast
-                            .makeText(context, "onTap: $i", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                        }
+                    )
+                }
+        ) {
+            drawLine(
+                start = Offset(10f, 300f),
+                end = Offset(10f, 0f),
+                color = Color.Black,
+                strokeWidth = 3f
+            )
+            drawLine(
+                start = Offset(10f, 300f),
+                end = Offset(1000f, 300f),
+                color = Color.Black,
+                strokeWidth = 3f
+            )
+            start = true
+
+            for (p in points) {
+                drawRect(
+                    color = Color.Red,
+                    topLeft = Offset(p.x + 30f, 300 - p.y * heightPre),
+                    size = Size(55f, p.y * heightPre)
                 )
             }
-    ) {
-        drawLine(
-            start = Offset(10f, 300f),
-            end = Offset(10f, 0f),
-            color = Color.Black,
-            strokeWidth = 3f
-        )
-        drawLine(
-            start = Offset(10f, 300f),
-            end = Offset(900f, 300f),
-            color = Color.Black,
-            strokeWidth = 3f
-        )
-        start = true
-
-        for (p in points) {
-            drawRect(
-                color = Color.Red,
-                topLeft = Offset(p.x + 30f, 300 - p.y * heightPre),
-                size = Size(55f, p.y * heightPre)
-            )
         }
     }
 }
@@ -294,7 +299,7 @@ fun EmptyDataScreen() {
 private fun getListPoints(countList: List<Int>): List<Point> {
     val points = mutableListOf<Point>()
     var x = 10
-    for( point in countList) {
+    for (point in countList) {
         points.add(Point(x, point))
         x += 80
     }

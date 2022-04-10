@@ -31,6 +31,7 @@ class StatisticsViewModel @Inject constructor(
 
     companion object {
         const val MONTH_MILLISECONDS = 2628002880
+        const val YEAR_MILLISECONDS = MONTH_MILLISECONDS * 12
     }
 
     //events
@@ -81,27 +82,27 @@ class StatisticsViewModel @Inject constructor(
             val calendar = Calendar.getInstance()
             //val listMonthTitle = mutableMapOf<String, Int>()
             val listInt = mutableListOf<Int>()
-            var currentTime = calendar.timeInMillis
-            var pastTime = calendar.timeInMillis - MONTH_MILLISECONDS
+            var currentTime = calendar.timeInMillis - YEAR_MILLISECONDS
+            var aMonth = currentTime + MONTH_MILLISECONDS
             for (i in 0..11) {
                 if (calendar.get(Calendar.MONTH) < 10) {
                     //listMonthTitle["0${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
-                    listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                    listInt.add(findOutMonth(currentTime, aMonth, statistics))
                 } else {
                     //listMonthTitle["${calendar.get(Calendar.MONTH) + 1}\n${calendar.get(Calendar.YEAR)}"] =
-                    listInt.add(findOutMonth(currentTime, pastTime, statistics))
+                    listInt.add(findOutMonth(currentTime, aMonth, statistics))
                 }
-                currentTime = pastTime
-                pastTime = currentTime - MONTH_MILLISECONDS
+                currentTime = aMonth
+                aMonth = currentTime + MONTH_MILLISECONDS
             }
             notifyPostStateCountList(listInt)
         }.launchIn(viewModelScope)
     }
 
-    fun findOutMonth(currentTime: Long, pastTime: Long, list: List<Statistics>):Int {
+    fun findOutMonth(currentTime: Long, aMonth: Long, list: List<Statistics>):Int {
         var count = 0
         for (statistic in list) {
-            if (statistic.date in (pastTime + 1) until currentTime) {
+            if (statistic.date in currentTime until aMonth) {
                 count += statistic.points
             }
         }

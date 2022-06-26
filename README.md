@@ -1,4 +1,4 @@
-# Jet pack compose with clean architecture and MVVM
+# Jet pack compose with clean architecture and MVI
 In this project you can find:
 
 | Points | Links |
@@ -7,7 +7,7 @@ In this project you can find:
 | Clean Architecture | [Clean architecture][PlGh] |
 | Hilt | [Hilt][hilt] |
 | Room | [Room][room] |
-| MVVM | [MVVM][mvvm] |
+| MVI | [MVI][mvi] |
 | Flow | [Flow][flow] |
 <p align="center">
  <a href="https://play.google.com/store/apps/details?id=com.a.vocabulary15" class="class"> 
@@ -83,5 +83,5 @@ MIT
    [PlGh]: <https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html>
    [hilt]: <https://developer.android.com/training/dependency-injection/hilt-android?hl=es-419>
    [room]: <https://developer.android.com/training/data-storage/room>
-   [mvvm]: <https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel>
+   [mvi]: <[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel](https://blog.mindorks.com/mvi-architecture-android-tutorial-for-beginners-step-by-step-guide)>
    [flow]: <https://developer.android.com/kotlin/flow>

@@ -83,5 +83,5 @@ MIT
    [PlGh]: <https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html>
    [hilt]: <https://developer.android.com/training/dependency-injection/hilt-android?hl=es-419>
    [room]: <https://developer.android.com/training/data-storage/room>
-   [mvi]: <[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel](https://blog.mindorks.com/mvi-architecture-android-tutorial-for-beginners-step-by-step-guide)>
+   [mvi]: <https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel](https://blog.mindorks.com/mvi-architecture-android-tutorial-for-beginners-step-by-step-guide>
    [flow]: <https://developer.android.com/kotlin/flow>
